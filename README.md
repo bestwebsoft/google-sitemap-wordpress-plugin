@@ -1,19 +1,23 @@
-Google Sitemap Wordpress Plugin
+<a href="http://bestwebsoft.com/plugin/google-sitemap-plugin/" target=_blank>Google Sitemap Wordpress Plugin</a>
 ===============================
 
 Google sitemap plugin allows you to create and add sitemap file to google webmaster tools, get info about your site in google webmaster tools.
 
-Official plugin page: http://bestwebsoft.com/plugin/google-sitemap-plugin/
+<img src="http://bestwebsoft.com/wp-content/uploads/2012/04/google-sitemap-plugin.jpg" />
+
+<a href="http://bestwebsoft.com/google-sitemap-plugin/#description" target=_blank>Description</a> | 
+<a href="http://bestwebsoft.com/google-sitemap-plugin/#installation" target=_blank>Installation</a> | 
+<a href="http://bestwebsoft.com/google-sitemap-plugin/#faq" target=_blank>FAQ</a> | 
+<a href="http://bestwebsoft.com/google-sitemap-plugin/#screenshots" target=_blank>Screenshots</a> | 
+<a href="http://bestwebsoft.com/google-sitemap-plugin/#changelog" target=_blank>Changelog</a> | 
+<a href="http://bestwebsoft.com/google-sitemap-plugin/#download" target=_blank>Download</a>
 
 
 Translation
 -----------------------------
-* Arabic (ar_AR) (thanks to Albayan Design, hani aladoli)
-* French (fr_FR) (thanks to <a href="mailto:paillat.jeff@gmail.com">Jeff</a>)
 * Russian (ru_RU)
-* Serbian (sr_RS) (thanks to <a href="mailto:diana@wpdiscounts.com">Diana</a>, www.wpdiscounts.com)
-* Spanish (es_ES) (thanks to <a href="mailto:mrjosefernando@gmail.com">Fernando De León</a>)
 * Ukrainian (uk)
+If you create your own language pack or update the existing one, you can send the text in PO and MO files for BestWebSoft and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO files Poedit.
 
 If you create your own language pack or update the existing one, you can send <a href="http://codex.wordpress.org/Translating_WordPress" target="_blank">the text in PO and MO files</a> for <a href="http://support.bestwebsoft.com" target="_blank">BestWebSoft</a> and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO files <a href="http://www.poedit.net/download.php" target="_blank">Poedit</a>.
 
