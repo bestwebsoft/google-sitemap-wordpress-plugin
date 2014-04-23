@@ -157,7 +157,7 @@ if ( ! function_exists( 'gglstmp_sitemapcreate' ) ) {
 			$str .= "'" . $val . "'";
 		}
 		$xml = new DomDocument( '1.0', 'utf-8' );
-		$xml_stylesheet_path = plugins_url() . "/google-sitemap-plugin/sitemap.xsl";
+		$xml_stylesheet_path = plugins_url( 'sitemap.xsl', __FILE__ );
 
 		$xslt = $xml->createProcessingInstruction( 'xml-stylesheet', "type=\"text/xsl\" href=\"$xml_stylesheet_path\"" );
 		$xml->appendChild( $xslt );
