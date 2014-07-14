@@ -4,7 +4,7 @@ Plugin Name: Google Sitemap
 Plugin URI: http://bestwebsoft.com/plugin/
 Description: Plugin to add google sitemap file in Google Webmaster Tools account.
 Author: BestWebSoft
-Version: 2.9.0
+Version: 2.9.1
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -802,11 +802,27 @@ if ( ! function_exists( 'gglstmp_add_sitemap' ) ) {
 	}
 }
 
+/*============================================ Check post status before Updating ====================*/
+if ( ! function_exists( 'gglstmp_check_post_status' ) ) {
+	function gglstmp_check_post_status( $post_id, $data ) {		
+		if ( ! wp_is_post_revision( $post_id ) ) {
+			global $gglstmp_update_sitemap;		
+			if ( 'publish' == $data["post_status"] || 'trash' == $data["post_status"] || 'future' == $data["post_status"] ) {
+			 	$gglstmp_update_sitemap = true;
+			} elseif ( ( 'publish' == get_post_status( $post_id ) || 'future' == get_post_status( $post_id ) ) &&
+				( 'auto-draft' == $data["post_status"] || 'draft' == $data["post_status"] || 'private' == $data["post_status"] || 'pending' == $data["post_status"] ) ) {
+				$gglstmp_update_sitemap = true;
+			}
+		}
+	}
+}
+
 /*============================================ Updating the sitemap after a post or page is trashed or published ====================*/
 if ( ! function_exists( 'gglstmp_update_sitemap' ) ) {
-	function gglstmp_update_sitemap( $post_id ) {
+	function gglstmp_update_sitemap( $post_id ) {		
 		if ( ! wp_is_post_revision( $post_id ) ) {
-			if ( 'publish' == get_post_status( $post_id ) || 'trash' == get_post_status( $post_id ) || 'future' == get_post_status( $post_id ) ) {
+			global $gglstmp_update_sitemap;
+			if ( true === $gglstmp_update_sitemap ) {
 				gglstmp_register_settings();
 				gglstmp_sitemapcreate();
 			}
@@ -936,6 +952,7 @@ add_action( 'admin_init', 'gglstmp_admin_init' );
 
 add_action( 'admin_enqueue_scripts', 'gglstmp_add_plugin_stylesheet' );
 
+add_action( 'pre_post_update', 'gglstmp_check_post_status', 10, 2 );
 add_action( 'save_post', 'gglstmp_update_sitemap' );
 add_action( 'trashed_post ', 'gglstmp_update_sitemap' );
 
