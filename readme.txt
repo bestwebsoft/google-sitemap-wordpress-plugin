@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
 Tags: add posts to sitemap, add pages to sitemap, add sitemap, add site to google webmaster tools, create a map, google, googel, googgle, gogle, gogole, google sitemap, google sitemap plugin, google webmaster tools, sitemep, sitemap, sitemaps, site mep, site map, sitemap file path, update sitemap
 Requires at least: 3.0
-Tested up to: 3.9.1
-Stable tag: 2.9.1
+Tested up to: 4.0-beta3
+Stable tag: 2.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,6 +99,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 3. Google Sitemap Extra Settings page.
 
 == Changelog ==
+
+= V2.9.2 - 07.08.2014 =
+* Budfix : Security Exploit was fixed.
 
 = V2.9.1 - 14.07.2014 =
 * Budfix : We added updating for the sitemap file when changing the status of the post from publish to private.
@@ -209,6 +212,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V2.9.2 =
+Security Exploit was fixed.
 
 = V2.9.1 =
 We added updating for the sitemap file when changing the status of the post from publish to private.

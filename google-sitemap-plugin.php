@@ -4,7 +4,7 @@ Plugin Name: Google Sitemap
 Plugin URI: http://bestwebsoft.com/plugin/
 Description: Plugin to add google sitemap file in Google Webmaster Tools account.
 Author: BestWebSoft
-Version: 2.9.1
+Version: 2.9.2
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -292,14 +292,14 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 		if ( isset( $_GET['action'] ) && 'go_pro' == $_GET['action'] ) {
 			global $bstwbsftwppdtplgns_options;
 
-			$bws_license_key = ( isset( $_POST['bws_license_key'] ) ) ? trim( $_POST['bws_license_key'] ) : "";
+			$bws_license_key = ( isset( $_POST['bws_license_key'] ) ) ? trim( esc_html( $_POST['bws_license_key'] ) ) : "";
 
 			if ( isset( $_POST['bws_license_submit'] ) && check_admin_referer( plugin_basename( __FILE__ ), 'bws_license_nonce_name' ) ) {
 				if ( '' != $bws_license_key ) { 
 					if ( strlen( $bws_license_key ) != 18 ) {
 						$error = __( "Wrong license key", 'sitemap' );
 					} else {
-						$bws_license_plugin = trim( $_POST['bws_license_plugin'] );	
+						$bws_license_plugin = stripslashes( esc_html( $_POST['bws_license_plugin'] ) );
 						if ( isset( $bstwbsftwppdtplgns_options['go_pro'][ $bws_license_plugin ]['count'] ) && $bstwbsftwppdtplgns_options['go_pro'][ $bws_license_plugin ]['time'] < ( time() + (24 * 60 * 60) ) ) {
 							$bstwbsftwppdtplgns_options['go_pro'][ $bws_license_plugin ]['count'] = $bstwbsftwppdtplgns_options['go_pro'][ $bws_license_plugin ]['count'] + 1;
 						} else {
@@ -501,20 +501,20 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 						<?php if ( ! function_exists( 'curl_init' ) ) { ?>
 							<tr valign="top">
 								<td colspan="2" class="gglstmppr_error">
-									<?php echo __( "This hosting does not support сURL, so you cannot add a sitemap file automatically.", 'sitemap' ); ?>
+									<?php _e( "This hosting does not support сURL, so you cannot add a sitemap file automatically.", 'sitemap' ); ?>
 								</td>
 							</tr>
 						<?php } else { ?>
 							<tr valign="top">
 								<td colspan="2">
-									<?php echo __( "Please enter your Google account login and password in order to add or delete a site and a sitemap file automatically or get information about this site in Google Webmaster Tools.", 'sitemap' ); ?>
+									<?php _e( "Please enter your Google account login and password in order to add or delete a site and a sitemap file automatically or get information about this site in Google Webmaster Tools.", 'sitemap' ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
 								<th scope="row"><?php _e( 'Settings for remote work with Google Webmaster Tools', 'sitemap' ); ?></th>
 								<td>
-									<input placeholder="<?php _e( "Login", 'sitemap' );	?>" type='text' name='gglstmp_email' value="<?php if ( isset( $_REQUEST['gglstmp_email'] ) ) echo  $_REQUEST['gglstmp_email']; ?>" /><br />
-									<input placeholder="<?php _e( "Password", 'sitemap' ); ?>" type='password' name='gglstmp_passwd' value="<?php if ( isset( $_REQUEST['gglstmp_passwd'] ) ) echo  $_REQUEST['gglstmp_passwd']; ?>" /><br />
+									<input placeholder="<?php _e( "Login", 'sitemap' );	?>" type='text' name='gglstmp_email' value="<?php if ( isset( $_REQUEST['gglstmp_email'] ) ) echo stripslashes( esc_html( $_REQUEST['gglstmp_email'] ) ); ?>" /><br />
+									<input placeholder="<?php _e( "Password", 'sitemap' ); ?>" type='password' name='gglstmp_passwd' value="<?php if ( isset( $_REQUEST['gglstmp_passwd'] ) ) echo stripslashes( esc_html( $_REQUEST['gglstmp_passwd'] ) ); ?>" /><br />
 									<label><input type='radio' name='gglstmp_menu' value="ad" /> <?php _e( "I want to add this site to Google Webmaster Tools", 'sitemap' ); ?></label><br />
 									<label><input type='radio' name='gglstmp_menu' value="del" /> <?php _e( "I want to delete this site from Google Webmaster Tools", 'sitemap' ); ?></label><br />
 									<label><input type='radio' name='gglstmp_menu' value="inf" /> <?php _e( "I want to get info about this site in Google Webmaster Tools", 'sitemap' ); ?></label><br />
@@ -862,6 +862,7 @@ if ( ! function_exists ( 'gglstmp_plugin_banner' ) ) {
 		global $hook_suffix;	
 		if ( $hook_suffix == 'plugins.php' ) {  
 			$banner_array = array(
+				array( 'lmtttmpts_hide_banner_on_plugin_page', 'limit-attempts/limit-attempts.php', '1.0.2' ),
 				array( 'sndr_hide_banner_on_plugin_page', 'sender/sender.php', '0.5' ),
 				array( 'srrl_hide_banner_on_plugin_page', 'user-role/user-role.php', '1.4' ),	
 				array( 'pdtr_hide_banner_on_plugin_page', 'updater/updater.php', '1.12' ),
