@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: google-sitemap-plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-05 14:50+0300\n"
-"PO-Revision-Date: 2014-06-05 14:50+0300\n"
+"POT-Creation-Date: 2014-09-15 12:21+0300\n"
+"PO-Revision-Date: 2014-09-15 12:21+0300\n"
 "Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
 "Language: ru_RU\n"
@@ -106,8 +106,8 @@ msgid "Please, enter Your license key"
 msgstr "Будь ласка, введіть ліцензійний ключ"
 
 #: google-sitemap-plugin.php:405
-#: google-sitemap-plugin.php:825
-#: google-sitemap-plugin.php:836
+#: google-sitemap-plugin.php:851
+#: google-sitemap-plugin.php:862
 msgid "Settings"
 msgstr "Налаштування"
 
@@ -116,7 +116,7 @@ msgid "Extra settings"
 msgstr "Додаткові налаштування"
 
 #: google-sitemap-plugin.php:407
-#: google-sitemap-plugin.php:837
+#: google-sitemap-plugin.php:863
 msgid "FAQ"
 msgstr "Розповсюджені питання"
 
@@ -231,7 +231,7 @@ msgstr "Відкрити додаткові опції, перейшовши н�
 
 #: google-sitemap-plugin.php:492
 #: google-sitemap-plugin.php:589
-#: google-sitemap-plugin.php:901
+#: google-sitemap-plugin.php:928
 msgid "Learn More"
 msgstr "Дізнатись більше"
 
@@ -278,6 +278,7 @@ msgid "In case you failed to add a sitemap to Google automatically using this pl
 msgstr "Якщо ви не зможете автоматично додати sitemap файл в Google за допомогою цього плагіну, ви завжди зможете зробити це вручну"
 
 #: google-sitemap-plugin.php:523
+#: google-sitemap-plugin.php:785
 msgid "View the Instruction"
 msgstr "Переглянути інструкцію"
 
@@ -348,42 +349,65 @@ msgid "This site is not added to the Google Webmaster Tools account"
 msgstr "Цей сайт не додано до акаунту Google Webmaster Tools"
 
 #: google-sitemap-plugin.php:733
+#, fuzzy
+msgid "This site is added to the Google Webmaster Tools account"
+msgstr "Цей сайт не додано до акаунту Google Webmaster Tools"
+
+#: google-sitemap-plugin.php:734
 msgid "Site URL:"
 msgstr "URL сайту:"
 
-#: google-sitemap-plugin.php:734
+#: google-sitemap-plugin.php:735
 msgid "Site verification:"
 msgstr "Верифікація сайту:"
 
-#: google-sitemap-plugin.php:736
+#: google-sitemap-plugin.php:737
 msgid "verified"
 msgstr "верифіковано"
 
-#: google-sitemap-plugin.php:738
+#: google-sitemap-plugin.php:739
 msgid "not verified"
 msgstr "не верифіковано"
 
-#: google-sitemap-plugin.php:739
+#: google-sitemap-plugin.php:740
 msgid "Sitemap file:"
 msgstr "Файл Sitemap:"
 
-#: google-sitemap-plugin.php:741
+#: google-sitemap-plugin.php:742
 msgid "added"
 msgstr "додано"
 
-#: google-sitemap-plugin.php:743
+#: google-sitemap-plugin.php:744
 msgid "not added"
 msgstr "не додано"
 
-#: google-sitemap-plugin.php:838
+#: google-sitemap-plugin.php:782
+#, fuzzy
+msgid "I want to add this site in Google Webmaster Tools"
+msgstr "Я хочу додати цей сайт до Google Webmaster Tools"
+
+#: google-sitemap-plugin.php:784
+#, fuzzy
+msgid "The site is added to the Google Webmaster Tools account."
+msgstr "Цей сайт не додано до акаунту Google Webmaster Tools"
+
+#: google-sitemap-plugin.php:785
+msgid "The site coudn't be verified. Please, verify the site manually"
+msgstr ""
+
+#: google-sitemap-plugin.php:787
+msgid "The site has been added  to the Google Webmaster Tools account or some errors occurred while adding the site. Get info about this site to make sure."
+msgstr ""
+
+#: google-sitemap-plugin.php:864
 msgid "Support"
 msgstr "Підтримка"
 
-#: google-sitemap-plugin.php:904
+#: google-sitemap-plugin.php:931
 msgid "It's time to upgrade your <strong>Google Sitemap plugin</strong> to <strong>PRO</strong> version"
 msgstr "Час оновити ваш <strong> плагін Google Sitemap </strong> до <strong>PRO</strong> версії"
 
-#: google-sitemap-plugin.php:905
+#: google-sitemap-plugin.php:932
 msgid "Extend standard plugin functionality with new great options"
 msgstr "Розширити стандартний функціонал плагіну новими корисними опціями"
 

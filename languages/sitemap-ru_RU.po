@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: google-sitemap-plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-05 14:50+0300\n"
-"PO-Revision-Date: 2014-06-05 14:50+0300\n"
+"POT-Creation-Date: 2014-09-15 12:19+0300\n"
+"PO-Revision-Date: 2014-09-15 12:21+0300\n"
 "Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
 "Language: ru_RU\n"
@@ -106,8 +106,8 @@ msgid "Please, enter Your license key"
 msgstr "Пожплуйста, введите Ваш лицензионный ключ"
 
 #: google-sitemap-plugin.php:405
-#: google-sitemap-plugin.php:825
-#: google-sitemap-plugin.php:836
+#: google-sitemap-plugin.php:851
+#: google-sitemap-plugin.php:862
 msgid "Settings"
 msgstr "Настройки"
 
@@ -116,7 +116,7 @@ msgid "Extra settings"
 msgstr "Экстра настройки"
 
 #: google-sitemap-plugin.php:407
-#: google-sitemap-plugin.php:837
+#: google-sitemap-plugin.php:863
 msgid "FAQ"
 msgstr "Часто задаваемые вопросы"
 
@@ -231,7 +231,7 @@ msgstr "Активируйте премиум опции обновившись 
 
 #: google-sitemap-plugin.php:492
 #: google-sitemap-plugin.php:589
-#: google-sitemap-plugin.php:901
+#: google-sitemap-plugin.php:928
 msgid "Learn More"
 msgstr "Подробнее"
 
@@ -278,6 +278,7 @@ msgid "In case you failed to add a sitemap to Google automatically using this pl
 msgstr "В случае, если вы не в состоянии добавить sitemap в Google автоматически с помощью этого плагина, можно сделать это вручную"
 
 #: google-sitemap-plugin.php:523
+#: google-sitemap-plugin.php:785
 msgid "View the Instruction"
 msgstr "Просмотреть Инструкцию"
 
@@ -348,42 +349,62 @@ msgid "This site is not added to the Google Webmaster Tools account"
 msgstr "Данный сайт не добавлен в аккаунт Google Webmaster Tools"
 
 #: google-sitemap-plugin.php:733
+msgid "This site is added to the Google Webmaster Tools account"
+msgstr "Данный сайт добавлен в аккаунт Google Webmaster Tools"
+
+#: google-sitemap-plugin.php:734
 msgid "Site URL:"
 msgstr "URL сайта:"
 
-#: google-sitemap-plugin.php:734
+#: google-sitemap-plugin.php:735
 msgid "Site verification:"
 msgstr "Верификация сайта:"
 
-#: google-sitemap-plugin.php:736
+#: google-sitemap-plugin.php:737
 msgid "verified"
 msgstr "верифицрован"
 
-#: google-sitemap-plugin.php:738
+#: google-sitemap-plugin.php:739
 msgid "not verified"
 msgstr "не верифицирован"
 
-#: google-sitemap-plugin.php:739
+#: google-sitemap-plugin.php:740
 msgid "Sitemap file:"
 msgstr "Файл Sitemap:"
 
-#: google-sitemap-plugin.php:741
+#: google-sitemap-plugin.php:742
 msgid "added"
 msgstr "добавлен"
 
-#: google-sitemap-plugin.php:743
+#: google-sitemap-plugin.php:744
 msgid "not added"
 msgstr "не добавлен"
 
-#: google-sitemap-plugin.php:838
+#: google-sitemap-plugin.php:782
+msgid "I want to add this site in Google Webmaster Tools"
+msgstr "Я хочу добавить этот сайт в Google Webmaster Tools"
+
+#: google-sitemap-plugin.php:784
+msgid "The site is added to the Google Webmaster Tools account."
+msgstr "Данный сайт добавлен в аккаунт Google Webmaster Tools."
+
+#: google-sitemap-plugin.php:785
+msgid "The site coudn't be verified. Please, verify the site manually"
+msgstr "Сайт не может быть верифицрован. Пожалуйста, верифицируйте сайт вручную"
+
+#: google-sitemap-plugin.php:787
+msgid "The site has been added  to the Google Webmaster Tools account or some errors occurred while adding the site. Get info about this site to make sure."
+msgstr "Данный сайт уже добавлен в аккаунт Google Webmaster Tools или в ходе добавления сайта возникли ошибки. Получите информацию об этом сайте чтобы уточнить это."
+
+#: google-sitemap-plugin.php:864
 msgid "Support"
 msgstr "Тех.поддержка"
 
-#: google-sitemap-plugin.php:904
+#: google-sitemap-plugin.php:931
 msgid "It's time to upgrade your <strong>Google Sitemap plugin</strong> to <strong>PRO</strong> version"
 msgstr "Пора обновить ваш <strong>плагин Google Sitemap</strong> до <strong>PRO</strong> версии"
 
-#: google-sitemap-plugin.php:905
+#: google-sitemap-plugin.php:932
 msgid "Extend standard plugin functionality with new great options"
 msgstr "Расширение стандартного функционала плагина новыми прекрасными опциями"
 

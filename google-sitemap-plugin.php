@@ -4,7 +4,7 @@ Plugin Name: Google Sitemap
 Plugin URI: http://bestwebsoft.com/plugin/
 Description: Plugin to add google sitemap file in Google Webmaster Tools account.
 Author: BestWebSoft
-Version: 2.9.2
+Version: 2.9.3
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -477,7 +477,7 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 											<option value="hourly"><?php _e( 'Hourly', 'sitemap_pro' ); ?></option>
 											<option value="daily"><?php _e( 'Daily', 'sitemap_pro' ); ?></option>
 											<option value="weekly"><?php _e( 'Weekly', 'sitemap_pro' ); ?></option>
-											<option value="monthly"><?php _e( 'Monthly', 'sitemap_pro' ); ?></option>
+											<option selected value="monthly"><?php _e( 'Monthly', 'sitemap_pro' ); ?></option>
 											<option value="yearly"><?php _e( 'Yearly', 'sitemap_pro' ); ?></option>
 											<option value="never"><?php _e( 'Never', 'sitemap_pro' ); ?></option>
 										</select><br />
@@ -730,6 +730,7 @@ if ( ! function_exists( 'gglstmp_info_site' ) ) {
 			if ( "WT:SITEMAP-STATUS" == $val["tag"] )
 				$sit = $val["value"];
 			}
+			echo __( "This site is added to the Google Webmaster Tools account", 'sitemap' ) . "<br />";			
 			echo __( "Site URL:", 'sitemap' ) . ' ' . $url_home . "<br />";
 			echo __( "Site verification:", 'sitemap' ) . ' ';
 			if ( "true" == $ver )
@@ -762,21 +763,30 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 		 ."<atom:content src=\"" . $url_home . "\" />"
 		 ."</atom:entry>\n";
 		$hasil1 = gglstmp_curl_funct( $au, $url_send, "POST", $content );
-		preg_match( '/(google)[a-z0-9]*\.html/', $hasil1, $matches );
+		preg_match( '/(google)[a-z0-9]*\.html/', $hasil1, $matches );		
 		/*===================== Creating html file for verifying site ownership ====================*/
-		if ( ! empty($matches) )
-			$m1="../" . $matches[0];
-		if ( ! ( file_exists ( $m1 ) ) ) {
-		$fp = fopen ("../" . $matches[0], "w+" );
-		fwrite( $fp, "google-site-verification: " . $matches[0] );
-		fclose ( $fp );
+		if ( ! empty( $matches ) ) {
+			$m1 = "../" . $matches[0];
+			if ( ! ( file_exists ( $m1 ) ) ) {
+				$fp = fopen ("../" . $matches[0], "w+" );
+				fwrite( $fp, "google-site-verification: " . $matches[0] );
+				fclose ( $fp );
+			}
+			/*============================= Verifying site ownership ====================*/
+			$content  = "<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:wt=\"http://schemas.google.com/webmasters/tools/2007\">"
+			."<atom:category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/webmasters/tools/2007#site-info'/>"
+			."<wt:verification-method type=\"htmlpage\" in-use=\"true\"/>"
+			."</atom:entry>";
+			$hasil2 = gglstmp_curl_funct( $au, $url_send . $url, "PUT", $content );
+		} else {
+			echo "<h3>" . __( "I want to add this site in Google Webmaster Tools", 'sitemap' ) . "</h3>";
+			if ( stristr( $hasil1, 'google.com/webmasters/tools' ) ) {				
+				echo __( "The site is added to the Google Webmaster Tools account.", 'sitemap' ) . "<br />";
+				echo __( "The site coudn't be verified. Please, verify the site manually", 'sitemap' ) . ' - <a href="https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/edit">' . __( 'View the Instruction', 'sitemap' ) . '</a><br /><br />';
+			} else {
+				echo __( "The site has been added  to the Google Webmaster Tools account or some errors occurred while adding the site. Get info about this site to make sure.", 'sitemap' ) . "<br /><br />";
+			}
 		}
-		/*============================= Verifying site ownership ====================*/
-		$content  = "<atom:entry xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:wt=\"http://schemas.google.com/webmasters/tools/2007\">"
-		."<atom:category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/webmasters/tools/2007#site-info'/>"
-		."<wt:verification-method type=\"htmlpage\" in-use=\"true\"/>"
-		."</atom:entry>";
-		$hasil2 = gglstmp_curl_funct( $au, $url_send . $url, "PUT", $content );
 	}
 }
 
@@ -804,16 +814,16 @@ if ( ! function_exists( 'gglstmp_add_sitemap' ) ) {
 
 /*============================================ Check post status before Updating ====================*/
 if ( ! function_exists( 'gglstmp_check_post_status' ) ) {
-	function gglstmp_check_post_status( $post_id, $data ) {		
-		if ( ! wp_is_post_revision( $post_id ) ) {
+	function gglstmp_check_post_status( $new_status, $old_status, $post ) {		
+		if ( ! wp_is_post_revision( $post->ID ) ) {
 			global $gglstmp_update_sitemap;		
-			if ( 'publish' == $data["post_status"] || 'trash' == $data["post_status"] || 'future' == $data["post_status"] ) {
+			if ( 'publish' == $new_status || 'trash' == $new_status || 'future' == $new_status ) {
 			 	$gglstmp_update_sitemap = true;
-			} elseif ( ( 'publish' == get_post_status( $post_id ) || 'future' == get_post_status( $post_id ) ) &&
-				( 'auto-draft' == $data["post_status"] || 'draft' == $data["post_status"] || 'private' == $data["post_status"] || 'pending' == $data["post_status"] ) ) {
+			} elseif ( ( 'publish' == $old_status || 'future' == $old_status ) &&
+				( 'auto-draft' == $new_status || 'draft' == $new_status || 'private' == $new_status || 'pending' == $new_status ) ) {
 				$gglstmp_update_sitemap = true;
 			}
-		}
+		}		
 	}
 }
 
@@ -953,7 +963,7 @@ add_action( 'admin_init', 'gglstmp_admin_init' );
 
 add_action( 'admin_enqueue_scripts', 'gglstmp_add_plugin_stylesheet' );
 
-add_action( 'pre_post_update', 'gglstmp_check_post_status', 10, 2 );
+add_action( 'transition_post_status', 'gglstmp_check_post_status', 10, 3 );
 add_action( 'save_post', 'gglstmp_update_sitemap' );
 add_action( 'trashed_post ', 'gglstmp_update_sitemap' );
 
