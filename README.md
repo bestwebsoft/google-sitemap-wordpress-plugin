@@ -5,12 +5,12 @@ Google sitemap plugin allows you to create and add sitemap file to google webmas
 
 <img src="http://bestwebsoft.com/wp-content/uploads/2012/04/google-sitemap-plugin.jpg" />
 
-<a href="http://bestwebsoft.com/products/google-sitemap-plugin/description" target=_blank>Description</a> | 
-<a href="http://bestwebsoft.com/products/google-sitemap-plugin/installation" target=_blank>Installation</a> | 
-<a href="http://bestwebsoft.com/products/google-sitemap-plugin/faq" target=_blank>FAQ</a> | 
-<a href="http://bestwebsoft.com/products/google-sitemap-plugin/screenshots" target=_blank>Screenshots</a> | 
-<a href="http://bestwebsoft.com/products/google-sitemap-plugin/changelog" target=_blank>Changelog</a> | 
-<a href="http://bestwebsoft.com/products/google-sitemap-plugin/download" target=_blank>Download</a>
+<a href="http://bestwebsoft.com/products/google-sitemap/description" target=_blank>Description</a> | 
+<a href="http://bestwebsoft.com/products/google-sitemap/installation" target=_blank>Installation</a> | 
+<a href="http://bestwebsoft.com/products/google-sitemap/faq" target=_blank>FAQ</a> | 
+<a href="http://bestwebsoft.com/products/google-sitemap/screenshots" target=_blank>Screenshots</a> | 
+<a href="http://bestwebsoft.com/products/google-sitemap/changelog" target=_blank>Changelog</a> | 
+<a href="http://bestwebsoft.com/products/google-sitemap/download" target=_blank>Download</a>
 
 
 Translation
