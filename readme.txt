@@ -2,9 +2,9 @@
 Contributors: bestwebsoft
 Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
 Tags: add posts to sitemap, add pages to sitemap, add sitemap, add site to google webmaster tools, create a map, google, googel, googgle, gogle, gogole, google sitemap, google sitemap plugin, google webmaster tools, sitemep, sitemap, sitemaps, site mep, site map, sitemap file path, update sitemap
-Requires at least: 3.0
+Requires at least: 3.1
 Tested up to: 4.0
-Stable tag: 2.9.3
+Stable tag: 2.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,14 +22,14 @@ http://www.youtube.com/watch?v=C4M_ge0dyuU
 
 <a href="http://support.bestwebsoft.com" target="_blank">Support</a>
 
-<a href="http://bestwebsoft.com/plugin/google-sitemap-pro/?k=8b735c0f7ca51187b5062d5e4f40058b" target="_blank">Upgrade to Pro Version</a>
+<a href="http://bestwebsoft.com/products/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b" target="_blank">Upgrade to Pro Version</a>
 
 = Recommended Plugins =
 
 The author of the Google Sitemap also recommends the following plugins:
 
 * <a href="http://wordpress.org/plugins/updater/">Updater</a> - This plugin updates WordPress core and the plugins to the recent versions. You can also use the auto mode or manual mode for updating and set email notifications.
-There is also a premium version of the plugin <a href="http://bestwebsoft.com/plugin/updater-pro/?k=4b7b8eac2b35e12eaa2d51359f49cfb2">Updater Pro</a> with more useful features available. It can make backup of all your files and database before updating. Also it can forbid some plugins or WordPress Core update.
+There is also a premium version of the plugin <a href="http://bestwebsoft.com/products/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2">Updater Pro</a> with more useful features available. It can make backup of all your files and database before updating. Also it can forbid some plugins or WordPress Core update.
 
 = Translation =
 
@@ -100,16 +100,20 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 
 == Changelog ==
 
+= V2.9.4 - 11.11.2014 =
+* Update : BWS plugins section was updated.
+* Bugfix : Plugin optimization is done.
+
 = V2.9.3 - 15.09.2014 =
 * Update : We updated all functionality for wordpress 4.0.
-* Budfix : We fixed errors while Quick Edit posts.
-* Budfix : We fixed errors while adding site to Google Webmaster Tools.
+* Bugfix : We fixed errors while Quick Edit posts.
+* Bugfix : We fixed errors while adding site to Google Webmaster Tools.
 
 = V2.9.2 - 07.08.2014 =
-* Budfix : Security Exploit was fixed.
+* Bugfix : Security Exploit was fixed.
 
 = V2.9.1 - 14.07.2014 =
-* Budfix : We added updating for the sitemap file when changing the status of the post from publish to private.
+* Bugfix : We added updating for the sitemap file when changing the status of the post from publish to private.
 
 = V2.9.0 - 05.06.2014 =
 * Update : We updated all functionality for wordpress 3.9.1.
@@ -117,10 +121,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 
 = V2.8.9 - 11.04.2014 =
 * Update : We updated all functionality for wordpress 3.8.2.
-* Budfix : Bug related on the sitemap link in the robots.txt was fixed.
+* Bugfix : Bug related on the sitemap link in the robots.txt was fixed.
 
 = V2.8.8 - 12.03.2014 =
-* Budfix : Plugin optimization is done.
+* Bugfix : Plugin optimization is done.
 
 = V2.8.7 - 31.01.2014 =
 * Update : We updated all functionality for wordpress 3.8.1.
@@ -217,6 +221,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V2.9.4 =
+BWS plugins section was updated. Plugin optimization is done.
 
 = V2.9.3 =
 We updated all functionality for wordpress 4.0. We fixed errors while Quick Edit posts. We fixed errors while adding site to Google Webmaster Tools.
