@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Google Sitemap
+Plugin Name: Google Sitemap by BestWebSoft
 Plugin URI: http://bestwebsoft.com/products/
 Description: Plugin to add google sitemap file in Google Webmaster Tools account.
 Author: BestWebSoft
