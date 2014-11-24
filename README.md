@@ -1,4 +1,4 @@
-<a href="http://bestwebsoft.com/plugin/google-sitemap-plugin/" target=_blank>Google Sitemap Wordpress Plugin</a>
+<a href="http://bestwebsoft.com/products/google-sitemap/" target=_blank>Google Sitemap by BestWebSoft</a>
 ===============================
 
 Google sitemap plugin allows you to create and add sitemap file to google webmaster tools, get info about your site in google webmaster tools.
