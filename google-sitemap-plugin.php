@@ -4,7 +4,7 @@ Plugin Name: Google Sitemap by BestWebSoft
 Plugin URI: http://bestwebsoft.com/products/
 Description: Plugin to add google sitemap file in Google Webmaster Tools account.
 Author: BestWebSoft
-Version: 2.9.4
+Version: 2.9.5
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -35,19 +35,31 @@ if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 		$base = plugin_basename(__FILE__);
 
 		if ( ! isset( $bstwbsftwppdtplgns_options ) ) {
-			if ( ! get_option( 'bstwbsftwppdtplgns_options' ) )
-				add_option( 'bstwbsftwppdtplgns_options', array(), '', 'yes' );
-			$bstwbsftwppdtplgns_options = get_option( 'bstwbsftwppdtplgns_options' );
+			if ( is_multisite() ) {
+				if ( ! get_site_option( 'bstwbsftwppdtplgns_options' ) )
+					add_site_option( 'bstwbsftwppdtplgns_options', array(), '', 'yes' );
+				$bstwbsftwppdtplgns_options = get_site_option( 'bstwbsftwppdtplgns_options' );
+			} else {
+				if ( ! get_option( 'bstwbsftwppdtplgns_options' ) )
+					add_option( 'bstwbsftwppdtplgns_options', array(), '', 'yes' );
+				$bstwbsftwppdtplgns_options = get_option( 'bstwbsftwppdtplgns_options' );
+			}
 		}
 
 		if ( isset( $bstwbsftwppdtplgns_options['bws_menu_version'] ) ) {
 			$bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] = $bws_menu_version;
 			unset( $bstwbsftwppdtplgns_options['bws_menu_version'] );
-			update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+			if ( is_multisite() )
+				update_site_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+			else
+				update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
 			require_once( dirname( __FILE__ ) . '/bws_menu/bws_menu.php' );
 		} else if ( ! isset( $bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] ) || $bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] < $bws_menu_version ) {
 			$bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] = $bws_menu_version;
-			update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+			if ( is_multisite() )
+				update_site_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+			else
+				update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
 			require_once( dirname( __FILE__ ) . '/bws_menu/bws_menu.php' );
 		} else if ( ! isset( $bstwbsftwppdtplgns_added_menu ) ) {
 			$plugin_with_newer_menu = $base;
@@ -61,7 +73,7 @@ if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 			if ( file_exists( ABSPATH . $wp_content_dir . '/plugins/' . $plugin_with_newer_menu[0] . '/bws_menu/bws_menu.php' ) )
 				require_once( ABSPATH . $wp_content_dir . '/plugins/' . $plugin_with_newer_menu[0] . '/bws_menu/bws_menu.php' );
 			else
-				require_once( dirname( __FILE__ ) . '/bws_menu/bws_menu.php' );
+				require_once( dirname( __FILE__ ) . '/bws_menu/bws_menu.php' );	
 			$bstwbsftwppdtplgns_added_menu = true;			
 		}
 
@@ -149,7 +161,16 @@ if ( ! function_exists( 'gglstmp_sitemapcreate' ) ) {
 			$str .= "'" . $val . "'";
 		}
 		$xml = new DomDocument( '1.0', 'utf-8' );
-		$xml_stylesheet_path = plugins_url() . "/google-sitemap-plugin/sitemap.xsl";
+
+		if ( defined( 'WP_CONTENT_DIR' ) )
+			$xml_stylesheet_path = home_url( '/' ) . basename( WP_CONTENT_DIR );
+		else
+			$xml_stylesheet_path = home_url( '/' ) . "wp-content";
+
+		if ( defined( 'WP_PLUGIN_DIR' ) )
+			$xml_stylesheet_path .= '/' . basename( WP_PLUGIN_DIR ) . "/google-sitemap-plugin/sitemap.xsl";
+		else
+			$xml_stylesheet_path .= "/plugins/google-sitemap-plugin/sitemap.xsl";
 
 		$xslt = $xml->createProcessingInstruction( 'xml-stylesheet', "type=\"text/xsl\" href=\"$xml_stylesheet_path\"" );
 		$xml->appendChild( $xslt );
@@ -382,7 +403,10 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 								$pro_plugin_is_activated = true;
 							}						
 						}
-						update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+						if ( is_multisite() )
+							update_site_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+						else
+							update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
 			 		}
 			 	} else {
 		 			$error = __( "Please, enter Your license key", 'sitemap' );
