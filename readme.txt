@@ -1,10 +1,10 @@
 === Google Sitemap by BestWebSoft ===
 Contributors: bestwebsoft
-Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
+Donate link: http://bestwebsoft.com/donate/
 Tags: add posts to sitemap, add pages to sitemap, add sitemap, add site to google webmaster tools, create a map, google, googel, googgle, gogle, gogole, google sitemap, google sitemap plugin, google webmaster tools, sitemep, sitemap, sitemaps, site mep, site map, sitemap file path, update sitemap
 Requires at least: 3.1
-Tested up to: 4.2.1
-Stable tag: 2.9.7
+Tested up to: 4.2.2
+Stable tag: 2.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ This plugin allows you to add a Sitemap file to Google Webmaster Tools.
 
 With the Google Sitemap Plugin you can create and add a Sitemap file to Google Webmaster Tools, and get the info about your site in Google Webmaster Tools.
 
-http://www.youtube.com/watch?v=C4M_ge0dyuU
+http://www.youtube.com/watch?v=3Qv-ad_aEPg
 
 <a href="http://www.youtube.com/watch?v=NKlAnFTzNrQ" target="_blank">Video instruction on Installation</a>
 
@@ -101,6 +101,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 4. Google Sitemap Extra Settings page.
 
 == Changelog ==
+
+= V2.9.8 - 04.06.2015 =
+* NEW : Allows to add links to Post categories and Post tags to the sitemap file.
 
 = V2.9.7 - 05.05.2015 = 
 * Update : We replaced old Google Webmaster Tools API with new Google Webmaster Tools API v3.
@@ -233,6 +236,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V2.9.8 =
+Allows to add links to Post categories and Post tags to the sitemap file.
 
 = V2.9.7 =
 We replaced old Google Webmaster Tools API with new Google Webmaster Tools API v3.
