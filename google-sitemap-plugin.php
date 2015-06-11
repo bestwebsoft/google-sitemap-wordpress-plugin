@@ -45,7 +45,8 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 	function gglstmp_init() {
 		global $gglstmp_plugin_info;
 
-		if ( ! session_id() ) {
+		// Drop session cookie only if user is admin
+		if ( is_admin() && ! session_id() ) {
 			session_start();
 		}		
 
