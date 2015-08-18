@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags: add posts to sitemap, add pages to sitemap, add sitemap, add site to google webmaster tools, create a map, google, googel, googgle, gogle, gogole, google sitemap, google sitemap plugin, google webmaster tools, sitemep, sitemap, sitemaps, site mep, site map, sitemap file path, update sitemap
 Requires at least: 3.1
-Tested up to: 4.2.2
-Stable tag: 2.9.9
+Tested up to: 4.2.4
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 4. Google Sitemap Extra Settings page.
 
 == Changelog ==
+
+= V3.0.0 - 18.08.2015 =
+* Update : We updated all functionality for wordpress 4.2.4.
+* Update : BWS plugins section was updated.
 
 = V2.9.9 - 10.07.2015 =
 * Bigfix : We fixed bug with editing of file robots.txt.
@@ -240,6 +244,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.0.0 =
+We updated all functionality for wordpress 4.2.4. BWS plugins section was updated.
 
 = V2.9.9 =
 We fixed bug with editing of file robots.txt. Ability to restore default settings.

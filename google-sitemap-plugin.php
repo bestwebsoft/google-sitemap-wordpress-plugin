@@ -4,7 +4,7 @@ Plugin Name: Google Sitemap by BestWebSoft
 Plugin URI: http://bestwebsoft.com/products/
 Description: Plugin to add google sitemap file in Google Webmaster Tools account.
 Author: BestWebSoft
-Version: 2.9.9
+Version: 3.0.0
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -434,16 +434,20 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 							</tr>
 							<tr valign="top">
 								<td colspan="2">
-									<?php foreach ( $gglstmp_result as $key => $value ) { ?>
-										<label><input type="checkbox" <?php if ( in_array( $value, $gglstmp_settings['post_type'] ) ) echo 'checked="checked"'; ?> name="gglstmp_post_types[]" value="<?php echo $value; ?>"/><span style="text-transform: capitalize; padding-left: 5px;"><?php echo $value; ?></span></label><br />
-									<?php } ?>
+									<fieldset>
+										<?php foreach ( $gglstmp_result as $key => $value ) { ?>
+											<label><input type="checkbox" <?php if ( in_array( $value, $gglstmp_settings['post_type'] ) ) echo 'checked="checked"'; ?> name="gglstmp_post_types[]" value="<?php echo $value; ?>"/><span style="text-transform: capitalize; padding-left: 5px;"><?php echo $value; ?></span></label><br />
+										<?php } ?>
+									</fieldset>
 								</td>
 							</tr>
 							<tr valign="top">
 								<td colspan="2">
-									<?php foreach ( $gglstmp_result_taxonomies as $key => $value ) { ?>
-										<label><input type="checkbox" <?php if ( in_array( $key, $gglstmp_settings['taxonomy'] ) ) echo 'checked="checked"'; ?> name="gglstmp_taxonomies[]" value="<?php echo $key; ?>"/><span style="padding-left: 5px;"><?php echo $value; ?></span></label><br />
-									<?php } ?>
+									<fieldset>
+										<?php foreach ( $gglstmp_result_taxonomies as $key => $value ) { ?>
+											<label><input type="checkbox" <?php if ( in_array( $key, $gglstmp_settings['taxonomy'] ) ) echo 'checked="checked"'; ?> name="gglstmp_taxonomies[]" value="<?php echo $key; ?>"/><span style="padding-left: 5px;"><?php echo $value; ?></span></label><br />
+										<?php } ?>
+									</fieldset>
 								</td>
 							</tr>
 						</table>
@@ -470,7 +474,7 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 							</div>
 							<div class="bws_pro_version_tooltip">
 								<div class="bws_info">
-									<?php _e( 'Unlock premium options by upgrading to a PRO version.', 'sitemap' ); ?>
+									<?php _e( 'Unlock premium options by upgrading to PRO version.', 'sitemap' ); ?>
 									<a href="http://bestwebsoft.com/products/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro"><?php _e( 'Learn More', 'sitemap' ); ?></a>
 								</div>
 								<a class="bws_button" href="http://bestwebsoft.com/products/google-sitemap/buy/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro">
@@ -517,13 +521,15 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 											<?php $gglstmp_menu_ad = __( "I want to add this site to Google Webmaster Tools", 'sitemap' );
 											$gglstmp_menu_del = __( "I want to delete this site from Google Webmaster Tools", 'sitemap' );
 											$gglstmp_menu_inf = __( "I want to get info about this site in Google Webmaster Tools", 'sitemap' ); ?>
-											<label><input type='radio' name='gglstmp_menu' value="ad" /> <?php echo $gglstmp_menu_ad; ?></label><br />
-											<label><input type='radio' name='gglstmp_menu' value="del" /> <?php echo $gglstmp_menu_del; ?></label><br />
-											<label><input type='radio' name='gglstmp_menu' value="inf" /> <?php echo $gglstmp_menu_inf; ?></label><br />
-											<span class="gglstmp_span">
-												<?php _e( 'In case you failed to add a sitemap to Google automatically using this plugin, it is possible to do it manually', 'sitemap' ); ?>:
-												<a target="_blank" href="https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/edit"><?php _e( 'View the Instruction', 'sitemap' ); ?></a>
-											</span>
+											<fieldset>
+												<label><input type='radio' name='gglstmp_menu' value="ad" /> <?php echo $gglstmp_menu_ad; ?></label><br />
+												<label><input type='radio' name='gglstmp_menu' value="del" /> <?php echo $gglstmp_menu_del; ?></label><br />
+												<label><input type='radio' name='gglstmp_menu' value="inf" /> <?php echo $gglstmp_menu_inf; ?></label><br />
+												<span class="gglstmp_span">
+													<?php _e( 'In case you failed to add a sitemap to Google automatically using this plugin, it is possible to do it manually', 'sitemap' ); ?>:
+													<a target="_blank" href="https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/edit"><?php _e( 'View the Instruction', 'sitemap' ); ?></a>
+												</span>
+											</fieldset>
 											<?php if ( isset( $_POST['gglstmp_menu'] ) && check_admin_referer( $plugin_basename, 'gglstmp_nonce_name' ) ) {
 												$gglstmp_wmt = new Google_Service_Webmasters( $gglstmp_client );
 												$gglstmp_sv = new Google_Service_SiteVerification( $gglstmp_client );
@@ -601,7 +607,7 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 					</div>
 					<div class="bws_pro_version_tooltip">
 						<div class="bws_info">
-							<?php _e( 'Unlock premium options by upgrading to a PRO version.', 'sitemap' ); ?>
+							<?php _e( 'Unlock premium options by upgrading to PRO version.', 'sitemap' ); ?>
 							<a href="http://bestwebsoft.com/products/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro"><?php _e( 'Learn More', 'sitemap' ); ?></a>
 						</div>
 						<a class="bws_button" href="http://bestwebsoft.com/products/google-sitemap/buy/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro">
