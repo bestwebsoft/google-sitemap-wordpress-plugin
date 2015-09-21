@@ -4,7 +4,9 @@ Plugin Name: Google Sitemap by BestWebSoft
 Plugin URI: http://bestwebsoft.com/products/
 Description: Plugin to add google sitemap file in Google Webmaster Tools account.
 Author: BestWebSoft
-Version: 3.0.0
+Text Domain: google-sitemap-plugin
+Domain Path: /languages
+Version: 3.0.1
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -30,7 +32,7 @@ License: GPLv2 or later
 if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 	function gglstmp_admin_menu() {
 		bws_add_general_menu( plugin_basename( __FILE__ ) );
-		add_submenu_page( 'bws_plugins', __( 'Google Sitemap Settings', 'sitemap' ), 'Google Sitemap', 'manage_options', "google-sitemap-plugin.php", 'gglstmp_settings_page' );
+		add_submenu_page( 'bws_plugins', __( 'Google Sitemap Settings', 'google-sitemap-plugin' ), 'Google Sitemap', 'manage_options', 'google-sitemap-plugin.php', 'gglstmp_settings_page' );
 
 		global $gglstmppr_url_home, $gglstmppr_url, $gglstmppr_url_send, $gglstmppr_url_send_sitemap;
 		$gglstmppr_url_home			=	home_url( "/" );
@@ -40,13 +42,17 @@ if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 	}
 }
 
+if ( ! function_exists( 'gglstmp_plugins_loaded' ) ) {
+	function gglstmp_plugins_loaded() {
+		/* Internationalization */
+		load_plugin_textdomain( 'google-sitemap-plugin', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+}
+
 /* Function adds language files */
 if ( ! function_exists( 'gglstmp_init' ) ) {
 	function gglstmp_init() {
-		global $gglstmp_plugin_info;
-
-		/* Internationalization */
-		load_plugin_textdomain( 'sitemap', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		global $gglstmp_plugin_info;	
 
 		if ( empty( $gglstmp_plugin_info ) ) {
 			if ( ! function_exists( 'get_plugin_data' ) )
@@ -55,9 +61,11 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 		}
 
 		/* add general functions */
-		require_once( dirname( __FILE__ ) . '/bws_menu/bws_functions.php' );
+		require_once( dirname( __FILE__ ) . '/bws_menu/bws_include.php' );
+		bws_include_init( plugin_basename( __FILE__ ) );
 		
-		bws_wp_version_check( plugin_basename( __FILE__ ), $gglstmp_plugin_info, "3.1" ); /* check compatible with current WP version ##*/
+		/* check compatible with current WP version */
+		bws_wp_min_version_check( plugin_basename( __FILE__ ), $gglstmp_plugin_info, '3.8', '3.1' );
 
 		/* Get options from the database */
 		if ( ! is_admin() || ( isset( $_GET['page'] ) && "google-sitemap-plugin.php" == $_GET['page'] ) ) {
@@ -90,10 +98,12 @@ if ( ! function_exists( 'gglstmp_register_settings' ) ) {
 		global $gglstmp_settings, $gglstmp_plugin_info, $gglstmp_option_defaults;
 
 		$gglstmp_option_defaults = array(
-			'plugin_option_version' => $gglstmp_plugin_info['Version'],
-			'post_type'				=> array( 'page', 'post' ),
-			'taxonomy'				=> array(),
-			'sitemap'				=> array()
+			'plugin_option_version' 	=> $gglstmp_plugin_info['Version'],
+			'post_type'					=> array( 'page', 'post' ),
+			'taxonomy'					=> array(),
+			'sitemap'					=> array(),
+			'first_install'				=>	strtotime( "now" ),
+			'display_settings_notice'	=> 1
 		);
 
 		if ( ! get_option( 'gglstmp_settings' ) )
@@ -105,6 +115,7 @@ if ( ! function_exists( 'gglstmp_register_settings' ) ) {
 			if ( ! isset( $gglstmp_settings['post_type'] ) && is_array( $gglstmp_settings ) )
 				$gglstmp_settings['post_type'] = $gglstmp_settings;
 
+			$gglstmp_option_defaults['display_settings_notice'] = 0;
 			$gglstmp_settings = array_merge( $gglstmp_option_defaults, $gglstmp_settings );
 			$gglstmp_settings['plugin_option_version'] = $gglstmp_plugin_info["Version"];
 			update_option( 'gglstmp_settings', $gglstmp_settings );
@@ -277,7 +288,7 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 						file_put_contents( $gglstmppr_url_robot, $file_content );
 					}
 				} else {
-					$error = __( 'Cannot edit "robots.txt". Check your permissions.', 'sitemap' );
+					$error = __( 'Cannot edit "robots.txt". Check your permissions.', 'google-sitemap-plugin' );
 					$gglstmp_robots_flag = 0;
 				}
 			}
@@ -288,12 +299,12 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 			$gglstmp_robots = get_option( 'gglstmp_robots' );
 			update_option( 'gglstmp_settings', $gglstmp_settings );
 			if ( ! isset( $_POST['gglstmp_authorize'] ) && ! isset( $_POST['gglstmp_logout'] ) && ! isset( $_POST['gglstmp_menu'] ) ) {
-				$message .= " " . __( "Settings saved." , 'sitemap' );
+				$message .= " " . __( "Settings saved." , 'google-sitemap-plugin' );
 			}
 		}
 
 		if ( isset( $_POST['gglstmp_new'] ) && check_admin_referer( $plugin_basename, 'gglstmp_nonce_name' ) ) {
-			$message = __( "Your Sitemap file is created in the site root directory.", 'sitemap' );
+			$message = __( "Your Sitemap file is created in the site root directory.", 'google-sitemap-plugin' );
 			gglstmp_sitemapcreate();
 		}
 
@@ -328,7 +339,7 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 						file_put_contents( $gglstmppr_url_robot, $file_content );
 					}
 				} else {
-					$error = __( 'Cannot edit "robot.txt". Check your permissions.', 'sitemap' );
+					$error = __( 'Cannot edit "robot.txt". Check your permissions.', 'google-sitemap-plugin' );
 				}
 			}
 			if ( false === get_option( 'gglstmp_robots' ) )
@@ -337,24 +348,24 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 				update_option( 'gglstmp_robots', 0 );
 			$gglstmp_robots = get_option( 'gglstmp_robots' );
 			update_option( 'gglstmp_settings', $gglstmp_settings );
-			$message = __( 'All plugin settings were restored.', 'sitemap' );
+			$message = __( 'All plugin settings were restored.', 'google-sitemap-plugin' );
 		} ?>
 		<div class="wrap">
 			<div class="icon32 icon32-bws" id="icon-options-general"></div>
-			<h2><?php _e( "Google Sitemap Settings", 'sitemap' ); ?></h2>
+			<h2><?php _e( "Google Sitemap Settings", 'google-sitemap-plugin' ); ?></h2>
 			<h2 class="nav-tab-wrapper">
-				<a class="nav-tab<?php if ( !isset( $_GET['action'] ) ) echo ' nav-tab-active'; ?>" href="admin.php?page=google-sitemap-plugin.php"><?php _e( 'Settings', 'sitemap' ); ?></a>
-				<a class="nav-tab<?php if ( isset( $_GET['action'] ) && 'extra' == $_GET['action'] ) echo ' nav-tab-active'; ?>" href="admin.php?page=google-sitemap-plugin.php&amp;action=extra"><?php _e( 'Extra settings', 'sitemap' ); ?></a>
-				<a class="nav-tab" href="http://bestwebsoft.com/products/google-sitemap/faq/" target="_blank"><?php _e( 'FAQ', 'sitemap' ); ?></a>
-				<a class="nav-tab bws_go_pro_tab<?php if ( isset( $_GET['action'] ) && 'go_pro' == $_GET['action'] ) echo ' nav-tab-active'; ?>" href="admin.php?page=google-sitemap-plugin.php&amp;action=go_pro"><?php _e( 'Go PRO', 'sitemap' ); ?></a>
+				<a class="nav-tab<?php if ( !isset( $_GET['action'] ) ) echo ' nav-tab-active'; ?>" href="admin.php?page=google-sitemap-plugin.php"><?php _e( 'Settings', 'google-sitemap-plugin' ); ?></a>
+				<a class="nav-tab<?php if ( isset( $_GET['action'] ) && 'extra' == $_GET['action'] ) echo ' nav-tab-active'; ?>" href="admin.php?page=google-sitemap-plugin.php&amp;action=extra"><?php _e( 'Extra settings', 'google-sitemap-plugin' ); ?></a>
+				<a class="nav-tab" href="http://bestwebsoft.com/products/google-sitemap/faq/" target="_blank"><?php _e( 'FAQ', 'google-sitemap-plugin' ); ?></a>
+				<a class="nav-tab bws_go_pro_tab<?php if ( isset( $_GET['action'] ) && 'go_pro' == $_GET['action'] ) echo ' nav-tab-active'; ?>" href="admin.php?page=google-sitemap-plugin.php&amp;action=go_pro"><?php _e( 'Go PRO', 'google-sitemap-plugin' ); ?></a>
 			</h2>
 			<?php if ( ! isset( $_GET['action'] ) && is_multisite() && ! is_subdomain_install() ) { ?>
 				<div id="gglstmp_check_sitemap_block" class="error">
 					<p>
 						<?php printf( '<strong>%s</strong> %s',
-							__( 'Warning:', 'sitemap' ),
+							__( 'Warning:', 'google-sitemap-plugin' ),
 							sprintf(
-								__( 'To have an access to subsites XML files, please add the following rule %s to your %s file in %s after line %s.', 'sitemap' ),
+								__( 'To have an access to subsites XML files, please add the following rule %s to your %s file in %s after line %s.', 'google-sitemap-plugin' ),
 								'<code>RewriteRule ([^/]+\.xml)$ $1 [L]</code>',
 								'<strong>.htaccess</strong>',
 								sprintf( '<strong>"%s"</strong>', ABSPATH ),
@@ -364,7 +375,7 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 					</p>
 					<div style="margin: .5em 0; padding: 2px;">
 						<form action="admin.php?page=google-sitemap-plugin.php" method='post' id="gglstmp_check_sitemap">
-							<input type="submit" class="button-secondary" name="gglstmp_check_sitemap" value="<?php _e( 'Сheck Access', 'sitemap' ) ?>" />
+							<input type="submit" class="button-secondary" name="gglstmp_check_sitemap" value="<?php _e( 'Сheck Access', 'google-sitemap-plugin' ) ?>" />
 							<?php wp_nonce_field( $plugin_basename, 'gglstmp_nonce_sitemap' ); ?>
 						</form>
 						<?php if ( isset( $_POST['gglstmp_check_sitemap'] ) && check_admin_referer( $plugin_basename, 'gglstmp_nonce_sitemap' ) ) {
@@ -379,58 +390,58 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 						} ?>
 					</div>
 				</div>
-			<?php } ?>
-			<div id="gglstmp_settings_notice" class="updated fade" style="display:none"><p><strong><?php _e( "Notice:", 'sitemap' ); ?></strong> <?php _e( "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button.", 'sitemap' ); ?></p></div>
+			<?php }
+			bws_show_settings_notice(); ?>
 			<div class="updated fade" <?php if ( "" != $error || $message == "" ) echo "style=\"display:none\""; ?>><p><strong><?php echo $message; ?></strong></p></div>
 			<div class="error" <?php if ( "" == $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $error; ?></strong></p></div>
 			<?php if ( ! isset( $_GET['action'] ) ) { 
 				if ( isset( $_REQUEST['bws_restore_default'] ) && check_admin_referer( $plugin_basename, 'bws_settings_nonce_name' ) ) {
 					bws_form_restore_default_confirm( $plugin_basename );
 				} else { ?>
-					<form action="admin.php?page=google-sitemap-plugin.php" method='post' id="gglstmp_auth" name="gglstmp_auth">
+					<form class="bws_form" action="admin.php?page=google-sitemap-plugin.php" method='post' name="gglstmp_auth">
 						<?php /*=============================== Creating sitemap file ====================================*/
 						if ( file_exists( $gglstmppr_url_sitemap ) ) {
 							if ( is_multisite() ) {
-								echo '<p><a href="' . $gglstmppr_url_home . "sitemap_" . $home_url . '.xml" target="_new">' . __( "The Sitemap file", 'sitemap' ) . "</a> " . __( "already exists. If you would like to replace it with a new one, please choose the necessary box below.", 'sitemap' ) . "</p>";
+								echo '<p><a href="' . $gglstmppr_url_home . "sitemap_" . $home_url . '.xml" target="_new">' . __( "The Sitemap file", 'google-sitemap-plugin' ) . "</a> " . __( "already exists. If you would like to replace it with a new one, please choose the necessary box below.", 'google-sitemap-plugin' ) . "</p>";
 							} else {
-								echo '<p><a href="' . $gglstmppr_url_home . 'sitemap.xml" target="_new">' . __( "The Sitemap file", 'sitemap' ) . "</a> " . __( "already exists. If you would like to replace it with a new one, please choose the necessary box below.", 'sitemap' ) . "</p>";
+								echo '<p><a href="' . $gglstmppr_url_home . 'sitemap.xml" target="_new">' . __( "The Sitemap file", 'google-sitemap-plugin' ) . "</a> " . __( "already exists. If you would like to replace it with a new one, please choose the necessary box below.", 'google-sitemap-plugin' ) . "</p>";
 							}
 						} else {
 							gglstmp_sitemapcreate();
 							if ( is_multisite() ) {
-								echo '<p><a href="' . $gglstmppr_url_home . "sitemap_" . $home_url . '.xml" target="_new">' . __( "Your Sitemap file", 'sitemap' ) . "</a> " . __( "is created in the site root directory.", 'sitemap' ) . "</p>";
+								echo '<p><a href="' . $gglstmppr_url_home . "sitemap_" . $home_url . '.xml" target="_new">' . __( "Your Sitemap file", 'google-sitemap-plugin' ) . "</a> " . __( "is created in the site root directory.", 'google-sitemap-plugin' ) . "</p>";
 							} else {
-								echo '<p><a href="' . $gglstmppr_url_home . 'sitemap.xml" target="_new">' . __( "Your Sitemap file", 'sitemap' ) . "</a> " . __( "is created in the site root directory.", 'sitemap' ) . "</p>";
+								echo '<p><a href="' . $gglstmppr_url_home . 'sitemap.xml" target="_new">' . __( "Your Sitemap file", 'google-sitemap-plugin' ) . "</a> " . __( "is created in the site root directory.", 'google-sitemap-plugin' ) . "</p>";
 							}
 						}
 						/*========================================== Recreating sitemap file ====================================*/
 						if ( is_multisite() ) {
-							echo '<p>' . __( "If you do not want a sitemap file to be added to Google Webmaster Tools automatically, you can do it using", 'sitemap' ) . " <a href=\"https://www.google.com/webmasters/tools/home?hl=en\">". __( "this", 'sitemap' ) . "</a> ". __( "link - sign in, choose the necessary site, go to 'Sitemaps' and fill out the mandatory field", 'sitemap' ) . " - '" . $gglstmppr_url_home . "sitemap_" . $home_url . ".xml'.</p>";
+							echo '<p>' . __( "If you do not want a sitemap file to be added to Google Webmaster Tools automatically, you can do it using", 'google-sitemap-plugin' ) . " <a href=\"https://www.google.com/webmasters/tools/home?hl=en\">". __( "this", 'google-sitemap-plugin' ) . "</a> ". __( "link - sign in, choose the necessary site, go to 'Sitemaps' and fill out the mandatory field", 'google-sitemap-plugin' ) . " - '" . $gglstmppr_url_home . "sitemap_" . $home_url . ".xml'.</p>";
 						} else {
-							echo '<p>' . __( "If you do not want a sitemap file to be added to Google Webmaster Tools automatically, you can do it using", 'sitemap' ) . " <a href=\"https://www.google.com/webmasters/tools/home?hl=en\">". __( "this", 'sitemap' ) . "</a> ". __( "link - sign in, choose the necessary site, go to 'Sitemaps' and fill out the mandatory field", 'sitemap' ) . " - '" . $gglstmppr_url_home . "sitemap.xml'.</p>";
+							echo '<p>' . __( "If you do not want a sitemap file to be added to Google Webmaster Tools automatically, you can do it using", 'google-sitemap-plugin' ) . " <a href=\"https://www.google.com/webmasters/tools/home?hl=en\">". __( "this", 'google-sitemap-plugin' ) . "</a> ". __( "link - sign in, choose the necessary site, go to 'Sitemaps' and fill out the mandatory field", 'google-sitemap-plugin' ) . " - '" . $gglstmppr_url_home . "sitemap.xml'.</p>";
 						} ?>
 						<table class="form-table">
 							<tr valign="top">
 								<td colspan="2">
-									<label><input type='checkbox' name='gglstmp_new' value="1" /> <?php _e( "I want to create a new sitemap file or update the existing one", 'sitemap' ); ?></label>
+									<label><input type='checkbox' name='gglstmp_new' value="1" /> <?php _e( "I want to create a new sitemap file or update the existing one", 'google-sitemap-plugin' ); ?></label>
 								</td>
 							</tr>
 							<?php if ( is_multisite() ) { ?>
 								<tr valign="top">
 									<td colspan="2">
-										<label><input type='checkbox' disabled="disabled" name='gglstmp_checkbox' value="1" <?php if ( 1 == $gglstmp_robots ) echo 'checked="checked"'; ?> /> <?php _e( "I want to add sitemap file path in robots.txt", 'sitemap' );?></label>
-										<p style="color:red"><?php _e( "Since you are using multisiting, the plugin does not allow to add a sitemap to robots.txt", 'sitemap' ); ?></div>
+										<label><input type='checkbox' disabled="disabled" name='gglstmp_checkbox' value="1" <?php if ( 1 == $gglstmp_robots ) echo 'checked="checked"'; ?> /> <?php _e( "I want to add sitemap file path in robots.txt", 'google-sitemap-plugin' );?></label>
+										<p style="color:red"><?php _e( "Since you are using multisiting, the plugin does not allow to add a sitemap to robots.txt", 'google-sitemap-plugin' ); ?></div>
 									</td>
 								</tr>
 							<?php } else { ?>
 								<tr valign="top">
 									<td colspan="2">
-										<label><input type='checkbox' name='gglstmp_checkbox' value="1" <?php if ( 1 == $gglstmp_robots ) echo 'checked="checked"'; ?> /> <?php _e( "I want to add sitemap file path in", 'sitemap' ); ?> <a href="<?php echo $gglstmppr_url_home; ?>robots.txt" target="_new">robots.txt</a></label>
+										<label><input type='checkbox' name='gglstmp_checkbox' value="1" <?php if ( 1 == $gglstmp_robots ) echo 'checked="checked"'; ?> /> <?php _e( "I want to add sitemap file path in", 'google-sitemap-plugin' ); ?> <a href="<?php echo $gglstmppr_url_home; ?>robots.txt" target="_new">robots.txt</a></label>
 									</td>
 								</tr>
 							<?php } ?>
 							<tr valign="top">
-								<th scope="row" colspan="2"><?php _e( 'Please choose the necessary post types and taxonomies the links to which are to be added to the sitemap:', 'sitemap' ); ?> </th>
+								<th scope="row" colspan="2"><?php _e( 'Please choose the necessary post types and taxonomies the links to which are to be added to the sitemap:', 'google-sitemap-plugin' ); ?> </th>
 							</tr>
 							<tr valign="top">
 								<td colspan="2">
@@ -456,30 +467,27 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 								<div class="bws_table_bg"></div>
 								<table class="form-table bws_pro_version">
 									<tr valign="top">
-										<th><?php _e( 'XML Sitemap "Change Frequency" parameter', 'sitemap' ); ?></th>
+										<th><?php _e( 'XML Sitemap "Change Frequency" parameter', 'google-sitemap-plugin' ); ?></th>
 										<td>
 											<select name="gglstmp_sitemap_change_frequency">
-												<option value="always"><?php _e( 'Always', 'sitemap' ); ?></option>
-												<option value="hourly"><?php _e( 'Hourly', 'sitemap' ); ?></option>
-												<option value="daily"><?php _e( 'Daily', 'sitemap' ); ?></option>
-												<option value="weekly"><?php _e( 'Weekly', 'sitemap' ); ?></option>
-												<option selected value="monthly"><?php _e( 'Monthly', 'sitemap' ); ?></option>
-												<option value="yearly"><?php _e( 'Yearly', 'sitemap' ); ?></option>
-												<option value="never"><?php _e( 'Never', 'sitemap' ); ?></option>
+												<option value="always"><?php _e( 'Always', 'google-sitemap-plugin' ); ?></option>
+												<option value="hourly"><?php _e( 'Hourly', 'google-sitemap-plugin' ); ?></option>
+												<option value="daily"><?php _e( 'Daily', 'google-sitemap-plugin' ); ?></option>
+												<option value="weekly"><?php _e( 'Weekly', 'google-sitemap-plugin' ); ?></option>
+												<option selected value="monthly"><?php _e( 'Monthly', 'google-sitemap-plugin' ); ?></option>
+												<option value="yearly"><?php _e( 'Yearly', 'google-sitemap-plugin' ); ?></option>
+												<option value="never"><?php _e( 'Never', 'google-sitemap-plugin' ); ?></option>
 											</select><br />
-											<span style="color: #888888;font-size: 10px;"><?php _e( 'This value is used in the sitemap file and provides general information to search engines. The sitemap itself is generated once and will be re-generated when you create or update any post or page.', 'sitemap' ); ?></span>
+											<span style="color: #888888;font-size: 10px;"><?php _e( 'This value is used in the sitemap file and provides general information to search engines. The sitemap itself is generated once and will be re-generated when you create or update any post or page.', 'google-sitemap-plugin' ); ?></span>
 										</td>
 									</tr>
 								</table>
 							</div>
 							<div class="bws_pro_version_tooltip">
 								<div class="bws_info">
-									<?php _e( 'Unlock premium options by upgrading to PRO version.', 'sitemap' ); ?>
-									<a href="http://bestwebsoft.com/products/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro"><?php _e( 'Learn More', 'sitemap' ); ?></a>
+									<?php _e( 'Unlock premium options by upgrading to Pro version', 'google-sitemap-plugin' ); ?>
 								</div>
-								<a class="bws_button" href="http://bestwebsoft.com/products/google-sitemap/buy/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro">
-									<?php _e( 'Go', 'sitemap' ); ?> <strong>PRO</strong>
-								</a>
+								<a class="bws_button" href="http://bestwebsoft.com/products/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro"><?php _e( 'Learn More', 'google-sitemap-plugin' ); ?></a>
 								<div class="clear"></div>
 							</div>
 						</div>
@@ -487,12 +495,12 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 							<?php if ( ! function_exists( 'curl_init' ) ) { ?>
 								<tr valign="top">
 									<td colspan="2" class="gglstmp_error">
-										<?php _e( "This hosting does not support сURL, so you cannot add a sitemap file automatically.", 'sitemap' ); ?>
+										<?php _e( "This hosting does not support сURL, so you cannot add a sitemap file automatically.", 'google-sitemap-plugin' ); ?>
 									</td>
 								</tr>
 							<?php } else { ?>
 								<tr id="gglstmp_google_webmaster" valign="top">
-									<th scope="row"><?php _e( 'Remote work with Google Webmaster Tools', 'sitemap' ); ?></th>									
+									<th scope="row"><?php _e( 'Remote work with Google Webmaster Tools', 'google-sitemap-plugin' ); ?></th>									
 									<td>
 										<?php $gglstmp_client = gglstmp_client();
 										$gglstmp_blog_prefix = '_' . get_current_blog_id();
@@ -516,18 +524,18 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 										}
 										if ( $gglstmp_client->getAccessToken() ) { ?>
 											<div id="gglstmp_logout_button">
-												<input class="button-secondary" name="gglstmp_logout" type="submit" value="<?php _e( 'Log out from Google Webmaster Tools', 'sitemap' ); ?>" />
+												<input class="button-secondary" name="gglstmp_logout" type="submit" value="<?php _e( 'Log out from Google Webmaster Tools', 'google-sitemap-plugin' ); ?>" />
 											</div>
-											<?php $gglstmp_menu_ad = __( "I want to add this site to Google Webmaster Tools", 'sitemap' );
-											$gglstmp_menu_del = __( "I want to delete this site from Google Webmaster Tools", 'sitemap' );
-											$gglstmp_menu_inf = __( "I want to get info about this site in Google Webmaster Tools", 'sitemap' ); ?>
+											<?php $gglstmp_menu_ad = __( "I want to add this site to Google Webmaster Tools", 'google-sitemap-plugin' );
+											$gglstmp_menu_del = __( "I want to delete this site from Google Webmaster Tools", 'google-sitemap-plugin' );
+											$gglstmp_menu_inf = __( "I want to get info about this site in Google Webmaster Tools", 'google-sitemap-plugin' ); ?>
 											<fieldset>
 												<label><input type='radio' name='gglstmp_menu' value="ad" /> <?php echo $gglstmp_menu_ad; ?></label><br />
 												<label><input type='radio' name='gglstmp_menu' value="del" /> <?php echo $gglstmp_menu_del; ?></label><br />
 												<label><input type='radio' name='gglstmp_menu' value="inf" /> <?php echo $gglstmp_menu_inf; ?></label><br />
-												<span class="gglstmp_span">
-													<?php _e( 'In case you failed to add a sitemap to Google automatically using this plugin, it is possible to do it manually', 'sitemap' ); ?>:
-													<a target="_blank" href="https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/edit"><?php _e( 'View the Instruction', 'sitemap' ); ?></a>
+												<span class="bws_info">
+													<?php _e( 'In case you failed to add a sitemap to Google automatically using this plugin, it is possible to do it manually', 'google-sitemap-plugin' ); ?>:
+													<a target="_blank" href="https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/edit"><?php _e( 'View the Instruction', 'google-sitemap-plugin' ); ?></a>
 												</span>
 											</fieldset>
 											<?php if ( isset( $_POST['gglstmp_menu'] ) && check_admin_referer( $plugin_basename, 'gglstmp_nonce_name' ) ) {
@@ -552,14 +560,14 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 											$gglstmp_client->setState( $gglstmp_state );
 											$_SESSION[ 'gglstmp_state' . $gglstmp_blog_prefix ] = $gglstmp_client; 
 											$gglstmp_auth_url = $gglstmp_client->createAuthUrl(); ?>
-											<p><?php _e( "Please authorize via your Google Account in order to add or delete a site and a sitemap file automatically or get information about this site in Google Webmaster Tools.", 'sitemap' ); ?></p>
-											<a id="gglstmp_authorization_button" class="button-primary" href="<?php echo $gglstmp_auth_url; ?>" target="_blank" onclick="window.open(this.href,'','top='+(screen.height/2-560/2)+',left='+(screen.width/2-640/2)+',width=640,height=560,resizable=0,scrollbars=0,menubar=0,toolbar=0,status=1,location=0').focus(); return false;"><?php _e( 'Get Authorization Code', 'sitemap' ); ?></a>
+											<p><?php _e( "Please authorize via your Google Account in order to add or delete a site and a sitemap file automatically or get information about this site in Google Webmaster Tools.", 'google-sitemap-plugin' ); ?></p>
+											<a id="gglstmp_authorization_button" class="button-primary" href="<?php echo $gglstmp_auth_url; ?>" target="_blank" onclick="window.open(this.href,'','top='+(screen.height/2-560/2)+',left='+(screen.width/2-640/2)+',width=640,height=560,resizable=0,scrollbars=0,menubar=0,toolbar=0,status=1,location=0').focus(); return false;"><?php _e( 'Get Authorization Code', 'google-sitemap-plugin' ); ?></a>
 											<div id="gglstmp_authorization_form">
 												<input id="gglstmp_authorization_code" name="gglstmp_authorization_code" type="text" autocomplete="off" maxlength="100" />
-												<input id="gglstmp_authorize" class="button-primary" name="gglstmp_authorize" type="submit" value="<?php _e( 'Authorize', 'sitemap' ); ?>">
+												<input id="gglstmp_authorize" class="button-primary" name="gglstmp_authorize" type="submit" value="<?php _e( 'Authorize', 'google-sitemap-plugin' ); ?>">
 											</div>
 											<?php if ( isset( $_POST['gglstmp_authorization_code'] ) && isset( $_POST['gglstmp_authorize'] ) && check_admin_referer( $plugin_basename, 'gglstmp_nonce_name' ) ) { ?>
-												<div id="gglstmp_authorize_error"><?php _e( 'Invalid authorization code. Please, try again.', 'sitemap' ); ?></div>
+												<div id="gglstmp_authorize_error"><?php _e( 'Invalid authorization code. Please, try again.', 'google-sitemap-plugin' ); ?></div>
 											<?php }
 										} ?>
 									</td>
@@ -568,7 +576,7 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 						</table>
 						<input type="hidden" name="gglstmp_submit" value="submit" />
 						<p class="submit">
-							<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'sitemap' ); ?>" />
+							<input id="bws-submit-button" type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'google-sitemap-plugin' ); ?>" />
 						</p>
 						<?php wp_nonce_field( $plugin_basename, 'gglstmp_nonce_name' ); ?>
 					</form>
@@ -582,37 +590,34 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 						<table class="form-table bws_pro_version">
 							<tr valign="top">
 								<td colspan="2">
-									<?php _e( 'Please choose the necessary post types and taxonomies the links to which are to be added to the sitemap:', 'sitemap' ); ?>
+									<?php _e( 'Please choose the necessary post types and taxonomies the links to which are to be added to the sitemap:', 'google-sitemap-plugin' ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
 								<td colspan="2">
 									<label>
 										<input disabled="disabled" checked="checked" id="gglstmp_jstree_url" type="checkbox" name="gglstmp_jstree_url" value="1" />
-										<?php _e( "Show URL for pages", 'sitemap' );?>
+										<?php _e( "Show URL for pages", 'google-sitemap-plugin' );?>
 									</label>
 								</td>
 							</tr>
 							<tr valign="top">
 								<td colspan="2">
-									<img src="<?php echo plugins_url( 'images/pro_screen_1.png', __FILE__ ); ?>" alt="<?php _e( "Example of site pages' tree", 'sitemap' ); ?>" title="<?php _e( "Example of site pages' tree", 'sitemap' ); ?>" />
+									<img src="<?php echo plugins_url( 'images/pro_screen_1.png', __FILE__ ); ?>" alt="<?php _e( "Example of site pages' tree", 'google-sitemap-plugin' ); ?>" title="<?php _e( "Example of site pages' tree", 'google-sitemap-plugin' ); ?>" />
 								</td>
 							</tr>
 							<tr valign="top">
 								<td colspan="2">
-									<input disabled="disabled" type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'sitemap' ); ?>" />
+									<input disabled="disabled" type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'google-sitemap-plugin' ); ?>" />
 								</td>
 							</tr>
 						</table>
 					</div>
 					<div class="bws_pro_version_tooltip">
 						<div class="bws_info">
-							<?php _e( 'Unlock premium options by upgrading to PRO version.', 'sitemap' ); ?>
-							<a href="http://bestwebsoft.com/products/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro"><?php _e( 'Learn More', 'sitemap' ); ?></a>
+							<?php _e( 'Unlock premium options by upgrading to Pro version', 'google-sitemap-plugin' ); ?>
 						</div>
-						<a class="bws_button" href="http://bestwebsoft.com/products/google-sitemap/buy/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro">
-							<?php _e( 'Go', 'sitemap' ); ?> <strong>PRO</strong>
-						</a>
+						<a class="bws_button" href="http://bestwebsoft.com/products/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro"><?php _e( 'Learn More', 'google-sitemap-plugin' ); ?></a>
 						<div class="clear"></div>
 					</div>
 				</div>
@@ -646,7 +651,6 @@ if ( ! function_exists( 'gglstmp_robots_add_sitemap' ) ) {
 if ( ! function_exists( 'gglstmp_add_plugin_stylesheet' ) ) {
 	function gglstmp_add_plugin_stylesheet() {
 		if ( isset( $_GET['page'] ) && "google-sitemap-plugin.php" == $_GET['page'] ) {
-			wp_enqueue_script( 'gglstmp_script', plugins_url( 'js/script.js' , __FILE__ ) );
 			wp_enqueue_style( 'gglstmp_stylesheet', plugins_url( 'css/style.css', __FILE__ ) );
 		}
 	}
@@ -660,7 +664,7 @@ if ( ! function_exists( 'gglstmp_info_site' ) ) {
 		$gglstmp_instruction_url = 'https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/edit';
 		$gglstmp_wmt_sites_arr = $gglstmp_wmt_sitemaps_arr = array();
 
-		printf( '<h4>' . __( 'I want to get info about site %s in Google Webmaster Tools', 'sitemap' ) . ':</h4>', sprintf( '<a href="%1$s">%1$s</a>', $gglstmppr_url_home ) );
+		printf( '<h4>' . __( 'I want to get info about site %s in Google Webmaster Tools', 'google-sitemap-plugin' ) . ':</h4>', sprintf( '<a href="%1$s">%1$s</a>', $gglstmppr_url_home ) );
 		echo '<div class="gglstmp_wmt_content">';
 
 		$gglstmp_wmt_sites = $gglstmp_wmt->sites->listSites()->getSiteEntry();
@@ -669,13 +673,13 @@ if ( ! function_exists( 'gglstmp_info_site' ) ) {
 		}
 
 		if ( ! array_key_exists( $gglstmppr_url_home, $gglstmp_wmt_sites_arr ) ) {
-			printf( '<div>%s</div>', __( 'This site is not added to the Google Webmaster Tools.', 'sitemap') );
+			printf( '<div>%s</div>', __( 'This site is not added to the Google Webmaster Tools.', 'google-sitemap-plugin') );
 			echo '</div><!-- .gglstmp_wmt_content -->';
 			return;
 		} else {
-			printf( '<div>%s</div>', __( 'This site is added to the Google Webmaster Tools.', 'sitemap' ) );
-			printf( '<div><strong>%s</strong> <a href="%s" target="_blank">%2$s</a></div>', __( 'Site URL:', 'sitemap'), $gglstmppr_url_home );
-			printf( '<div><strong>%s</strong> %s</div>', __( 'Site verification:', 'sitemap'), ( $gglstmp_wmt_sites_arr[ $gglstmppr_url_home ] == 'siteOwner' ) ? __( 'verified', 'sitemap' ) : __( 'not verified', 'sitemap' ) ); 
+			printf( '<div>%s</div>', __( 'This site is added to the Google Webmaster Tools.', 'google-sitemap-plugin' ) );
+			printf( '<div><strong>%s</strong> <a href="%s" target="_blank">%2$s</a></div>', __( 'Site URL:', 'google-sitemap-plugin'), $gglstmppr_url_home );
+			printf( '<div><strong>%s</strong> %s</div>', __( 'Site verification:', 'google-sitemap-plugin' ), ( $gglstmp_wmt_sites_arr[ $gglstmppr_url_home ] == 'siteOwner' ) ? __( 'verified', 'google-sitemap-plugin' ) : __( 'not verified', 'google-sitemap-plugin' ) ); 
 
 			try {
 				$gglstmp_wmt_sitemaps = $gglstmp_wmt->sitemaps->listSitemaps( $gglstmppr_url_home )->getSitemap();
@@ -684,9 +688,9 @@ if ( ! function_exists( 'gglstmp_info_site' ) ) {
 				if ( isset( $getErrors[0]['message'] ) ) {
 					printf( '<div>%s</div>', $getErrors[0]['message'] );
 				} else {
-					printf( '<div>%s</div>', __( 'An unexpected error occurred when verifying site in the Google Webmaster Tools.', 'sitemap' ) );
+					printf( '<div>%s</div>', __( 'An unexpected error occurred when verifying site in the Google Webmaster Tools.', 'google-sitemap-plugin' ) );
 				}
-				printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The site couldn't be verified. Please, verify the site manually", 'sitemap' ), $gglstmp_instruction_url, __( 'View the Instruction', 'sitemap' ) );
+				printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The site couldn't be verified. Please, verify the site manually", 'google-sitemap-plugin' ), $gglstmp_instruction_url, __( 'View the Instruction', 'google-sitemap-plugin' ) );
 				echo '</div><!-- .gglstmp_wmt_content -->';
 				return;	
 			}
@@ -699,17 +703,17 @@ if ( ! function_exists( 'gglstmp_info_site' ) ) {
 			if ( isset( $gglstmp_settings['sitemap']['loc'] ) ) {
 				$gglstmppr_url_sitemap = $gglstmp_settings['sitemap']['loc'];
 				if ( ! array_key_exists( $gglstmppr_url_sitemap, $gglstmp_wmt_sitemaps_arr ) ) {
-					printf( '<div>%s</div>', __( 'The sitemap file is not added to the Google Webmaster Tools.', 'sitemap') );
+					printf( '<div>%s</div>', __( 'The sitemap file is not added to the Google Webmaster Tools.', 'google-sitemap-plugin') );
 				} else {
 					if( ! $gglstmp_wmt_sitemaps_arr[ $gglstmppr_url_sitemap ] ) {
-						printf( '<div>%s</div>', __( 'The sitemap file is added to the Google Webmaster Tools.', 'sitemap') );
+						printf( '<div>%s</div>', __( 'The sitemap file is added to the Google Webmaster Tools.', 'google-sitemap-plugin') );
 					} else {
-						printf( '<div class="gglstmp_wmt_error">%s <a href="%s">%s</a></div>', __( 'The sitemap file is added to the Google Webmaster Tools, but has some errors or warnings.', 'sitemap' ), sprintf( 'https://www.google.com/webmasters/tools/sitemap-details?hl=en&siteUrl=%s&sitemapUrl=%s#ISSUE_FILTER=-1', urlencode( $gglstmppr_url_home ), urlencode( $gglstmppr_url_sitemap ) ), __( 'Please, see them in the Google Webmaster Tools.', 'sitemap' ) );
+						printf( '<div class="gglstmp_wmt_error">%s <a href="%s">%s</a></div>', __( 'The sitemap file is added to the Google Webmaster Tools, but has some errors or warnings.', 'google-sitemap-plugin' ), sprintf( 'https://www.google.com/webmasters/tools/sitemap-details?hl=en&siteUrl=%s&sitemapUrl=%s#ISSUE_FILTER=-1', urlencode( $gglstmppr_url_home ), urlencode( $gglstmppr_url_sitemap ) ), __( 'Please, see them in the Google Webmaster Tools.', 'google-sitemap-plugin' ) );
 					}
 				}
-				printf( '<div><strong>%s</strong> <a href="%s" target="_blank">%2$s</a></div></div>', __( 'Sitemap URL:', 'sitemap'), $gglstmppr_url_sitemap );
+				printf( '<div><strong>%s</strong> <a href="%s" target="_blank">%2$s</a></div></div>', __( 'Sitemap URL:', 'google-sitemap-plugin'), $gglstmppr_url_sitemap );
 			} else {
-				printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( 'When checking the sitemap file an unexpected error occurred. Please, check the sitemap file manually', 'sitemap' ), $gglstmp_instruction_url, __( 'View the Instruction', 'sitemap' ) );
+				printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( 'When checking the sitemap file an unexpected error occurred. Please, check the sitemap file manually', 'google-sitemap-plugin' ), $gglstmp_instruction_url, __( 'View the Instruction', 'google-sitemap-plugin' ) );
 			}
 		}
 		echo '</div><!-- .gglstmp_wmt_content -->';
@@ -721,7 +725,7 @@ if ( ! function_exists( 'gglstmp_del_site' ) ) {
 	function gglstmp_del_site( $gglstmp_wmt, $gglstmp_sv ) {
 		global $gglstmp_settings, $gglstmppr_url_home;
 
-		printf( '<h4>' . __( 'I want to delete site %s from Google Webmaster Tools', 'sitemap' ) . '</h4>', sprintf( '<a href="%1$s">%1$s</a>', $gglstmppr_url_home ) );
+		printf( '<h4>' . __( 'I want to delete site %s from Google Webmaster Tools', 'google-sitemap-plugin' ) . '</h4>', sprintf( '<a href="%1$s">%1$s</a>', $gglstmppr_url_home ) );
 		echo '<div class="gglstmp_wmt_content">';
 
 		try {
@@ -734,12 +738,12 @@ if ( ! function_exists( 'gglstmp_del_site' ) ) {
 		} catch ( Google_Service_Exception $e ) {}
 		try {
 			$gglstmp_wmt->sites->delete( $gglstmppr_url_home );
-			printf( '<div>%s</div>', __( 'This site has been successfully deleted from Google Webmaster Tools', 'sitemap' ) );
+			printf( '<div>%s</div>', __( 'This site has been successfully deleted from Google Webmaster Tools', 'google-sitemap-plugin' ) );
 			unset( $gglstmp_settings['site_vererification_code'] );
 			update_option( 'gglstmp_settings', $gglstmp_settings );
 
 		} catch ( Google_Service_Exception $e ) {
-			printf( '<div>%s</div>', __( 'This site is not added to the Google Webmaster Tools.', 'sitemap') );
+			printf( '<div>%s</div>', __( 'This site is not added to the Google Webmaster Tools.', 'google-sitemap-plugin') );
 		}
 		echo '</div><!-- .gglstmp_wmt_content -->';
 	}
@@ -753,20 +757,20 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 		$gglstmp_sv_type = 'SITE';
 		$gglstmp_instruction_url = 'https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/edit';
 
-		printf( '<h4>' . __( 'I want to add site %s in Google Webmaster Tools', 'sitemap' ) . '</h4>', sprintf( '<a href="%1$s">%1$s</a>', $gglstmppr_url_home ) );
+		printf( '<h4>' . __( 'I want to add site %s in Google Webmaster Tools', 'google-sitemap-plugin' ) . '</h4>', sprintf( '<a href="%1$s">%1$s</a>', $gglstmppr_url_home ) );
 		echo '<div class="gglstmp_wmt_content">';
 
 		try {
 			$gglstmp_wmt->sites->add( $gglstmppr_url_home );
-			printf( '<div>%s</div>', __( 'The site is added to the Google Webmaster Tools.', 'sitemap' ) );
+			printf( '<div>%s</div>', __( 'The site is added to the Google Webmaster Tools.', 'google-sitemap-plugin' ) );
 		} catch ( Google_Service_Exception $e ) {
 			$gglstmp_wmt_error = $e->getErrors();
 			if ( isset( $gglstmp_wmt_error[0]['message'] ) ) {
 				printf( '<div>%s</div>', $gglstmp_wmt_error[0]['message'] );
 			} else {
-				printf( '<div>%s</div>', __( 'When you add a site in the Google Webmaster Tools unexpected error occurred.', 'sitemap' ) );
+				printf( '<div>%s</div>', __( 'When you add a site in the Google Webmaster Tools unexpected error occurred.', 'google-sitemap-plugin' ) );
 			}
-			printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The site couldn't be added. Please, add the site manually", 'sitemap' ), $gglstmp_instruction_url, __( 'View the Instruction', 'sitemap' ) );
+			printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The site couldn't be added. Please, add the site manually", 'google-sitemap-plugin' ), $gglstmp_instruction_url, __( 'View the Instruction', 'google-sitemap-plugin' ) );
 			echo '</div><!-- .gglstmp_wmt_content -->';
 			return;
 		}
@@ -782,18 +786,18 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 			$gglstmp_settings['site_vererification_code'] = htmlspecialchars( $gglstmp_getToken['token'] );
 			if ( preg_match( '|^&lt;meta name=&quot;google-site-verification&quot; content=&quot;(.*)&quot; /&gt;$|', $gglstmp_settings['site_vererification_code'] ) ) {
 				update_option( 'gglstmp_settings', $gglstmp_settings );
-				printf( '<div>%s</div>', __( 'Verification code has been successfully received and added to the site.', 'sitemap' ) );
+				printf( '<div>%s</div>', __( 'Verification code has been successfully received and added to the site.', 'google-sitemap-plugin' ) );
 			} else {
-				printf( '<div>%s</div>', __( 'Verification code has been successfully received but has not been added to the site.', 'sitemap' ) );
+				printf( '<div>%s</div>', __( 'Verification code has been successfully received but has not been added to the site.', 'google-sitemap-plugin' ) );
 			}
 		} catch ( Google_Service_Exception $e ) {
 			$getErrors = $e->getErrors();
 			if ( isset( $getErrors[0]['message'] ) ) {
 				printf( '<div>%s</div>', $getErrors[0]['message'] );
 			} else {
-				printf( '<div>%s</div>', __( 'An error has occurred when receiving the verification code site in the Google Webmaster.', 'sitemap' ) );
+				printf( '<div>%s</div>', __( 'An error has occurred when receiving the verification code site in the Google Webmaster.', 'google-sitemap-plugin' ) );
 			}
-			printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The site couldn't be verified. Please, verify the site manually", 'sitemap' ), $gglstmp_instruction_url, __( 'View the Instruction', 'sitemap' ) );
+			printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The site couldn't be verified. Please, verify the site manually", 'google-sitemap-plugin' ), $gglstmp_instruction_url, __( 'View the Instruction', 'google-sitemap-plugin' ) );
 			echo '</div><!-- .gglstmp_wmt_content -->';
 			return;	
 		}
@@ -805,15 +809,15 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 			$gglstmp_wmt_resource = new Google_Service_SiteVerification_SiteVerificationWebResourceResource;
 			$gglstmp_wmt_resource->setSite( $gglstmp_wmt_resource_site );
 			$gglstmp_sv->webResource->insert( $gglstmp_sv_method, $gglstmp_wmt_resource );
-			printf( '<div>%s</div>', __( 'The site has been successfully verified in the Google Webmaster Tools.', 'sitemap' ) );
+			printf( '<div>%s</div>', __( 'The site has been successfully verified in the Google Webmaster Tools.', 'google-sitemap-plugin' ) );
 		} catch ( Google_Service_Exception $e ) {
 			$getErrors = $e->getErrors();
 			if ( isset( $getErrors[0]['message'] ) ) {
 				printf( '<div>%s</div>', $getErrors[0]['message'] );
 			} else {
-				printf( '<div>%s</div>', __( 'An unexpected error occurred when verifying site in the Google Webmaster Tools.', 'sitemap' ) );
+				printf( '<div>%s</div>', __( 'An unexpected error occurred when verifying site in the Google Webmaster Tools.', 'google-sitemap-plugin' ) );
 			}
-			printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The site couldn't be verified. Please, verify the site manually", 'sitemap' ), $gglstmp_instruction_url, __( 'View the Instruction', 'sitemap' ) );
+			printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The site couldn't be verified. Please, verify the site manually", 'google-sitemap-plugin' ), $gglstmp_instruction_url, __( 'View the Instruction', 'google-sitemap-plugin' ) );
 			echo '</div><!-- .gglstmp_wmt_content -->';
 			return;					
 		}
@@ -824,21 +828,21 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 			if ( $gglstmp_check_sitemap['code'] == 200 ) {
 				try {
 					$gglstmp_wmt->sitemaps->submit( $gglstmppr_url_home, $gglstmppr_url_sitemap );
-					printf( '<div>%s</div>', __( 'The sitemap file has been successfully added to the Google Webmaster Tools.', 'sitemap' ) );
+					printf( '<div>%s</div>', __( 'The sitemap file has been successfully added to the Google Webmaster Tools.', 'google-sitemap-plugin' ) );
 				} catch ( Google_Service_Exception $e ) {
 					$gglstmp_wmt_error = $e->getErrors();
 					if ( isset( $gglstmp_wmt_error[0]['message'] ) ) {
 						printf( '<div>%s</div>', $gglstmp_wmt_error[0]['message'] );
 					} else {
-						printf( '<div>%s</div>', __( 'When you add a sitemap file in the Google Webmaster Tools unexpected error occurred.', 'sitemap' ) );
+						printf( '<div>%s</div>', __( 'When you add a sitemap file in the Google Webmaster Tools unexpected error occurred.', 'google-sitemap-plugin' ) );
 					}
-					printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The sitemap file couldn't be added. Please, add the sitemap file manually", 'sitemap' ), $gglstmp_instruction_url, __( 'View the Instruction', 'sitemap' ) );
+					printf( '<div>%s - <a target="_blank" href="%s">%s</a></div>', __( "The sitemap file couldn't be added. Please, add the sitemap file manually", 'google-sitemap-plugin' ), $gglstmp_instruction_url, __( 'View the Instruction', 'google-sitemap-plugin' ) );
 				}
 			} else {
-				printf( '<div>%s</div>', sprintf( __( 'Error 404. The sitemap file %s not found.', 'sitemap' ), sprintf( '(<a href="%s">%s</a>)', $gglstmp_settings['sitemap']['loc'], $gglstmp_settings['sitemap']['file'] ) ) );
+				printf( '<div>%s</div>', sprintf( __( 'Error 404. The sitemap file %s not found.', 'google-sitemap-plugin' ), sprintf( '(<a href="%s">%s</a>)', $gglstmp_settings['sitemap']['loc'], $gglstmp_settings['sitemap']['file'] ) ) );
 			}
 		} else {
-			printf( '<div>%s</div>', __( 'The sitemap file not found.', 'sitemap' ) );
+			printf( '<div>%s</div>', __( 'The sitemap file not found.', 'google-sitemap-plugin' ) );
 		}
 		echo '</div><!-- .gglstmp_wmt_content -->';
 	}
@@ -891,7 +895,7 @@ if ( ! function_exists( 'gglstmp_action_links' ) ) {
 			if ( ! $this_plugin )
 				$this_plugin = plugin_basename( __FILE__ );
 			if ( $file == $this_plugin ) {
-				$settings_link = '<a href="admin.php?page=google-sitemap-plugin.php">' . __( 'Settings', 'sitemap' ) . '</a>';
+				$settings_link = '<a href="admin.php?page=google-sitemap-plugin.php">' . __( 'Settings', 'google-sitemap-plugin' ) . '</a>';
 				array_unshift( $links, $settings_link );
 			}
 		}
@@ -904,9 +908,9 @@ if ( ! function_exists( 'gglstmp_links' ) ) {
 		$base = plugin_basename( __FILE__ );
 		if ( $file == $base ) {
 			if ( ! is_network_admin() )
-				$links[] = '<a href="admin.php?page=google-sitemap-plugin.php">' . __( 'Settings','sitemap' ) . '</a>';
-			$links[] = '<a href="http://wordpress.org/plugins/google-sitemap-plugin/faq/" target="_blank">' . __( 'FAQ','sitemap' ) . '</a>';
-			$links[] = '<a href="http://support.bestwebsoft.com">' . __( 'Support','sitemap' ) . '</a>';
+				$links[] = '<a href="admin.php?page=google-sitemap-plugin.php">' . __( 'Settings', 'google-sitemap-plugin' ) . '</a>';
+			$links[] = '<a href="http://wordpress.org/plugins/google-sitemap-plugin/faq/" target="_blank">' . __( 'FAQ', 'google-sitemap-plugin' ) . '</a>';
+			$links[] = '<a href="http://support.bestwebsoft.com">' . __( 'Support', 'google-sitemap-plugin' ) . '</a>';
 		}
 		return $links;
 	}
@@ -916,8 +920,11 @@ if ( ! function_exists ( 'gglstmp_plugin_banner' ) ) {
 	function gglstmp_plugin_banner() {
 		global $hook_suffix;	
 		if ( 'plugins.php' == $hook_suffix ) {
-			global $gglstmp_plugin_info;
-			bws_plugin_banner( $gglstmp_plugin_info, 'gglstmp', 'google-sitemap', '8fbb5d23fd00bdcb213d6c0985d16ec5', '83', '//ps.w.org/google-sitemap-plugin/assets/icon-128x128.png' );
+			global $gglstmp_plugin_info, $gglstmp_setting;
+			if ( isset( $gglstmp_setting['first_install'] ) && strtotime( '-1 week' ) > $gglstmp_setting['first_install'] )
+				bws_plugin_banner( $gglstmp_plugin_info, 'gglstmp', 'google-sitemap', '8fbb5d23fd00bdcb213d6c0985d16ec5', '83', '//ps.w.org/google-sitemap-plugin/assets/icon-128x128.png' );
+			
+			bws_plugin_banner_to_settings( $gglstmp_plugin_info, 'gglstmp_setting', 'google-sitemap-plugin', 'admin.php?page=google-sitemap-plugin.php' );
 		}
 	}
 }
@@ -925,8 +932,21 @@ if ( ! function_exists ( 'gglstmp_plugin_banner' ) ) {
 /*============================================ Function for delete of the plugin settings on register_activation_hook ====================*/
 if ( ! function_exists( 'gglstmp_delete_settings' ) ) {
 	function gglstmp_delete_settings() {
-		delete_option( 'gglstmp_settings' );
-		delete_option( 'gglstmp_robots' );
+		global $wpdb;
+		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+			$old_blog = $wpdb->blogid;
+			/* Get all blog ids */
+			$blogids = $wpdb->get_col( "SELECT `blog_id` FROM $wpdb->blogs" );
+			foreach ( $blogids as $blog_id ) {
+				switch_to_blog( $blog_id );
+				delete_option( 'gglstmp_settings' );
+				delete_option( 'gglstmp_robots' );
+			}
+			switch_to_blog( $old_blog );
+		} else {
+			delete_option( 'gglstmp_settings' );
+			delete_option( 'gglstmp_robots' );
+		}		
 	}
 }
 
@@ -934,6 +954,9 @@ add_action( 'admin_menu', 'gglstmp_admin_menu' );
 
 add_action( 'init', 'gglstmp_init' );
 add_action( 'admin_init', 'gglstmp_admin_init' );
+
+/* initialization */
+add_action( 'plugins_loaded', 'gglstmp_plugins_loaded' );
 
 add_action( 'admin_enqueue_scripts', 'gglstmp_add_plugin_stylesheet' );
 
@@ -951,4 +974,4 @@ add_filter( 'plugin_row_meta', 'gglstmp_links', 10, 2 );
 
 add_action( 'admin_notices', 'gglstmp_plugin_banner' );
 
-register_uninstall_hook( __FILE__, 'gglstmp_delete_settings'); /* uninstall plugin */
+register_uninstall_hook( __FILE__, 'gglstmp_delete_settings' ); /* uninstall plugin */
