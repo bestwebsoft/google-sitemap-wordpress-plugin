@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags: add page to sitemap, add post to sitemap, add pages to sitemap, add posts to sitemap, add site to google webmaster tools, add sitemap, best sitemap plugin, best google sitemap plugin, create a map, free google sitemap plugin, free sitemap plugin, gogle, gogole, googel, googgle, google, google sitemap, google sitemap plugin, google webmaster tools, simple sitemap plugin, simple site map plugin, site map, site mep, sitemap, sitemap file path, sitemaps, sitemep, update sitemap, webmaster tools, wp plugin, wordpress plugin, wp sitemap plugin, wordpress sitemap plugin, wp google sitemap plugin, wordpress google sitemap plugin
 Requires at least: 3.8
-Tested up to: 4.4
-Stable tag: 3.0.2
+Tested up to: 4.4.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,13 @@ http://www.youtube.com/watch?v=CgYXKRXpj_0
 <a href="http://support.bestwebsoft.com" target="_blank">Google Sitemap by BestWebSoft Support</a>
 
 <a href="http://bestwebsoft.com/products/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b" target="_blank">Upgrade to Google Sitemap Pro by BestWebSoft</a>
+
+= Features =
+
+* Create and add a Sitemap file to Google Webmaster Tools.
+* Add a path to your sitemap file in robots.txt.
+
+If you have a feature, suggestion or idea you'd like to see in the plugin, we'd love to hear about it! <a href="http://support.bestwebsoft.com/hc/en-us/requests/new" target="_blank">Suggest a Feature</a>
 
 = Recommended Plugins =
 
@@ -43,7 +50,7 @@ If you create your own language pack or update the existing one, you can send <a
 Dear users, our plugins are available for free download. If you have any questions or recommendations regarding the functionality of our plugins (existing options, new options, current issues), please feel free to contact us. Please read the documentation and information on our Support Forum carefully before contacting us. Please note that we accept requests in English only. All messages in another languages won't be accepted.
 
 If you notice any bugs in the plugins, you can notify us about it and we'll investigate and fix the issue then. Your request should contain URL of the website, issues description and WordPress admin panel credentials.
-Moreover we can customize the plugin according to your requirements. It's a paid service (as a rule it costs $40, but the price can vary depending on the amount of the necessary changes and their complexity). Please note that we could also include this or that feature (developed for you) in the next release and share with the other users then. 
+Moreover we can customize the plugin according to your requirements. It's a paid service (as a rule it costs $40, but the price can vary depending on the amount of the necessary changes and their complexity). Please note that we could also include this or that feature (developed for you) in the next release and share with the other users then.
 We can fix some things for free for the users who provide translation of our plugin into their native language (this should be a new translation of a certain plugin, you can check available translations on the official plugin page).
 
 == Installation ==
@@ -78,11 +85,11 @@ Select "I want to add this site to Google Webmaster Tools" and click "Save Chang
 
 = How can I remove a site from Google Webmaster Tools? =
 
-Select "I want to delete this site from Google Webmaster Tools" and click "Save Changes" button. 
+Select "I want to delete this site from Google Webmaster Tools" and click "Save Changes" button.
 
 = How can I get information about my site in Google Webmaster Tools? =
 
-Select "I want to get info about this site in Google Webmaster Tools" and click "Save Changes" button. 
+Select "I want to get info about this site in Google Webmaster Tools" and click "Save Changes" button.
 
 = I have some problems with the plugin's work. What Information should I provide to receive proper support? =
 
@@ -97,10 +104,12 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 
 1. Google Sitemap Settings page.
 2. Google Sitemap Settings page when you have authorization via your Google Account.
-3. Google Sitemap Settings page on the hosting which doesn't support cURL.
-4. Google Sitemap Extra Settings page.
 
 == Changelog ==
+
+= V3.0.3 - 05.04.2016 =
+* Update : The page of plugin settings has been changed.
+* Bugfix : The bug with plugin work for network which is based on sub-directories has been fixed.
 
 = V3.0.2 - 28.12.2015 =
 * NEW : Compatibility with Htaccess by BestWebSoft was added. This allows to get an access to the xml files (for network which is based on sub-directories).
@@ -115,23 +124,23 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 * Update : BWS plugins section was updated.
 
 = V2.9.9 - 10.07.2015 =
-* Bigfix : We fixed bug with editing of file robots.txt.
+* Bugfix : We fixed bug with editing of file robots.txt.
 * NEW : Ability to restore default settings.
 
 = V2.9.8 - 04.06.2015 =
 * NEW : Allows to add links to Post categories and Post tags to the sitemap file.
 
-= V2.9.7 - 05.05.2015 = 
+= V2.9.7 - 05.05.2015 =
 * Update : We replaced old Google Webmaster Tools API with new Google Webmaster Tools API v3.
 
-= V2.9.6 - 20.02.2015 = 
+= V2.9.6 - 20.02.2015 =
 * Bugfix : Error with access to the plugins settings page was fixed.
 * Update : BWS Menu was updated.
 
-= V2.9.5 - 23.12.2014 = 
+= V2.9.5 - 23.12.2014 =
 * Bugfix : Error loading stylesheet is fixed.
 
-= V2.9.4 - 11.11.2014 = 
+= V2.9.4 - 11.11.2014 =
 * Update : BWS plugins section was updated.
 * Bugfix : Plugin optimization is done.
 
@@ -219,7 +228,7 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 * Update : We updated all functionality for wordpress 3.5.
 
 = V1.10 - 24.07.2012 =
-* Bugfix : Cross Site Request Forgery bug was fixed. 
+* Bugfix : Cross Site Request Forgery bug was fixed.
 * Update : We updated all functionality for wordpress 3.4.1.
 
 = V1.09 - 27.06.2012 =
@@ -253,6 +262,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 
 == Upgrade Notice ==
 
+= V3.0.3 =
+The page of plugin settings has been changed. The bug with plugin work for network which is based on sub-directories has been fixed.
+
 = V3.0.2 =
 Compatibility with Htaccess by BestWebSoft was added. This allows to get an access to the xml files (for network which is based on sub-directories). The bug with plugin menu duplicating was fixed.
 
@@ -271,10 +283,10 @@ Allows to add links to Post categories and Post tags to the sitemap file.
 = V2.9.7 =
 We replaced old Google Webmaster Tools API with new Google Webmaster Tools API v3.
 
-= V2.9.6 = 
+= V2.9.6 =
 Error with access to the plugins settings page was fixed. BWS Menu was updated.
 
-= V2.9.5 = 
+= V2.9.5 =
 Error loading stylesheet is fixed.
 
 = V2.9.4 =
