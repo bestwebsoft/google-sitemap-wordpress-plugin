@@ -3,7 +3,7 @@ Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags: add page to sitemap, add post to sitemap, add pages to sitemap, add posts to sitemap, add site to google webmaster tools, add sitemap, best sitemap plugin, best google sitemap plugin, create a map, free google sitemap plugin, free sitemap plugin, gogle, gogole, googel, googgle, google, google sitemap, google sitemap plugin, google webmaster tools, simple sitemap plugin, simple site map plugin, site map, site mep, sitemap, sitemap file path, sitemaps, sitemep, update sitemap, webmaster tools, wp plugin, wordpress plugin, wp sitemap plugin, wordpress sitemap plugin, wp google sitemap plugin, wordpress google sitemap plugin
 Requires at least: 3.8
-Tested up to: 4.4.2
+Tested up to: 4.5
 Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -47,7 +47,7 @@ If you create your own language pack or update the existing one, you can send <a
 
 = Technical support =
 
-Dear users, our plugins are available for free download. If you have any questions or recommendations regarding the functionality of our plugins (existing options, new options, current issues), please feel free to contact us. Please read the documentation and information on our Support Forum carefully before contacting us. Please note that we accept requests in English only. All messages in another languages won't be accepted.
+Dear users, our plugins are available for free download. If you have any questions or recommendations regarding the functionality of our plugins (existing options, new options, current issues), please feel free to contact us. Please read the documentation and information on our Support Forum carefully before contacting us. Please note that we accept requests in English only. All messages in other languages won't be accepted.
 
 If you notice any bugs in the plugins, you can notify us about it and we'll investigate and fix the issue then. Your request should contain URL of the website, issues description and WordPress admin panel credentials.
 Moreover we can customize the plugin according to your requirements. It's a paid service (as a rule it costs $40, but the price can vary depending on the amount of the necessary changes and their complexity). Please note that we could also include this or that feature (developed for you) in the next release and share with the other users then.
