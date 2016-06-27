@@ -6,7 +6,7 @@ Description: Plugin to add google sitemap file in Google Webmaster Tools account
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.0.3
+Version: 3.0.4
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -32,7 +32,7 @@ License: GPLv2 or later
 if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 	function gglstmp_admin_menu() {
 		bws_general_menu();
-		$gglstmp_settings = add_submenu_page( 'bws_plugins', __( 'Google Sitemap Settings', 'google-sitemap-plugin' ), 'Google Sitemap', 'manage_options', 'google-sitemap-plugin.php', 'gglstmp_settings_page' );
+		$gglstmp_settings = add_submenu_page( 'bws_panel', __( 'Google Sitemap Settings', 'google-sitemap-plugin' ), 'Google Sitemap', 'manage_options', 'google-sitemap-plugin.php', 'gglstmp_settings_page' );
 		add_action( "load-{$gglstmp_settings}", 'gglstmp_add_tabs' );
 
 		global $gglstmp_url_home, $gglstmp_url;

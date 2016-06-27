@@ -1,10 +1,10 @@
 === Google Sitemap by BestWebSoft ===
 Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
-Tags: add page to sitemap, add post to sitemap, add pages to sitemap, add posts to sitemap, add site to google webmaster tools, add sitemap, best sitemap plugin, best google sitemap plugin, create a map, free google sitemap plugin, free sitemap plugin, gogle, gogole, googel, googgle, google, google sitemap, google sitemap plugin, google webmaster tools, simple sitemap plugin, simple site map plugin, site map, site mep, sitemap, sitemap file path, sitemaps, sitemep, update sitemap, webmaster tools, wp plugin, wordpress plugin, wp sitemap plugin, wordpress sitemap plugin, wp google sitemap plugin, wordpress google sitemap plugin
+Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.8
-Tested up to: 4.5
-Stable tag: 3.0.3
+Tested up to: 4.5.3
+Stable tag: 3.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,7 +43,7 @@ There is also a premium version of the plugin <a href="http://bestwebsoft.com/pr
 * Russian (ru_RU)
 * Ukrainian (uk)
 
-If you create your own language pack or update the existing one, you can send <a href="http://codex.wordpress.org/Translating_WordPress" target="_blank">the text in PO and MO files</a> for <a href="http://support.bestwebsoft.com" target="_blank">BestWebSoft</a> and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO files <a href="http://www.poedit.net/download.php" target="_blank">Poedit</a>.
+If you create your own language pack or update the existing one, you can send <a href="http://codex.wordpress.org/Translating_WordPress" target="_blank">the text in PO and MO files</a> for <a href="http://support.bestwebsoft.com/hc/en-us/requests/new" target="_blank">BestWebSoft</a> and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO files <a href="http://www.poedit.net/download.php" target="_blank">Poedit</a>.
 
 = Technical support =
 
@@ -106,6 +106,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 2. Google Sitemap Settings page when you have authorization via your Google Account.
 
 == Changelog ==
+
+= V3.0.4 - 27.06.2016 =
+* Update : BWS Panel section is updated.
 
 = V3.0.3 - 05.04.2016 =
 * Update : The page of plugin settings has been changed.
@@ -261,6 +264,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.0.4 =
+BWS Panel section is updated.
 
 = V3.0.3 =
 The page of plugin settings has been changed. The bug with plugin work for network which is based on sub-directories has been fixed.
