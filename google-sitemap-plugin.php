@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: Google Sitemap by BestWebSoft
-Plugin URI: http://bestwebsoft.com/products/
-Description: Plugin to add google sitemap file in Google Webmaster Tools account.
+Plugin URI: http://bestwebsoft.com/products/google-sitemap/
+Description: Generate and add XML sitemap to WordPress website. Help search engines index your blog.
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.0.4
+Version: 3.0.5
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -64,7 +64,7 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 		bws_include_init( plugin_basename( __FILE__ ) );
 
 		/* check compatible with current WP version */
-		bws_wp_min_version_check( plugin_basename( __FILE__ ), $gglstmp_plugin_info, '3.8', '3.1' );
+		bws_wp_min_version_check( plugin_basename( __FILE__ ), $gglstmp_plugin_info, '3.8' );
 
 		/* Get options from the database */
 		if ( ! is_admin() || ( isset( $_GET['page'] ) && "google-sitemap-plugin.php" == $_GET['page'] ) ) {
@@ -79,7 +79,7 @@ if ( ! function_exists( 'gglstmp_admin_init' ) ) {
 		/* Add variable for bws_menu */
 		global $bws_plugin_info, $gglstmp_plugin_info;
 
-		if ( ! isset( $bws_plugin_info ) || empty( $bws_plugin_info ) )	{
+		if ( empty( $bws_plugin_info ) )	{
 			$bws_plugin_info = array( 'id' => '83', 'version' => $gglstmp_plugin_info["Version"] );
 		}
 

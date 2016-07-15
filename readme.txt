@@ -4,11 +4,11 @@ Donate link: http://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.8
 Tested up to: 4.5.3
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin allows you to add a Sitemap file to Google Webmaster Tools.
+Generate and add XML sitemap to WordPress website. Help search engines index your blog.
 
 == Description ==
 
@@ -57,7 +57,7 @@ We can fix some things for free for the users who provide translation of our plu
 
 1. Upload the folder `google-sitemap-plugin` to the directory `/wp-content/plugins/`.
 2. Activate the plugin via the 'Plugins' menu in WordPress.
-3. The site settings are available in "BWS Plugins"->"Google Sitemap".
+3. The site settings are available in "BWS Panel"->"Google Sitemap".
 
 <a href="https://docs.google.com/document/d/1jceJFwgGYcrKQBm_FZSuLnH_weK4_ffCn7f68F_vgW8/edit" target="_blank">View a Step-by-step Instruction on Google Sitemap Installation</a>.
 
@@ -106,6 +106,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 2. Google Sitemap Settings page when you have authorization via your Google Account.
 
 == Changelog ==
+
+= V3.0.5 - 15.07.2016 =
+* Update : BWS panel section was updated.
 
 = V3.0.4 - 27.06.2016 =
 * Update : BWS Panel section is updated.
@@ -264,6 +267,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (http:/
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.0.5 =
+Usability improved.
 
 = V3.0.4 =
 BWS Panel section is updated.
