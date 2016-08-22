@@ -1,7 +1,7 @@
 <a href="http://bestwebsoft.com/products/google-sitemap/" target=_blank>Google Sitemap WordPress Plugin</a>
 ========================
 
-With the Google Sitemap Plugin you can create and add a Sitemap file to Google Webmaster Tools, and get the info about your site in Google Webmaster Tools.
+Google Sitemap plugin automatically generates XML sitemap for your WordPress website and helps search engines index your blog. Such sitemap file helps crawlers to extract the structure of your website more effectively.
 
 <img src="http://bestwebsoft.com/wp-content/uploads/2014/09/google-sitemap-banner-website.jpg" />
 
@@ -15,8 +15,15 @@ With the Google Sitemap Plugin you can create and add a Sitemap file to Google W
 
 Features
 -----------------------------
-* Create and add a Sitemap file to Google Webmaster Tools.
-* Add a path to your sitemap file in robots.txt.
+* Add the following URLs to the sitemap:
+
+
+* Page
+* Post
+* Post category
+* Post tag
+* Custom post types
+* Custom taxonomies
 
 
 Translation

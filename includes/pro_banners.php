@@ -63,7 +63,7 @@ if ( ! function_exists( 'gglstmp_extra_block' ) ) {
 		<table class="form-table bws_pro_version">
 			<tr valign="top">
 				<td colspan="2">
-					<?php _e( 'Please choose the necessary post types and taxonomies the links to which are to be added to the sitemap:', 'google-sitemap-plugin' ); ?>
+					<?php _e( 'Add post types and taxonomies links to the sitemap', 'google-sitemap-plugin' ); ?>:
 				</td>
 			</tr>
 			<tr valign="top">
