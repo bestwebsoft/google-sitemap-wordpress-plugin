@@ -53,7 +53,7 @@ Generate and add XML sitemap to WordPress website. Help search engines index you
   <li>Get answer to your support question within one business day (<a href="http://bestwebsoft.com/support-policy/">Support Policy</a>)</li>
   </ul>
   
-  <p><a href="http://bestwebsoft.com/products/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b">Upgrade to Pro Now</a></p>
+  <p><a href="http://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b">Upgrade to Pro Now</a></p>
 </blockquote>
 
 <p>If you have a feature suggestion or idea you'd like to see in the plugin, we'd love to hear about it! <a href="http://support.bestwebsoft.com/hc/en-us/requests/new">Suggest a Feature</a></p>
@@ -74,6 +74,7 @@ Generate and add XML sitemap to WordPress website. Help search engines index you
 
 <ul>
 <li>Russian (ru_RU)</li>
+<li>Spanish (es_ES)</li>
 <li>Ukrainian (uk)</li>
 </ul>
 
@@ -82,7 +83,7 @@ Generate and add XML sitemap to WordPress website. Help search engines index you
 <h4>Recommended Plugins</h4>
 
 <ul>
-<li><a href="http://bestwebsoft.com/products/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2">Updater</a> - Automatically check and update WordPress core with all installed plugins to the latest versions. Manual mode, email notifications and backups of all your files and database before updating.</li>
+<li><a href="http://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2">Updater</a> - Automatically check and update WordPress core with all installed plugins to the latest versions. Manual mode, email notifications and backups of all your files and database before updating.</li>
 </ul>
 
 <h4>Donate</h4>

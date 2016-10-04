@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: Google Sitemap by BestWebSoft
-Plugin URI: http://bestwebsoft.com/products/google-sitemap/
+Plugin URI: http://bestwebsoft.com/products/wordpress/plugins/google-sitemap/
 Description: Generate and add XML sitemap to WordPress website. Help search engines index your blog.
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.0.6
+Version: 3.0.7
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -596,7 +596,7 @@ if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
 								} elseif ( 'not_installed' == $gglstmp_htaccess['status'] ) {
 									$gglstmp_attr_disabled = 'disabled="disabled"';
 									$gglstmp_plugin_notice = sprintf( __( 'You should %s to use this functionality', 'google-sitemap-plugin' ),
-										sprintf( '<a href="http://bestwebsoft.com/products/htaccess/?k=bc745b0c9d4b19ba95ae2c861418e0df&pn=83&v=%s&wp_v=%s">%s %s</a>', $gglstmp_plugin_info["Version"], $wp_version, __( 'download', 'google-sitemap-plugin' ), $gglstmp_plugin_name )
+										sprintf( '<a href="http://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=bc745b0c9d4b19ba95ae2c861418e0df&pn=83&v=%s&wp_v=%s">%s %s</a>', $gglstmp_plugin_info["Version"], $wp_version, __( 'download', 'google-sitemap-plugin' ), $gglstmp_plugin_name )
 									);
 								}
 								if ( '1' == $gglstmp_htaccess_options['allow_xml'] && $gglstmp_attr_disabled == '' ) {

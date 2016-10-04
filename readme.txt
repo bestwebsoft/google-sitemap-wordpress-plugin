@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.8
-Tested up to: 4.6
-Stable tag: 3.0.6
+Tested up to: 4.6.1
+Stable tag: 3.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,7 +47,7 @@ http://www.youtube.com/watch?v=CgYXKRXpj_0
 > * Add custom URLs to the sitemap file
 > * Get answer to your support question within one business day ([Support Policy](http://bestwebsoft.com/support-policy/))
 >
-> [Upgrade to Pro Now](http://bestwebsoft.com/products/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b)
+> [Upgrade to Pro Now](http://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b)
 
 If you have a feature suggestion or idea you'd like to see in the plugin, we'd love to hear about it! [Suggest a Feature](http://support.bestwebsoft.com/hc/en-us/requests/new)
 
@@ -64,13 +64,14 @@ Visit our Help Center if you have any questions, our friendly Support Team is ha
 = Translation =
 
 * Russian (ru_RU)
+* Spanish (es_ES)
 * Ukrainian (uk)
 
 Some of these translations are not complete. We are constantly adding new features which should be translated. If you would like to create your own language pack or update the existing one, you can send [the text of PO and MO files](http://codex.wordpress.org/Translating_WordPress) to [BestWebSoft](http://support.bestwebsoft.com/hc/en-us/requests/new) and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO [files Poedit](http://www.poedit.net/download.php).
 
 = Recommended Plugins =
 
-* [Updater](http://bestwebsoft.com/products/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2) - Automatically check and update WordPress core with all installed plugins to the latest versions. Manual mode, email notifications and backups of all your files and database before updating.
+* [Updater](http://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2) - Automatically check and update WordPress core with all installed plugins to the latest versions. Manual mode, email notifications and backups of all your files and database before updating.
 
 = Donate =
 
@@ -131,6 +132,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<http:
 2. Google Sitemap Settings page when you have authorization via your Google Account.
 
 == Changelog ==
+
+= V3.0.7 - 04.10.2016 =
+* NEW : The Spanish language file was added.
 
 = V3.0.6 - 22.08.2016 =
 * Update : Compatibility with the bbPress plugin improved.
@@ -297,6 +301,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<http:
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.0.7 =
+* New languages added.
 
 = V3.0.6 =
 Performance optimized. Functionality improved. The compatibility with new WordPress version updated.
