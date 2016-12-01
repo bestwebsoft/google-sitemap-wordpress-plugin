@@ -1,9 +1,7 @@
-<a href="http://bestwebsoft.com/products/google-sitemap/" target=_blank>Google Sitemap WordPress Plugin</a>
+<a href="http://bestwebsoft.com/products/wordpress/plugins/google-sitemap/" target=_blank>Google Sitemap WordPress Plugin</a>
 ========================
 
 Generate and add XML sitemap to WordPress website. Help search engines index your blog.
-
-<img src="http://bestwebsoft.com/wp-content/uploads/2014/09/google-sitemap-banner-website.jpg" />
 
 <p>Google Sitemap plugin automatically generates XML sitemap for your WordPress website and helps search engines index your blog. Such sitemap file helps crawlers to extract the structure of your website more effectively.</p>
 
