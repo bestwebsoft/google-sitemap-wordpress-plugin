@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.0.8
+Version: 3.0.9
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -173,15 +173,18 @@ if ( ! function_exists( 'gglstmp_sitemapcreate' ) ) {
 		$gglstmp_urlset = $xml->appendChild( $xml->createElementNS( 'http://www.sitemaps.org/schemas/sitemap/0.9','urlset' ) );
 
 		/* add home page */
-		$url = $gglstmp_urlset->appendChild( $xml->createElement( 'url' ) );
-		$loc = $url->appendChild( $xml->createElement( 'loc' ) );
-		$loc->appendChild( $xml->createTextNode( home_url( '/' ) ) );
-		$lastmod = $url->appendChild( $xml->createElement( 'lastmod' ) );
-		$lastmod->appendChild( $xml->createTextNode( date( 'Y-m-d\TH:i:sP', time() ) ) );
-		$changefreq = $url->appendChild( $xml->createElement( 'changefreq' ) );
-		$changefreq->appendChild( $xml->createTextNode( 'monthly' ) );
-		$priority = $url->appendChild( $xml->createElement( 'priority' ) );
-		$priority->appendChild( $xml->createTextNode( 1.0 ) );
+		$frontpage_id = get_option( 'page_on_front' );
+		if ( empty( $frontpage_id ) || ! in_array( 'page', $gglstmp_options['post_type'] ) ) {
+			$url = $gglstmp_urlset->appendChild( $xml->createElement( 'url' ) );
+			$loc = $url->appendChild( $xml->createElement( 'loc' ) );
+			$loc->appendChild( $xml->createTextNode( home_url( '/' ) ) );
+			$lastmod = $url->appendChild( $xml->createElement( 'lastmod' ) );
+			$lastmod->appendChild( $xml->createTextNode( date( 'Y-m-d\TH:i:sP', time() ) ) );
+			$changefreq = $url->appendChild( $xml->createElement( 'changefreq' ) );
+			$changefreq->appendChild( $xml->createTextNode( 'monthly' ) );
+			$priority = $url->appendChild( $xml->createElement( 'priority' ) );
+			$priority->appendChild( $xml->createTextNode( 1.0 ) );
+		}
 		/* getting an array of the excluded post ids of 'forum', 'topic' and 'reply' post types (hidden and private bbPress forum posts) */
 		$excluded_posts_array = $wpdb->get_col( "SELECT `ID` FROM $wpdb->posts WHERE `post_status` IN ('hidden', 'private') AND `post_type` IN ('forum', 'topic', 'reply')" );
 		if ( ! empty( $excluded_posts_array ) ) {
@@ -209,7 +212,7 @@ if ( ! function_exists( 'gglstmp_sitemapcreate' ) ) {
 				foreach ( $loc as $val ) {
 					$gglstmp_url = $gglstmp_urlset->appendChild( $xml->createElement( 'url' ) );
 					$loc = $gglstmp_url->appendChild( $xml->createElement( 'loc' ) );
-					$permalink = get_permalink( $val->ID );
+					$permalink = get_permalink( $val );
 					$loc->appendChild( $xml->createTextNode( $permalink ) );
 					$lastmod = $gglstmp_url->appendChild( $xml->createElement( 'lastmod' ) );
 					$now = $val->post_modified;

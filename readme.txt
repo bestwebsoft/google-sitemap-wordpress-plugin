@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.8
-Tested up to: 4.7.3
-Stable tag: 3.0.8
+Tested up to: 4.7.4
+Stable tag: 3.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Generate and add XML sitemap to WordPress website. Help search engines index you
 
 == Description ==
 
-Google Sitemap plugin automatically generates XML sitemap for your WordPress website and helps search engines index your blog. Such sitemap file helps crawlers to extract the structure of your website more effectively.
+Google Sitemap plugin automatically generates XML sitemap for your WordPress website and helps search engines index your blog. Such sitemap file helps web crawlers to extract the structure of your website more effectively.
 
 The plugin supports default WordPress pages as well as custom URLs. It can be also added to your Google Webmaster Tools account.
 
@@ -77,58 +77,39 @@ Some of these translations are not complete. We are constantly adding new featur
 
 * [Updater](https://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2) - Automatically check and update WordPress core with all installed plugins to the latest versions. Manual mode, email notifications and backups of all your files and database before updating.
 
-= Donate =
-
-Donations play an important role in supporting open-source projects. We greatly appreciate any donation you can make to help us continue further development of free products.
-
-[Donate Now](https://bestwebsoft.com/donate/)
-
 == Installation ==
 
 1. Upload the folder `google-sitemap-plugin` to the directory `/wp-content/plugins/`.
 2. Activate the plugin via the 'Plugins' menu in WordPress.
-3. The site settings are available in "BWS Panel"->"Google Sitemap".
+3. The site settings are available in "Google Sitemap".
 
-[View a Step-by-step Instruction on Google Sitemap Installation](hhttps://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
+[View a Step-by-step Instruction on Google Sitemap Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
 
 https://www.youtube.com/watch?v=NKlAnFTzNrQ
 
 == Frequently Asked Questions ==
 
-= How can I use this plugin? =
+= How does the Google XML Sitemap plugin work? =
 
-After opening the plugin settings page your Sitemap file will be created automatically. If you already have a Sitemap file and do not want to change it, just do not check off the field "I want to create a new sitemap file".
-If you do not want a Sitemap file to be added to Google Webmaster Tools automatically, just follow the brief instruction. In another case you should authorize via your Google Account and choose the necessary action.
-In order to add a path to your sitemap file in robots.txt you do not need to authorize via your Google Account, you should just select the necessary field and click "Save Changes" button. If you're using multisiting, the plugin does not allow to add a sitemap to robots.txt
+Google XML Sitemap plugin generates the "sitemap.xml" file, which is located in the website root directory. You can add this file to your Google Tools account.
+The plugin cannot apply any visual changes to your website.
 
 = How to create sitemap.xml file? =
 
 After opening the Settings page the sitemap.xml file will be created automatically in the site root.
 
-= How to replace the existing sitemap.xml file? =
+= Cannot create "sitemap.xml" file (not updating in the "robots.txt" file) =
 
-Select "I want to create a new sitemap file" and click "Save Changes" button, the sitemap file will be recreated then.
-
-= How to add a site to Google Webmaster Tools? =
-
-Select "I want to add this site to Google Webmaster Tools" and click "Save Changes" button. Your site will be added to Google Webmaster Tools and verified, afterwards your sitemap file will be added.
-
-= How can I remove a site from Google Webmaster Tools? =
-
-Select "I want to delete this site from Google Webmaster Tools" and click "Save Changes" button.
-
-= How can I get information about my site in Google Webmaster Tools? =
-
-Select "I want to get info about this site in Google Webmaster Tools" and click "Save Changes" button.
+Check the plugin version and the folder permissions (it is better to use 644 or 755). You should create both files manually ("robots.txt" and "sitemap.xml") and set permissions to 755 for both.
 
 = I have some problems with the plugin's work. What Information should I provide to receive proper support? =
 
 Please make sure that the problem hasn't been discussed yet on our forum (<https://support.bestwebsoft.com>). If no, please provide the following data along with your problem's description:
 
-1. the link to the page where the problem occurs
-2. the name of the plugin and its version. If you are using a pro version - your order number.
-3. the version of your WordPress installation
-4. copy and paste into the message your system status report. Please read more here: [Instruction on System Status](https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/edit)
+- The link to the page where the problem occurs
+- The name of the plugin and its version. If you are using a pro version - your order number.
+- The version of your WordPress installation
+- Copy and paste into the message your system status report. Please read more here: [Instruction on System Status](https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/)
 
 == Screenshots ==
 
@@ -137,6 +118,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.0.9 - 04.05.2017 =
+* Update : The Czech language file was updated.
+* Bugfix : The bug with editing of robots.txt file was fixed.
+* Bugfix : The frontpage duplication in the sitemap was fixed.
 
 = V3.0.8 - 31.03.2017 =
 * NEW : The Czech language file was added.
@@ -310,6 +296,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.0.9 =
+* Languages updated.
+* Bugs fixed.
 
 = V3.0.8 =
 * Usability improved.

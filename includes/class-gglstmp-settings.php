@@ -89,7 +89,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		 * @return array    The action results
 		 */
 		public function save_options() {
-			global $wpdb;
+			global $wpdb, $gglstmp_url_home;
 
 			if ( isset( $_POST['gglstmp_logout'] ) ) {
 				unset( $_SESSION[ 'gglstmp_authorization_code' . $this->blog_prefix ], $this->options['authorization_code'] );
@@ -133,8 +133,9 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 
 				update_option( 'gglstmp_options', $this->options );
 
-				if ( isset( $sitemapcreate ) )
+				if ( isset( $sitemapcreate ) ) {
 					gglstmp_sitemapcreate();
+				}
 
 				/*============================ Adding location of sitemap file to the robots.txt =============*/
 				if ( ! $this->is_multisite ) {
@@ -335,6 +336,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		 * @access public
 		 */
 		public function additional_restore_options( $default_options ) {
+			global $gglstmp_url_home;
 			$url_robot = ABSPATH . 'robots.txt';
 			/* remove sitemap.xml */
 			if ( $this->is_multisite ) {

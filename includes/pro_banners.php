@@ -57,7 +57,7 @@ if ( ! function_exists( 'gglstmp_frequency_block' ) ) {
  */
 if ( ! function_exists( 'gglstmp_extra_block' ) ) {
 	function gglstmp_extra_block() { ?>
-		<img src="<?php echo plugins_url( 'images/pro_screen_1.png', dirname( __FILE__ ) ); ?>" alt="<?php _e( "Example of site pages' tree", 'google-sitemap-plugin' ); ?>" title="<?php _e( "Example of site pages' tree", 'google-sitemap-plugin' ); ?>" />
+		<img style="max-width: 100%;" src="<?php echo plugins_url( 'images/pro_screen_1.png', dirname( __FILE__ ) ); ?>" alt="<?php _e( "Example of site pages' tree", 'google-sitemap-plugin' ); ?>" title="<?php _e( "Example of site pages' tree", 'google-sitemap-plugin' ); ?>" />
 	<?php }
 }
 
