@@ -18,6 +18,7 @@
 </ul>
 </li>
 <li>Add a path to your sitemap file in robots.txt automatically</li>
+<li>Set the maximum number of URLs in one sitemap file [NEW]</li>
 <li>Connect your Google Webmaster Tools account to:
 <ul>
 <li>Add website</li>
@@ -34,8 +35,14 @@
 <p><strong>Pro Features</strong></p>
 <p>All features from Free version included plus:</p>
 <ul>
+<li>Add external sitemap files [NEW]</li>
 <li>Exclude certain pages or post types from your sitemap file</li>
-<li>Set the frequency of your website content changes for all pages</li>
+<li>Set the frequency of
+<ul>
+<li>Your website content changes for all pages</li>
+<li>External sitemap file update [NEW]</li>
+</ul>
+</li>
 <li>Configure all subsites on the network</li>
 <li>Add custom URLs to the sitemap file</li>
 <li>Get answer to your support question within one business day (<a href="https://bestwebsoft.com/support-policy/" rel="nofollow">Support Policy</a>)</li>
@@ -62,5 +69,6 @@
 <p>Some of these translations are not complete. We are constantly adding new features which should be translated. If you would like to create your own language pack or update the existing one, you can send <a href="https://codex.wordpress.org/Translating_WordPress" rel="nofollow">the text of PO and MO files</a> to <a href="https://support.bestwebsoft.com/hc/en-us/requests/new" rel="nofollow">BestWebSoft</a> and we&#8217;ll add it to the plugin. You can download the latest version of the program for work with PO and MO <a href="http://www.poedit.net/download.php" rel="nofollow">files Poedit</a>.</p>
 <h4>Recommended Plugins</h4>
 <ul>
-<li><a href="https://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2" rel="nofollow">Updater</a> &#8211; Automatically check and update WordPress core with all installed plugins to the latest versions. Manual mode, email notifications and backups of all your files and database before updating.</li>
+<li><a href="https://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2" rel="nofollow">Updater</a> &#8211; Automatically check and update WordPress website core with all installed plugins and themes to the latest versions.</li>
+<li><a href="https://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=6f8794059b2a6618808fa7ac6401ba6e" rel="nofollow">Htaccess</a> &#8211; Protect WordPress website &#8211; allow and deny access for certain IP addresses, hostnames, etc.</li>
 </ul>

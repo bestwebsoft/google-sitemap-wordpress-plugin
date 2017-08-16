@@ -2,9 +2,9 @@
 Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
-Requires at least: 3.8
-Tested up to: 4.7.4
-Stable tag: 3.0.9
+Requires at least: 3.9
+Tested up to: 4.8.1
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 	* Custom post types
 	* Custom taxonomies
 * Add a path to your sitemap file in robots.txt automatically
+* Set the maximum number of URLs in one sitemap file [NEW]
 * Connect your Google Webmaster Tools account to:
 	* Add website
 	* Add sitemap
@@ -43,8 +44,11 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 >
 > All features from Free version included plus:
 >
+> * Add external sitemap files [NEW]
 > * Exclude certain pages or post types from your sitemap file
-> * Set the frequency of your website content changes for all pages
+> * Set the frequency of
+> 	* Your website content changes for all pages
+> 	* External sitemap file update [NEW]
 > * Configure all subsites on the network
 > * Add custom URLs to the sitemap file
 > * Get answer to your support question within one business day ([Support Policy](https://bestwebsoft.com/support-policy/))
@@ -75,7 +79,8 @@ Some of these translations are not complete. We are constantly adding new featur
 
 = Recommended Plugins =
 
-* [Updater](https://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2) - Automatically check and update WordPress core with all installed plugins to the latest versions. Manual mode, email notifications and backups of all your files and database before updating.
+* [Updater](https://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2) - Automatically check and update WordPress website core with all installed plugins and themes to the latest versions.
+* [Htaccess](https://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=6f8794059b2a6618808fa7ac6401ba6e) - Protect WordPress website - allow and deny access for certain IP addresses, hostnames, etc.
 
 == Installation ==
 
@@ -102,6 +107,25 @@ After opening the Settings page the sitemap.xml file will be created automatical
 
 Check the plugin version and the folder permissions (it is better to use 644 or 755). You should create both files manually ("robots.txt" and "sitemap.xml") and set permissions to 755 for both.
 
+= I have enabled 'Robots.txt' option, but sitemap path hasn't been added to the 'robots.txt' file. The file is the same for any site of a multisite network. Is it normal? =
+
+You should edit '.htaccess' file which is located in the root of your WordPress installation. Please open it with a text editor and add the following code to the end of this file:
+
+`&lt;IfModule mod_rewrite.c&gt;
+RewriteEngine On
+RewriteBase /
+RewriteRule robots\.txt$ index.php?gglstmp_robots=1
+&lt;/IfModule&gt;`
+
+Also, "Search Engine Visibility" option should be unmarked on the Settings &gt; Reading page.
+
+= I have a large number of posts and sitemap file isn't created =
+
+Try to increase an available memory limit (i.e. up to 256M) by adding the following lines to your 'wp-config.php' file:
+
+`ini_set('memory_limit','256M');
+define('WP_MEMORY_LIMIT', '256M');`
+
 = I have some problems with the plugin's work. What Information should I provide to receive proper support? =
 
 Please make sure that the problem hasn't been discussed yet on our forum (<https://support.bestwebsoft.com>). If no, please provide the following data along with your problem's description:
@@ -118,6 +142,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.1.0 - 16.08.2017 =
+* Update : Plugin performance has been optimized.
+* NEW : Sitemap file splitting functionality for a large amount of posts has been added.
+* Pro : Ability to add link to the external sitemap has been added.
 
 = V3.0.9 - 04.05.2017 =
 * Update : The Czech language file was updated.
@@ -296,6 +325,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.1.0 =
+* Performance optimized.
+* New features added.
 
 = V3.0.9 =
 * Languages updated.
