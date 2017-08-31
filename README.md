@@ -18,7 +18,7 @@
 </ul>
 </li>
 <li>Add a path to your sitemap file in robots.txt automatically</li>
-<li>Set the maximum number of URLs in one sitemap file [NEW]</li>
+<li>Set the maximum number of URLs in one sitemap file</li>
 <li>Connect your Google Webmaster Tools account to:
 <ul>
 <li>Add website</li>
@@ -35,12 +35,12 @@
 <p><strong>Pro Features</strong></p>
 <p>All features from Free version included plus:</p>
 <ul>
-<li>Add external sitemap files [NEW]</li>
+<li>Add external sitemap files</li>
 <li>Exclude certain pages or post types from your sitemap file</li>
 <li>Set the frequency of
 <ul>
 <li>Your website content changes for all pages</li>
-<li>External sitemap file update [NEW]</li>
+<li>External sitemap file update</li>
 </ul>
 </li>
 <li>Configure all subsites on the network</li>

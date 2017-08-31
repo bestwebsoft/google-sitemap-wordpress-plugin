@@ -4,7 +4,7 @@ Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.9
 Tested up to: 4.8.1
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,7 +30,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 	* Custom post types
 	* Custom taxonomies
 * Add a path to your sitemap file in robots.txt automatically
-* Set the maximum number of URLs in one sitemap file [NEW]
+* Set the maximum number of URLs in one sitemap file
 * Connect your Google Webmaster Tools account to:
 	* Add website
 	* Add sitemap
@@ -44,11 +44,11 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 >
 > All features from Free version included plus:
 >
-> * Add external sitemap files [NEW]
+> * Add external sitemap files
 > * Exclude certain pages or post types from your sitemap file
 > * Set the frequency of
 > 	* Your website content changes for all pages
-> 	* External sitemap file update [NEW]
+> 	* External sitemap file update
 > * Configure all subsites on the network
 > * Add custom URLs to the sitemap file
 > * Get answer to your support question within one business day ([Support Policy](https://bestwebsoft.com/support-policy/))
@@ -142,6 +142,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.1.1 - 31.08.2017 =
+* Update : The Czech language file has been updated.
 
 = V3.1.0 - 16.08.2017 =
 * Update : Plugin performance has been optimized.
@@ -325,6 +328,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.1.1 =
+* Languages updated.
 
 = V3.1.0 =
 * Performance optimized.

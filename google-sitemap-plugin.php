@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.1.0
+Version: 3.1.1
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -243,6 +243,19 @@ if ( ! function_exists( 'gglstmp_get_options_default' ) ) {
 }
 
 /**
+ * @since 3.1.1
+ * Update sitemap on permalink structure update.
+ * @param	array	$rules	array of existing rules. No modification is needed.
+ * @return	array	$rules
+ */
+if ( ! function_exists( 'gglstmp_rewrite_rules' ) ) {
+	function gglstmp_rewrite_rules( $rules ) {
+		gglstmp_schedule_sitemap();
+		return $rules;
+	}
+}
+
+/**
  * @since 3.1.0
  * Schedules sitemap preparing task for specified blog.
  * @param	mixed	$blog_id	(int)The blog id the sitemap is created for. Default is false - for current blog.
@@ -299,7 +312,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 
 		$gglstmp_options = get_option( 'gglstmp_options' );
 
-		$post_types = get_post_types( array( 'public' => true ), 'names' );
+		$post_types = get_post_types( array( 'public' => true ) );
 		/* get all posts */
 
 		foreach ( $post_types as $post_type => $post_type_object ) {
@@ -356,7 +369,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 		$frontpage_is_added = false;
 
 		if ( ! empty( $post_types ) ) {
-			$excluded_posts_string = $post_types_string = $excluded_categories_string = '';
+			$excluded_posts_string = $post_types_string = '';
 
 			$post_types_string = "AND p.`post_type` IN ('" . implode( "','", (array)$post_types ) . "')";
 
@@ -1337,6 +1350,8 @@ add_action( 'permalink_structure_changed','gglstmp_schedule_sitemap', 10, 0 );
 add_action( 'created_term','gglstmp_schedule_sitemap', 10, 0 );
 add_action( 'edited_term','gglstmp_schedule_sitemap', 10, 0 );
 add_action( 'delete_term','gglstmp_schedule_sitemap', 10, 0 );
+
+add_filter( 'rewrite_rules_array','gglstmp_rewrite_rules', PHP_INT_MAX, 1 );
 
 add_action( 'wp_head', 'gglstmp_add_verification_code' );
 
