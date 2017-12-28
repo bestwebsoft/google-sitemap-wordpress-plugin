@@ -114,7 +114,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			} else {
 
 				if ( $this->htaccess_active && $this->htaccess_options && function_exists( 'htccss_generate_htaccess' ) ) {
-					$gglstmp_allow_xml = ( isset( $_POST[ 'gglstmp_allow_xml' ] ) && $_POST[ 'gglstmp_allow_xml' ] == 1 ) ? 1 : 0;
+					$gglstmp_allow_xml = ( isset( $_POST['gglstmp_allow_xml'] ) && 1 == $_POST['gglstmp_allow_xml'] ) ? 1 : 0;
 					if ( $gglstmp_allow_xml != $this->htaccess_options['allow_xml']  ) {
 						$this->htaccess_options['allow_xml'] = $gglstmp_allow_xml;
 						update_site_option( 'htccss_options', $this->htaccess_options );
@@ -124,15 +124,17 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 
 				$post_types = isset( $_REQUEST['gglstmp_post_types'] ) ? $_REQUEST['gglstmp_post_types'] : array();
 				$taxonomies = isset( $_REQUEST['gglstmp_taxonomies'] ) ? $_REQUEST['gglstmp_taxonomies'] : array();
-				if ( $this->options['post_type'] != $post_types || $this->options['taxonomy'] != $taxonomies )
+				if ( $this->options['post_type'] != $post_types || $this->options['taxonomy'] != $taxonomies ) {
 					$sitemapcreate = true;
+				}
 
 				$this->options['post_type'] = $post_types;
 				$this->options['taxonomy'] = $taxonomies;
 
 				if ( isset( $_POST['gglstmp_limit'] ) ) {
-					if ( $this->options['limit'] != absint( $_POST['gglstmp_limit'] ) )
+					if ( $this->options['limit'] != absint( $_POST['gglstmp_limit'] ) ) {
 						$sitemapcreate = true;
+					}
 
 					$this->options['limit'] = ( absint( $_POST['gglstmp_limit'] ) >= 1000 && absint( $_POST['gglstmp_limit'] ) <= 50000 ) ? absint( $_POST['gglstmp_limit'] ) : 50000;
 				}
@@ -141,8 +143,9 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				update_option( 'gglstmp_robots', $this->robots );
 				update_option( 'gglstmp_options', $this->options );
 
-				if ( isset( $sitemapcreate ) )
+				if ( isset( $sitemapcreate ) ) {
 					gglstmp_schedule_sitemap();
+				}
 
 				$message = __( 'Settings saved.', 'google-sitemap-plugin' );
 			}
@@ -354,8 +357,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			return $default_options;
 		}
 
-
 		public function display_custom_messages( $save_results ) {
+
 			if ( $this->is_multisite ) {
 				$blog_id = get_current_blog_id();
 				$xml_file = 'sitemap_' . $blog_id . '.xml';
@@ -364,42 +367,57 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			}
 			$xml_url  = home_url( '/' . $xml_file );
 
+			if ( isset( $xml_file ) && file_exists( ABSPATH . $xml_file ) ) {
+
+				printf(
+					'<div class="updated bws-notice inline"><p><strong>%s</strong></p></div>',
+					sprintf(
+						__( "%s is in the site root directory.", 'google-sitemap-plugin' ),
+						'<a href="' . $xml_url . '" target="_blank">' . __( 'The Sitemap file', 'google-sitemap-plugin' ) . '</a>'
+					)
+				);
+
+				if ( ! $this->is_multisite ) {
+						$status = gglstmp_check_sitemap( home_url( "/sitemap.xml" ) );
+				} else {
+						$status = gglstmp_check_sitemap( home_url( "/sitemap_{$blog_id}.xml" ) );
+				}
+
+				if ( ! is_wp_error( $status ) && '200' != $status['code'] ) {
+					if ( $this->is_multisite ) {
+						$home_url = network_home_url();
+						$site_url = network_site_url();
+					} else {
+						$home_url = home_url();
+						$site_url = site_url();
+					}
+					$home_dir = str_replace( $home_url, '', $site_url );
+					if ( '' != $home_dir ) {
+						$home_dir .= '/';
+					}
+					$replace = $home_dir . '$1'; ?>
+					<div class="error below-h2">
+						<p>
+							<strong><?php _e( 'Error', 'google-sitemap-plugin' ); ?>:</strong> <?php
+							printf( __( "Can't access XML files. Try to add the following rule %s to your %s file which is located in the root of your website to resolve this error. Find the following line %s and paste the code just after it.", 'google-sitemap-plugin' ),
+								'<code>RewriteRule ([^/]+\.xml)$ ' . $replace . ' [L]</code>',
+								'<strong>.htaccess</strong>',
+								'<strong>"RewriteBase /"</strong>'
+							); ?>
+						</p>
+					</div>
+				<?php }
+
+			} else {
+				gglstmp_schedule_sitemap();
+			}
+
 			if ( class_exists( 'Google_Client' ) && version_compare( Google_Client::LIBVER, '1.1.3', '!=' ) ) {
 				/* Google Client library of some other product is used! */ ?>
 				<div class="updated bws-notice inline">
 					<p><strong><?php _e( 'Note', 'google-sitemap-plugin' ); ?>:&nbsp;</strong><?php _e( 'Another plugin is providing Google Client functionality and may interrupt proper plugin work.', 'google-sitemap-plugin' ); ?></p>
 				</div>
 			<?php }
-
-			if ( $this->is_multisite && ! is_subdomain_install() && file_exists( ABSPATH . "sitemap_{$blog_id}.xml" ) && ( ! $this->htaccess_active || $this->htaccess_options['allow_xml'] == 0 ) ) {
-				$status = gglstmp_check_sitemap( home_url( "/sitemap_{$blog_id}.xml" ) );
-				if ( ! is_wp_error( $status ) && '200' != $status['code'] ) { ?>
-					<div class="error below-h2">
-						<p>
-							<strong><?php _e( 'Error', 'google-sitemap-plugin' ); ?>:</strong> <?php
-							printf( __( "Can't access XML files on subsites. Add the following rule %s to your %s file in %s after %s or install, activate and enable %s plugin option to resolve this error.", 'google-sitemap-plugin' ),
-								'<code>RewriteRule ([^/]+\.xml)$ $1 [L]</code>',
-								'<strong>.htaccess</strong>',
-								sprintf( '<strong>"%s"</strong>', ABSPATH ),
-								'<strong>"RewriteBase"</strong>',
-								'Htaccess'
-							); ?>
-						</p>
-					</div>
-				<?php }
-			} else {
-				if ( file_exists( ABSPATH . $xml_file ) ) {
-					printf(
-						'<div class="updated bws-notice inline"><p><strong>%s</strong></p></div>',
-						sprintf(
-							__( "%s is in the site root directory.", 'google-sitemap-plugin' ),
-							'<a href="' . $xml_url . '" target="_blank">' . __( 'The Sitemap file', 'google-sitemap-plugin' ) . '</a>'
-						)
-					);
-				} else {
-					gglstmp_schedule_sitemap();
-				}
-			}
 		}
 	}
 }

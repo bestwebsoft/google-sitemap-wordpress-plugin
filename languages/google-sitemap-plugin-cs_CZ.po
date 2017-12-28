@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Google Sitemap - BWS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 14:34+0300\n"
-"PO-Revision-Date: 2017-08-30 14:34+0300\n"
+"POT-Creation-Date: 2017-11-22 11:01+0200\n"
+"PO-Revision-Date: 2017-11-22 11:01+0200\n"
 "Last-Translator: Mik013\n"
 "Language-Team: Mik013\n"
 "Language: cs_CZ\n"
@@ -22,14 +22,14 @@ msgstr ""
 msgid "Google Sitemap Settings"
 msgstr "Nastavení Google Sitemap"
 
-#: google-sitemap-plugin.php:49 google-sitemap-plugin.php:808
-#: google-sitemap-plugin.php:1190 google-sitemap-plugin.php:1203
+#: google-sitemap-plugin.php:49 google-sitemap-plugin.php:820
+#: google-sitemap-plugin.php:1212 google-sitemap-plugin.php:1225
 #: includes/class-gglstmp-settings.php:27
 msgid "Settings"
 msgstr "Nastavení"
 
 #: google-sitemap-plugin.php:57 google-sitemap-plugin.php:58
-#: google-sitemap-plugin.php:813
+#: google-sitemap-plugin.php:825
 msgid "Custom Links"
 msgstr "Uživatelské odkazy"
 
@@ -37,141 +37,141 @@ msgstr "Uživatelské odkazy"
 msgid "Upgrade to Pro"
 msgstr "Aktualizovat na Pro"
 
-#: google-sitemap-plugin.php:343
+#: google-sitemap-plugin.php:355
 msgid "Post categories"
 msgstr "Rubriky příspěvků"
 
-#: google-sitemap-plugin.php:344
+#: google-sitemap-plugin.php:356
 msgid "Post tags"
 msgstr "Štítky příspěvků"
 
-#: google-sitemap-plugin.php:809
+#: google-sitemap-plugin.php:821
 msgid "Please enable JavaScript in your browser."
 msgstr "Prosím, povolte JavaScript ve vašem prohlížeči."
 
-#: google-sitemap-plugin.php:814
+#: google-sitemap-plugin.php:826
 msgid "Add New"
 msgstr "Přidat nový"
 
-#: google-sitemap-plugin.php:856 google-sitemap-plugin.php:933
-#: google-sitemap-plugin.php:983
+#: google-sitemap-plugin.php:868 google-sitemap-plugin.php:955
+#: google-sitemap-plugin.php:1005
 msgid "Website"
 msgstr "Webová stránka"
 
-#: google-sitemap-plugin.php:867 google-sitemap-plugin.php:871
-#: google-sitemap-plugin.php:949 google-sitemap-plugin.php:965
-#: google-sitemap-plugin.php:987 google-sitemap-plugin.php:1001
+#: google-sitemap-plugin.php:879 google-sitemap-plugin.php:883
+#: google-sitemap-plugin.php:971 google-sitemap-plugin.php:987
+#: google-sitemap-plugin.php:1009 google-sitemap-plugin.php:1023
 msgid "Status"
 msgstr "Stav"
 
-#: google-sitemap-plugin.php:868 google-sitemap-plugin.php:891
-#: google-sitemap-plugin.php:966
+#: google-sitemap-plugin.php:880 google-sitemap-plugin.php:913
+#: google-sitemap-plugin.php:988
 msgid "Not added"
 msgstr "Nepřidáno"
 
-#: google-sitemap-plugin.php:872 google-sitemap-plugin.php:894
-#: google-sitemap-plugin.php:988 google-sitemap-plugin.php:1097
+#: google-sitemap-plugin.php:884 google-sitemap-plugin.php:916
+#: google-sitemap-plugin.php:1010 google-sitemap-plugin.php:1119
 msgid "Added"
 msgstr "Přidáno"
 
-#: google-sitemap-plugin.php:874 google-sitemap-plugin.php:1043
-#: google-sitemap-plugin.php:1055 google-sitemap-plugin.php:1069
+#: google-sitemap-plugin.php:886 google-sitemap-plugin.php:1065
+#: google-sitemap-plugin.php:1077 google-sitemap-plugin.php:1091
 msgid "Verification Status"
 msgstr "Stav ověření"
 
-#: google-sitemap-plugin.php:876
+#: google-sitemap-plugin.php:888 google-sitemap-plugin.php:1078
 msgid "Verified"
 msgstr "Ověřeno"
 
-#: google-sitemap-plugin.php:878
+#: google-sitemap-plugin.php:890
 msgid "Not verified"
 msgstr "Nevěřeno"
 
-#: google-sitemap-plugin.php:886 google-sitemap-plugin.php:1076
+#: google-sitemap-plugin.php:898 google-sitemap-plugin.php:1098
 msgid "Sitemap Status"
 msgstr "Stav sitemap.xml"
 
-#: google-sitemap-plugin.php:896
+#: google-sitemap-plugin.php:918
 msgid "Added with errors."
 msgstr "Přidáno s chybami."
 
-#: google-sitemap-plugin.php:896
+#: google-sitemap-plugin.php:918
 msgid "View errors in Google Webmaster Tools"
 msgstr "Zobrazit chyby v Google Webmaster Tools"
 
-#: google-sitemap-plugin.php:899
+#: google-sitemap-plugin.php:921
 msgid "Sitemap URL"
 msgstr "URL sitemap.xml"
 
-#: google-sitemap-plugin.php:902 google-sitemap-plugin.php:918
-#: google-sitemap-plugin.php:968 google-sitemap-plugin.php:1003
-#: google-sitemap-plugin.php:1040 google-sitemap-plugin.php:1071
-#: google-sitemap-plugin.php:1110 google-sitemap-plugin.php:1129
+#: google-sitemap-plugin.php:924 google-sitemap-plugin.php:940
+#: google-sitemap-plugin.php:990 google-sitemap-plugin.php:1025
+#: google-sitemap-plugin.php:1062 google-sitemap-plugin.php:1093
+#: google-sitemap-plugin.php:1132 google-sitemap-plugin.php:1151
 #: includes/class-gglstmp-settings.php:379
 msgid "Error"
 msgstr "Chyba"
 
-#: google-sitemap-plugin.php:902
+#: google-sitemap-plugin.php:924
 msgid "Please check the sitemap file manually."
 msgstr "Zkontrolujte soubor sitemap.xml manuálně."
 
-#: google-sitemap-plugin.php:902 google-sitemap-plugin.php:920
-#: google-sitemap-plugin.php:1005 google-sitemap-plugin.php:1044
-#: google-sitemap-plugin.php:1073 google-sitemap-plugin.php:1112
+#: google-sitemap-plugin.php:924 google-sitemap-plugin.php:942
+#: google-sitemap-plugin.php:1027 google-sitemap-plugin.php:1066
+#: google-sitemap-plugin.php:1095 google-sitemap-plugin.php:1134
 #: includes/class-gglstmp-settings.php:233 includes/pro_banners.php:47
 msgid "Learn More"
 msgstr "Více informací"
 
-#: google-sitemap-plugin.php:907 google-sitemap-plugin.php:956
-#: google-sitemap-plugin.php:991 google-sitemap-plugin.php:1028
-#: google-sitemap-plugin.php:1059 google-sitemap-plugin.php:1100
+#: google-sitemap-plugin.php:929 google-sitemap-plugin.php:978
+#: google-sitemap-plugin.php:1013 google-sitemap-plugin.php:1050
+#: google-sitemap-plugin.php:1081 google-sitemap-plugin.php:1122
 msgid "Unexpected error"
 msgstr "Neočekávaná chyba"
 
-#: google-sitemap-plugin.php:920 google-sitemap-plugin.php:1005
-#: google-sitemap-plugin.php:1073
+#: google-sitemap-plugin.php:942 google-sitemap-plugin.php:1027
+#: google-sitemap-plugin.php:1095
 msgid "Manual verification required."
 msgstr "Je vyžadováno ruční ověření."
 
-#: google-sitemap-plugin.php:950
+#: google-sitemap-plugin.php:972
 msgid "Deleted"
 msgstr "Odstraněno"
 
-#: google-sitemap-plugin.php:1020 google-sitemap-plugin.php:1023
-#: google-sitemap-plugin.php:1039
+#: google-sitemap-plugin.php:1042 google-sitemap-plugin.php:1045
+#: google-sitemap-plugin.php:1061
 msgid "Verification Code"
 msgstr "Ověřovací kód"
 
-#: google-sitemap-plugin.php:1021
+#: google-sitemap-plugin.php:1043
 msgid "Received and added to the site"
 msgstr "Přijato a přidáno na web"
 
-#: google-sitemap-plugin.php:1024
+#: google-sitemap-plugin.php:1046
 msgid "Received, but has not been added to the site"
 msgstr "Přijato avšak nepřidáno na web"
 
-#: google-sitemap-plugin.php:1112
+#: google-sitemap-plugin.php:1134
 msgid "Please add the sitemap file manually."
 msgstr "Přidejte soubor sitemap.xml manuálně."
 
-#: google-sitemap-plugin.php:1117
+#: google-sitemap-plugin.php:1139
 msgid "Error 404"
 msgstr "Chyba 404"
 
-#: google-sitemap-plugin.php:1119
+#: google-sitemap-plugin.php:1141
 #, php-format
 msgid "The sitemap file %s not found."
 msgstr "Soubor sitemap.xml %s nebyl nalezen."
 
-#: google-sitemap-plugin.php:1129
+#: google-sitemap-plugin.php:1151
 msgid "The sitemap file not found."
 msgstr "Soubor sitemap.xml nebyl nalezen."
 
-#: google-sitemap-plugin.php:1204
+#: google-sitemap-plugin.php:1226
 msgid "FAQ"
 msgstr "Časté dotazy (FAQ)"
 
-#: google-sitemap-plugin.php:1205
+#: google-sitemap-plugin.php:1227
 msgid "Support"
 msgstr "Podpora"
 

@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.9
-Tested up to: 4.8.1
-Stable tag: 3.1.1
+Tested up to: 4.9.1
+Stable tag: 3.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,8 @@ Google Sitemap plugin automatically generates XML sitemap for your WordPress web
 The plugin supports default WordPress pages as well as custom URLs. It can be also added to your Google Webmaster Tools account.
 
 Improve your website SEO today!
+
+[View Demo](https://bestwebsoft.com/demo-for-google-sitemap/?ref=readme)
 
 https://www.youtube.com/watch?v=CgYXKRXpj_0
 
@@ -142,6 +144,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.1.2 - 28.12.2017 =
+* Bugfix : Sitemap file updating issue has been fixed.
 
 = V3.1.1 - 31.08.2017 =
 * Update : The Czech language file has been updated.
@@ -328,6 +333,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.1.2 =
+* Bugs fixed.
 
 = V3.1.1 =
 * Languages updated.

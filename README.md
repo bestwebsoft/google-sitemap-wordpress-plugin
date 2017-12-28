@@ -4,6 +4,7 @@
 <p>Google Sitemap plugin automatically generates XML sitemap for your WordPress website and helps search engines index your blog. Such sitemap file helps web crawlers to extract the structure of your website more effectively.</p>
 <p>The plugin supports default WordPress pages as well as custom URLs. It can be also added to your Google Webmaster Tools account.</p>
 <p>Improve your website SEO today!</p>
+<p><a href="https://bestwebsoft.com/demo-for-google-sitemap/?ref=readme" rel="nofollow">View Demo</a></p>
 <p><span class="embed-youtube" style="text-align:center; display: block;"></span></p>
 <h4>Free Features</h4>
 <ul>
