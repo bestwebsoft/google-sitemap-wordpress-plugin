@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.1.2
+Version: 3.1.3
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -194,8 +194,6 @@ if ( ! function_exists( 'gglstmp_register_settings' ) ) {
 			$gglstmp_options = array_merge( $options_default, $gglstmp_options );
 			/**
 			* Register uninstall hook
-			* @deprecated since 3.1.0
-			* @todo remove after 28.01.2018
 			*/
 			if ( ! isset( $gglstmp_options['plugin_option_version'] ) || version_compare( str_replace( 'pro-', '', $gglstmp_options['plugin_option_version'] ), '3.1.0', '<' ) ) {
 				unset( $gglstmp_options['sitemap'] );
@@ -205,7 +203,7 @@ if ( ! function_exists( 'gglstmp_register_settings' ) ) {
 					gglstmp_clean_robots();
 				}
 			}
-			/* end @todo */
+
 			$gglstmp_options['plugin_option_version'] = $gglstmp_plugin_info["Version"];
 			/* show pro features */
 			$gglstmp_options['hide_premium_options'] = array();
@@ -324,6 +322,8 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 			}
 		}
 
+		$post_status = apply_filters('gglstmp_post_status', array( 'publish' ) );
+
 		$excluded_posts = $wpdb->get_col( "
 			SELECT
 				`ID`
@@ -340,7 +340,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 						`ID`
 					FROM $wpdb->posts
 					WHERE
-						`post_status` = 'publish'
+						`post_status` IN (" . implode( ',', $post_status ) . ")
 						AND `ID` NOT IN (" . implode( ',', $excluded_posts ) . ")
 						AND `post_type` IN ('forum', 'topic', 'reply')
 						AND `post_parent` IN (" . implode( ',', $excluded_posts ) . ");"
@@ -372,6 +372,8 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 		$frontpage_is_added = false;
 
 		if ( ! empty( $post_types ) ) {
+			$post_status_string = "p.`post_status` IN ('" . implode( "','", (array)$post_status ) . "')";
+
 			$excluded_posts_string = $post_types_string = '';
 
 			$post_types_string = "AND p.`post_type` IN ('" . implode( "','", (array)$post_types ) . "')";
@@ -401,7 +403,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 				LEFT JOIN {$wpdb->terms} t
 					ON t.`term_id` = tt.`term_id`
 				WHERE
-					p.`post_status` = 'publish'
+					{$post_status_string}
 					{$post_types_string}
 					{$excluded_posts_string}
 				GROUP BY `ID`
@@ -1205,7 +1207,7 @@ if ( ! function_exists( 'gglstmp_check_post_status' ) ) {
 
 /* Updating the sitemap after a post or page is trashed or published */
 if ( ! function_exists( 'gglstmp_update_sitemap' ) ) {
-	function gglstmp_update_sitemap( $post_id, $post ) {
+	function gglstmp_update_sitemap( $post_id, $post = null ) {
 		if ( ! wp_is_post_revision( $post_id ) && ( ! isset( $post ) || ( 'nav_menu' != $post->post_type && 'nav_menu_item' != $post->post_type ) ) ) {
 			global $gglstmp_update_sitemap;
 			if ( true === $gglstmp_update_sitemap ) {

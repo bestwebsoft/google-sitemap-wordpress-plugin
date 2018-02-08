@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.9
-Tested up to: 4.9.1
-Stable tag: 3.1.2
+Tested up to: 4.9.4
+Stable tag: 3.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -144,6 +144,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.1.3 - 08.02.2018 =
+* Bugfix : The ability to add custom post status to the sitemap file has been fixed.
 
 = V3.1.2 - 28.12.2017 =
 * Bugfix : Sitemap file updating issue has been fixed.
@@ -333,6 +336,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.1.3 =
+* Bugs fixed.
 
 = V3.1.2 =
 * Bugs fixed.
