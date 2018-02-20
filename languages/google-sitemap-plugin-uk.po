@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Google Sitemap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-28 11:14+0200\n"
-"PO-Revision-Date: 2017-12-28 11:14+0200\n"
+"POT-Creation-Date: 2018-02-20 11:22+0200\n"
+"PO-Revision-Date: 2018-02-20 11:22+0200\n"
 "Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
 "Language: uk\n"
@@ -23,14 +23,14 @@ msgstr ""
 msgid "Google Sitemap Settings"
 msgstr "Налаштування Google Sitemap"
 
-#: google-sitemap-plugin.php:49 google-sitemap-plugin.php:833
+#: google-sitemap-plugin.php:49 google-sitemap-plugin.php:835
 #: google-sitemap-plugin.php:1231 google-sitemap-plugin.php:1244
 #: includes/class-gglstmp-settings.php:27
 msgid "Settings"
 msgstr "Налаштування"
 
 #: google-sitemap-plugin.php:57 google-sitemap-plugin.php:58
-#: google-sitemap-plugin.php:838
+#: google-sitemap-plugin.php:840
 msgid "Custom Links"
 msgstr "Користувацькі посилання"
 
@@ -46,49 +46,49 @@ msgstr "Категорії записів"
 msgid "Post tags"
 msgstr "Позначки записів"
 
-#: google-sitemap-plugin.php:834
+#: google-sitemap-plugin.php:836
 msgid "Please enable JavaScript in your browser."
 msgstr "Будь ласка, увімкніть JavaScript у вашому браузері."
 
-#: google-sitemap-plugin.php:839
+#: google-sitemap-plugin.php:841
 msgid "Add New"
 msgstr "Додати посилання"
 
-#: google-sitemap-plugin.php:881 google-sitemap-plugin.php:969
+#: google-sitemap-plugin.php:883 google-sitemap-plugin.php:969
 #: google-sitemap-plugin.php:1020
 msgid "Website"
 msgstr "Сайт"
 
-#: google-sitemap-plugin.php:892 google-sitemap-plugin.php:896
+#: google-sitemap-plugin.php:894 google-sitemap-plugin.php:898
 #: google-sitemap-plugin.php:985 google-sitemap-plugin.php:1001
 #: google-sitemap-plugin.php:1024 google-sitemap-plugin.php:1038
 msgid "Status"
 msgstr "Статус"
 
-#: google-sitemap-plugin.php:893 google-sitemap-plugin.php:927
+#: google-sitemap-plugin.php:895 google-sitemap-plugin.php:927
 #: google-sitemap-plugin.php:1002
 msgid "Not added"
 msgstr "Не додано"
 
-#: google-sitemap-plugin.php:897 google-sitemap-plugin.php:930
+#: google-sitemap-plugin.php:899 google-sitemap-plugin.php:930
 #: google-sitemap-plugin.php:1025 google-sitemap-plugin.php:1136
 msgid "Added"
 msgstr "Додано"
 
-#: google-sitemap-plugin.php:899 google-sitemap-plugin.php:1081
+#: google-sitemap-plugin.php:901 google-sitemap-plugin.php:1081
 #: google-sitemap-plugin.php:1093 google-sitemap-plugin.php:1107
 msgid "Verification Status"
 msgstr "Статус перевірки"
 
-#: google-sitemap-plugin.php:901 google-sitemap-plugin.php:1094
+#: google-sitemap-plugin.php:903 google-sitemap-plugin.php:1094
 msgid "Verified"
 msgstr "Перевірено"
 
-#: google-sitemap-plugin.php:903
+#: google-sitemap-plugin.php:905
 msgid "Not verified"
 msgstr "Не перевірено"
 
-#: google-sitemap-plugin.php:912 google-sitemap-plugin.php:1115
+#: google-sitemap-plugin.php:914 google-sitemap-plugin.php:1115
 msgid "Sitemap Status"
 msgstr "Статус Sitemap"
 

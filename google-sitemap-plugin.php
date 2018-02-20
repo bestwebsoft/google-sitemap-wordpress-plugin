@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.1.3
+Version: 3.1.4
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -340,7 +340,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 						`ID`
 					FROM $wpdb->posts
 					WHERE
-						`post_status` IN (" . implode( ',', $post_status ) . ")
+						`post_status` IN ('" . implode( "','", $post_status ) . "')
 						AND `ID` NOT IN (" . implode( ',', $excluded_posts ) . ")
 						AND `post_type` IN ('forum', 'topic', 'reply')
 						AND `post_parent` IN (" . implode( ',', $excluded_posts ) . ");"
