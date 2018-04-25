@@ -51,7 +51,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				$all_plugins = get_plugins();
 				$this->htaccess = gglstmp_plugin_status( array( 'htaccess/htaccess.php', 'htaccess-pro/htaccess-pro.php' ), $all_plugins, false );
 				$this->htaccess_options = false;
-				if ( $this->htaccess['status'] == 'actived' ) {
+				if ( 'actived' == $this->htaccess['status'] ) {
 					global $htccss_options;
 					register_htccss_settings();
 					$this->htaccess_options = &$htccss_options;
@@ -114,7 +114,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			} else {
 
 				if ( $this->htaccess_active && $this->htaccess_options && function_exists( 'htccss_generate_htaccess' ) ) {
-					$gglstmp_allow_xml = ( isset( $_POST['gglstmp_allow_xml'] ) && 1 == $_POST['gglstmp_allow_xml'] ) ? 1 : 0;
+					$gglstmp_allow_xml = ( isset( $_POST['gglstmp_allow_xml'] ) && ! empty( $_POST['gglstmp_allow_xml'] ) ) ? 1 : 0;
 					if ( $gglstmp_allow_xml != $this->htaccess_options['allow_xml']  ) {
 						$this->htaccess_options['allow_xml'] = $gglstmp_allow_xml;
 						update_site_option( 'htccss_options', $this->htaccess_options );
@@ -139,7 +139,13 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					$this->options['limit'] = ( absint( $_POST['gglstmp_limit'] ) >= 1000 && absint( $_POST['gglstmp_limit'] ) <= 50000 ) ? absint( $_POST['gglstmp_limit'] ) : 50000;
 				}
 
+				if ( ( empty( $this->options['alternate_language'] ) && isset( $_POST['gglstmp_alternate_language'] ) ) || ( ! empty( $this->options['alternate_language'] ) && ! isset( $_POST['gglstmp_alternate_language'] ) ) ) {
+						$sitemapcreate = true;
+				}
+
 				$this->robots = isset( $_POST['gglstmp_checkbox'] ) ? 1 : 0;
+				$this->options['alternate_language'] = isset( $_POST['gglstmp_alternate_language'] ) ? 1 : 0;
+
 				update_option( 'gglstmp_robots', $this->robots );
 				update_option( 'gglstmp_options', $this->options );
 
@@ -158,7 +164,13 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		 */
 		public function tab_settings() { ?>
 			<h3 class="bws_tab_label"><?php _e( 'Google Sitemap Settings', 'google-sitemap-plugin' ); ?></h3>
-			<?php $this->help_phrase(); ?>
+			<?php $this->help_phrase();
+			global $wp_version;
+			if ( ! $this->all_plugins ) {
+				if ( ! function_exists( 'get_plugins' ) )
+					require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+					$this->all_plugins = get_plugins();
+			} ?>
 			<hr>
 			<table class="form-table gglstmp_settings_form">
 				<tr>
@@ -199,11 +211,10 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						$attr_disabled = 'disabled="disabled"';
 						$htaccess_plugin_notice = '<a href="' . network_admin_url( '/plugins.php' ) . '">' . __( 'Activate', 'google-sitemap-plugin' ) . '</a>';
 					} elseif ( 'not_installed' == $this->htaccess['status'] ) {
-						global $wp_version;
 						$attr_disabled = 'disabled="disabled"';
 						$htaccess_plugin_notice = '<a href="https://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=bc745b0c9d4b19ba95ae2c861418e0df&pn=106&v=' . $this->plugins_info["Version"] . '&wp_v=' . $wp_version . '">' . __( 'Install Now', 'google-sitemap-plugin' ) . '</a>';
 					}
-					if ( '1' == $this->htaccess_options['allow_xml'] && $attr_disabled == '' ) {
+					if ( ! empty( $this->htaccess_options['allow_xml'] ) && empty( $attr_disabled ) ) {
 						$attr_checked = 'checked="checked"';
 					} ?>
 					<tr id="gglstmp_allow_xml_block">
@@ -279,6 +290,23 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						</div>
 					</td>
 				</tr>
+				<tr>
+						<th><?php _e( 'Alternate Language Pages', 'google-sitemap-plugin' ); ?></th>
+						<td>
+							<?php $disabled = $link = '';
+							if ( array_key_exists( 'multilanguage/multilanguage.php', $this->all_plugins ) || array_key_exists( 'multilanguage-pro/multilanguage-pro.php', $this->all_plugins ) ) {
+								if ( ! is_plugin_active( 'multilanguage/multilanguage.php' ) && ! is_plugin_active( 'multilanguage-pro/multilanguage-pro.php' ) ) {
+									$disabled = ' disabled="disabled"';
+									$link = '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate', 'google-sitemap-plugin' ) . '</a>';
+								}
+							} else {
+								$disabled = ' disabled="disabled"';
+								$link = '<a href="https://bestwebsoft.com/products/wordpress/plugins/multilanguage/?k=84702fda886c65861801c52644d1ee11&amp;pn=83&amp;v=' . $this->plugins_info["Version"] . '&amp;wp_v=' . $wp_version . '" target="_blank">' . __( 'Install Now', 'google-sitemap-plugin' ) . '</a>';
+							} ?>
+							<input type="checkbox" name="gglstmp_alternate_language" value="1" <?php echo $disabled; checked( $this->options['alternate_language'] ) ?> />
+							<span class="bws_info"> <?php _e( "Enable to add alternate language pages using Multilanguage plugin.", 'google-sitemap-plugin' ); ?> <?php echo $link; ?></span>
+						</td>
+					</tr>
 			</table>
 		<?php }
 

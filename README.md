@@ -29,6 +29,7 @@
 </ul>
 </li>
 <li>Compatible with latest WordPress version</li>
+<li>Add alternate language pages using <a href="http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759" rel="nofollow">Multilanguage</a> plugin [NEW]</li>
 <li>Incredibly simple settings for fast setup without modifying code</li>
 <li>Detailed step-by-step documentation and videos</li>
 </ul>
@@ -72,4 +73,5 @@
 <ul>
 <li><a href="https://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2" rel="nofollow">Updater</a> &#8211; Automatically check and update WordPress website core with all installed plugins and themes to the latest versions.</li>
 <li><a href="https://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=6f8794059b2a6618808fa7ac6401ba6e" rel="nofollow">Htaccess</a> &#8211; Protect WordPress website &#8211; allow and deny access for certain IP addresses, hostnames, etc.</li>
+<li><a href="http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759" rel="nofollow">Multilanguage</a> &#8211; Translate WordPress website content to other languages manually. Create multilingual pages, posts, widgets, menus, etc.</li>
 </ul>

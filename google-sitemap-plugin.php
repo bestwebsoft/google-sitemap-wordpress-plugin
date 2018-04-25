@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.1.4
+Version: 3.1.5
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -27,8 +27,6 @@ License: GPLv2 or later
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-require_once( dirname( __FILE__ ) . '/includes/deprecated.php' );
 
 if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 	function gglstmp_admin_menu() {
@@ -111,7 +109,7 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 		/* Get options from the database */
 		gglstmp_register_settings();
 
-		if ( 1 == get_option( 'gglstmp_robots' ) ) {
+		if ( ! empty( get_option( 'gglstmp_robots' ) ) ) {
 			add_filter( 'robots_txt', 'gglstmp_robots_add_sitemap', 10, 2 );
 		}
 
@@ -198,10 +196,6 @@ if ( ! function_exists( 'gglstmp_register_settings' ) ) {
 			if ( ! isset( $gglstmp_options['plugin_option_version'] ) || version_compare( str_replace( 'pro-', '', $gglstmp_options['plugin_option_version'] ), '3.1.0', '<' ) ) {
 				unset( $gglstmp_options['sitemap'] );
 				gglstmp_activate();
-				/* Remove sitemap line from robots if exists */
-				if ( function_exists( 'gglstmp_clean_robots' ) ) {
-					gglstmp_clean_robots();
-				}
 			}
 
 			$gglstmp_options['plugin_option_version'] = $gglstmp_plugin_info["Version"];
@@ -229,7 +223,8 @@ if ( ! function_exists( 'gglstmp_get_options_default' ) ) {
 			'taxonomy'					=> array(),
 			'limit'						=> 50000,
 			'sitemap_cron_delay'		=> 600, /* delay in seconds to next cron */
-			'sitemaps'					=> array()
+			'sitemaps'					=> array(),
+			'alternate_language'		=> 0,
 		);
 		return $options_default;
 	}
@@ -322,7 +317,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 			}
 		}
 
-		$post_status = apply_filters('gglstmp_post_status', array( 'publish' ) );
+		$post_status = apply_filters( 'gglstmp_post_status', array( 'publish' ) );
 
 		$excluded_posts = $wpdb->get_col( "
 			SELECT
@@ -479,7 +474,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 
 			if ( $is_multisite ) {
 				/* removing main index file */
-				$existing_files = gglstmp_get_sitemap_files(0);
+				$existing_files = gglstmp_get_sitemap_files( 0 );
 				array_map( "unlink", $existing_files );
 
 				if ( count( $elements ) > $gglstmp_options['limit'] ) {
@@ -509,6 +504,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 /**
  * @since 3.1.0
  * Function creates xml sitemap file with the provided list of elements.
+ * Global variables are used and function mltlngg_get_lang_link() is called from the plugin Multilanguage.
  * Filename is generated in the following way:
  * On a single site:
  * a) $part_num isn't set: "sitemap.xml"
@@ -522,7 +518,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
  */
 if ( ! function_exists( 'gglstmp_create_sitemap' ) ) {
 	function gglstmp_create_sitemap( $elements, $part_num = 0 ) {
-		global $blog_id;
+		global $blog_id, $mltlngg_languages, $mltlngg_enabled_languages, $gglstmp_options;
 
 		$xml					= new DomDocument( '1.0', 'utf-8' );
 		$home_url				= site_url( '/' );
@@ -532,16 +528,68 @@ if ( ! function_exists( 'gglstmp_create_sitemap' ) ) {
 		$xml->appendChild( $xslt );
 		$urlset = $xml->appendChild( $xml->createElementNS( 'http://www.sitemaps.org/schemas/sitemap/0.9','urlset' ) );
 
+		/* Used to check compatibility and work with the plugin Multilanguage*/
+		$compatibility = false;
+		if( ! empty( $gglstmp_options['alternate_language'] ) && count( $mltlngg_enabled_languages ) > 1 ) {
+			$compatibility = true;
+		}
+
+		/* Create an array with active languages and add a value for hreflang */
+		$enabled_languages = array();
+		if ( $compatibility ) {
+			$urlset->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
+
+			foreach ( $mltlngg_enabled_languages as $language ) {
+				foreach ( $mltlngg_languages as $item ) {
+					if ( $language['name'] == $item[2] ) {
+						$language['lang'] = $item[0];
+						$enabled_languages[$item[2]] = $language;
+					}
+				}
+			}
+
+			if ( function_exists( 'mltlngg_get_lang_link' ) ) {
+				$lang_link = 'mltlngg_get_lang_link';
+			}
+			$args_links = array();
+		}
+
 		foreach ( $elements as $element ) {
-			$url = $urlset->appendChild( $xml->createElement( 'url' ) );
-			$loc = $url->appendChild( $xml->createElement( 'loc' ) );
-			$loc->appendChild( $xml->createTextNode( $element['url'] ) );
-			$lastmod = $url->appendChild( $xml->createElement( 'lastmod' ) );
-			$lastmod->appendChild( $xml->createTextNode( $element['date'] ) );
-			$changefreq = $url->appendChild( $xml->createElement( 'changefreq' ) );
-			$changefreq->appendChild( $xml->createTextNode( $element['frequency'] ) );
-			$priority = $url->appendChild( $xml->createElement( 'priority' ) );
-			$priority->appendChild( $xml->createTextNode( $element['priority'] ) );
+			if ( $compatibility ) {
+				foreach ( $enabled_languages as $language ) {
+					$args_links["lang"] = $language["locale"];
+					$args_links["url"] = $element["url"];
+
+					$url = $urlset->appendChild( $xml->createElement( 'url' ) );
+					$loc = $url->appendChild( $xml->createElement( 'loc' ) );
+					$loc->appendChild( $xml->createTextNode( $lang_link( $args_links ) ) );
+
+					foreach ( $enabled_languages as $language ) {
+						$args_links["lang"] = $language["locale"];
+						$link = $url->appendChild( $xml->createElement( 'xhtml:link' ) );
+						$link->setAttribute( "rel", "alternate" );
+						$link->setAttribute( "hreflang", $language['lang'] );
+						$link->setAttribute( "href", $lang_link( $args_links ) );
+					}
+
+					$lastmod = $url->appendChild( $xml->createElement( 'lastmod' ) );
+					$lastmod->appendChild( $xml->createTextNode( $element['date'] ) );
+					$changefreq = $url->appendChild( $xml->createElement( 'changefreq' ) );
+					$changefreq->appendChild( $xml->createTextNode( $element['frequency'] ) );
+					$priority = $url->appendChild( $xml->createElement( 'priority' ) );
+					$priority->appendChild( $xml->createTextNode( $element['priority'] ) );
+				}
+			} else {
+				$url = $urlset->appendChild( $xml->createElement( 'url' ) );
+				$loc = $url->appendChild( $xml->createElement( 'loc' ) );
+				$loc->appendChild( $xml->createTextNode( $element['url'] ) );
+				$lastmod = $url->appendChild( $xml->createElement( 'lastmod' ) );
+				$lastmod->appendChild( $xml->createTextNode( $element['date'] ) );
+				$changefreq = $url->appendChild( $xml->createElement( 'changefreq' ) );
+				$changefreq->appendChild( $xml->createTextNode( $element['frequency'] ) );
+				$priority = $url->appendChild( $xml->createElement( 'priority' ) );
+				$priority->appendChild( $xml->createTextNode( $element['priority'] ) );
+			}
 		}
 
 		$xml->formatOutput = true;
@@ -899,7 +947,7 @@ if ( ! function_exists( 'gglstmp_get_site_info' ) ) {
 					<td class="gglstmp_success">' . __( 'Added', 'google-sitemap-plugin' ) . '</td></tr>';
 
 				$return .= '<tr><th>' . __( 'Verification Status', 'google-sitemap-plugin' ) . '</th>';
-				if ( $wmt_sites_array[ $home_url ] == 'siteOwner' ) {
+				if ( 'siteOwner' == $wmt_sites_array[ $home_url ] ) {
 					$return .= '<td>' . __( 'Verified', 'google-sitemap-plugin' ) . '</td></tr>';
 				} else {
 					$return .= '<td>' . __( 'Not verified', 'google-sitemap-plugin' ) . '</td></tr>';
@@ -1130,7 +1178,7 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 					) {
 						$sitemap_url = $gglstmp_options['sitemaps'][ $sitemap_filename ]['loc'];
 						$check_result = gglstmp_check_sitemap( $sitemap_url );
-						if ( ! is_wp_error( $check_result ) && $check_result['code'] == 200 ) {
+						if ( ! is_wp_error( $check_result ) && 200 == $check_result['code'] ) {
 							try {
 								$webmasters->sitemaps->submit( $home_url, $sitemap_url );
 								$return .= '<td class="gglstmp_success">' . __( 'Added', 'google-sitemap-plugin' ) . '</td></tr>';

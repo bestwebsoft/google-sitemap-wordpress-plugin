@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.9
-Tested up to: 4.9.4
-Stable tag: 3.1.4
+Tested up to: 4.9.5
+Stable tag: 3.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 	* Delete website
 	* Get website info
 * Compatible with latest WordPress version
+* Add alternate language pages using [Multilanguage](http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759) plugin [NEW]
 * Incredibly simple settings for fast setup without modifying code
 * Detailed step-by-step documentation and videos
 
@@ -83,6 +84,7 @@ Some of these translations are not complete. We are constantly adding new featur
 
 * [Updater](https://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2) - Automatically check and update WordPress website core with all installed plugins and themes to the latest versions.
 * [Htaccess](https://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=6f8794059b2a6618808fa7ac6401ba6e) - Protect WordPress website - allow and deny access for certain IP addresses, hostnames, etc.
+* [Multilanguage](http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759) - Translate WordPress website content to other languages manually. Create multilingual pages, posts, widgets, menus, etc.
 
 == Installation ==
 
@@ -144,6 +146,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.1.5 - 25.04.2018 =
+* Update : Compatibility with the Multilanguage plugin has been improved. Ability to add alternate language pages using Multilanguage plugin has been added.
 
 = V3.1.4 - 20.02.2018 =
 * Bugfix : The bug with SQL request into the database has been fixed. 
@@ -339,6 +344,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.1.5 =
+* The compatibility with new Multilanguage plugin version updated.
 
 = V3.1.4 =
 * Bugs fixed.
