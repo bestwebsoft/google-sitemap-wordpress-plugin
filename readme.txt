@@ -4,7 +4,7 @@ Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.9
 Tested up to: 4.9.5
-Stable tag: 3.1.5
+Stable tag: 3.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,7 +39,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 	* Delete website
 	* Get website info
 * Compatible with latest WordPress version
-* Add alternate language pages using [Multilanguage](http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759) plugin [NEW]
+* Add alternate language pages using [Multilanguage](http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759) plugin
 * Incredibly simple settings for fast setup without modifying code
 * Detailed step-by-step documentation and videos
 
@@ -147,11 +147,14 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 
 == Changelog ==
 
+= V3.1.6 - 26.04.2018 =
+* Update : Compatibility with PHP versions lower than 5.5 has been added.
+
 = V3.1.5 - 25.04.2018 =
 * Update : Compatibility with the Multilanguage plugin has been improved. Ability to add alternate language pages using Multilanguage plugin has been added.
 
 = V3.1.4 - 20.02.2018 =
-* Bugfix : The bug with SQL request into the database has been fixed. 
+* Bugfix : The bug with SQL request into the database has been fixed.
 
 = V3.1.3 - 08.02.2018 =
 * Bugfix : The ability to add custom post status to the sitemap file has been fixed.
@@ -344,6 +347,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.1.6 =
+* The compatibility with PHP versions lower than 5.5 version updated.
 
 = V3.1.5 =
 * The compatibility with new Multilanguage plugin version updated.

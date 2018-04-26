@@ -29,7 +29,7 @@
 </ul>
 </li>
 <li>Compatible with latest WordPress version</li>
-<li>Add alternate language pages using <a href="http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759" rel="nofollow">Multilanguage</a> plugin [NEW]</li>
+<li>Add alternate language pages using <a href="http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759" rel="nofollow">Multilanguage</a> plugin</li>
 <li>Incredibly simple settings for fast setup without modifying code</li>
 <li>Detailed step-by-step documentation and videos</li>
 </ul>
