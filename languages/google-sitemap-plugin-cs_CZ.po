@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Google Sitemap - BWS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-26 17:37+0300\n"
-"PO-Revision-Date: 2018-03-26 17:37+0300\n"
+"POT-Creation-Date: 2018-12-25 16:52+0200\n"
+"PO-Revision-Date: 2018-12-25 16:52+0200\n"
 "Last-Translator: Mik013\n"
 "Language-Team: Mik013\n"
 "Language: cs_CZ\n"
@@ -17,226 +17,242 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: google-sitemap-plugin.php:36 google-sitemap-plugin.php:46
-#: includes/class-gglstmp-settings.php:166
+#: google-sitemap-plugin.php:37 google-sitemap-plugin.php:47
+#: includes/class-gglstmp-settings.php:180
 msgid "Google Sitemap Settings"
 msgstr "Nastavení Google Sitemap"
 
-#: google-sitemap-plugin.php:47 google-sitemap-plugin.php:883
-#: google-sitemap-plugin.php:1279 google-sitemap-plugin.php:1292
-#: includes/class-gglstmp-settings.php:27
+#: google-sitemap-plugin.php:48 google-sitemap-plugin.php:1316
+#: google-sitemap-plugin.php:1722 google-sitemap-plugin.php:1736
+#: includes/class-gglstmp-settings.php:28
 msgid "Settings"
 msgstr "Nastavení"
 
-#: google-sitemap-plugin.php:55 google-sitemap-plugin.php:56
-#: google-sitemap-plugin.php:888
+#: google-sitemap-plugin.php:56 google-sitemap-plugin.php:57
+#: google-sitemap-plugin.php:1325
 msgid "Custom Links"
 msgstr "Uživatelské odkazy"
 
-#: google-sitemap-plugin.php:74 includes/pro_banners.php:27
+#: google-sitemap-plugin.php:75 includes/pro_banners.php:27
 msgid "Upgrade to Pro"
 msgstr "Aktualizovat na Pro"
 
-#: google-sitemap-plugin.php:354
+#: google-sitemap-plugin.php:393
 msgid "Post categories"
 msgstr "Rubriky příspěvků"
 
-#: google-sitemap-plugin.php:355
+#: google-sitemap-plugin.php:394
 msgid "Post tags"
 msgstr "Štítky příspěvků"
 
-#: google-sitemap-plugin.php:884
+#: google-sitemap-plugin.php:1319
 msgid "Please enable JavaScript in your browser."
 msgstr "Prosím, povolte JavaScript ve vašem prohlížeči."
 
-#: google-sitemap-plugin.php:889
+#: google-sitemap-plugin.php:1327
 msgid "Add New"
 msgstr "Přidat nový"
 
-#: google-sitemap-plugin.php:931 google-sitemap-plugin.php:1017
-#: google-sitemap-plugin.php:1068
+#: google-sitemap-plugin.php:1370 google-sitemap-plugin.php:1457
+#: google-sitemap-plugin.php:1510
 msgid "Website"
 msgstr "Webová stránka"
 
-#: google-sitemap-plugin.php:942 google-sitemap-plugin.php:946
-#: google-sitemap-plugin.php:1033 google-sitemap-plugin.php:1049
-#: google-sitemap-plugin.php:1072 google-sitemap-plugin.php:1086
+#: google-sitemap-plugin.php:1381 google-sitemap-plugin.php:1385
+#: google-sitemap-plugin.php:1474 google-sitemap-plugin.php:1490
+#: google-sitemap-plugin.php:1514 google-sitemap-plugin.php:1528
 msgid "Status"
 msgstr "Stav"
 
-#: google-sitemap-plugin.php:943 google-sitemap-plugin.php:975
-#: google-sitemap-plugin.php:1050
+#: google-sitemap-plugin.php:1382 google-sitemap-plugin.php:1414
+#: google-sitemap-plugin.php:1491
 msgid "Not added"
 msgstr "Nepřidáno"
 
-#: google-sitemap-plugin.php:947 google-sitemap-plugin.php:978
-#: google-sitemap-plugin.php:1073 google-sitemap-plugin.php:1184
+#: google-sitemap-plugin.php:1386 google-sitemap-plugin.php:1417
+#: google-sitemap-plugin.php:1515 google-sitemap-plugin.php:1626
 msgid "Added"
 msgstr "Přidáno"
 
-#: google-sitemap-plugin.php:949 google-sitemap-plugin.php:1129
-#: google-sitemap-plugin.php:1141 google-sitemap-plugin.php:1155
+#: google-sitemap-plugin.php:1388 google-sitemap-plugin.php:1571
+#: google-sitemap-plugin.php:1583 google-sitemap-plugin.php:1597
 msgid "Verification Status"
 msgstr "Stav ověření"
 
-#: google-sitemap-plugin.php:951 google-sitemap-plugin.php:1142
+#: google-sitemap-plugin.php:1390 google-sitemap-plugin.php:1584
 msgid "Verified"
 msgstr "Ověřeno"
 
-#: google-sitemap-plugin.php:953
+#: google-sitemap-plugin.php:1392
 msgid "Not verified"
 msgstr "Nevěřeno"
 
-#: google-sitemap-plugin.php:962 google-sitemap-plugin.php:1163
+#: google-sitemap-plugin.php:1401 google-sitemap-plugin.php:1605
 msgid "Sitemap Status"
 msgstr "Stav sitemap.xml"
 
-#: google-sitemap-plugin.php:980
+#: google-sitemap-plugin.php:1419
 msgid "Added with errors."
 msgstr "Přidáno s chybami."
 
-#: google-sitemap-plugin.php:980
+#: google-sitemap-plugin.php:1419
 msgid "View errors in Google Webmaster Tools"
 msgstr "Zobrazit chyby v Google Webmaster Tools"
 
-#: google-sitemap-plugin.php:983
+#: google-sitemap-plugin.php:1422
 msgid "Sitemap URL"
 msgstr "URL sitemap.xml"
 
-#: google-sitemap-plugin.php:986 google-sitemap-plugin.php:1002
-#: google-sitemap-plugin.php:1052 google-sitemap-plugin.php:1088
-#: google-sitemap-plugin.php:1126 google-sitemap-plugin.php:1157
-#: google-sitemap-plugin.php:1197 google-sitemap-plugin.php:1217
-#: includes/class-gglstmp-settings.php:429
+#: google-sitemap-plugin.php:1425 google-sitemap-plugin.php:1441
+#: google-sitemap-plugin.php:1493 google-sitemap-plugin.php:1530
+#: google-sitemap-plugin.php:1568 google-sitemap-plugin.php:1599
+#: google-sitemap-plugin.php:1639 google-sitemap-plugin.php:1659
+#: includes/class-gglstmp-settings.php:488
 msgid "Error"
 msgstr "Chyba"
 
-#: google-sitemap-plugin.php:986
+#: google-sitemap-plugin.php:1425
 msgid "Please check the sitemap file manually."
 msgstr "Zkontrolujte soubor sitemap.xml manuálně."
 
-#: google-sitemap-plugin.php:986 google-sitemap-plugin.php:1004
-#: google-sitemap-plugin.php:1091 google-sitemap-plugin.php:1130
-#: google-sitemap-plugin.php:1160 google-sitemap-plugin.php:1200
-#: includes/class-gglstmp-settings.php:247 includes/pro_banners.php:47
+#: google-sitemap-plugin.php:1425 google-sitemap-plugin.php:1443
+#: google-sitemap-plugin.php:1533 google-sitemap-plugin.php:1572
+#: google-sitemap-plugin.php:1602 google-sitemap-plugin.php:1642
+#: includes/class-gglstmp-settings.php:282 includes/pro_banners.php:47
 msgid "Learn More"
 msgstr "Více informací"
 
-#: google-sitemap-plugin.php:991 google-sitemap-plugin.php:1040
-#: google-sitemap-plugin.php:1076 google-sitemap-plugin.php:1114
-#: google-sitemap-plugin.php:1145 google-sitemap-plugin.php:1187
+#: google-sitemap-plugin.php:1430 google-sitemap-plugin.php:1481
+#: google-sitemap-plugin.php:1518 google-sitemap-plugin.php:1556
+#: google-sitemap-plugin.php:1587 google-sitemap-plugin.php:1629
 msgid "Unexpected error"
 msgstr "Neočekávaná chyba"
 
-#: google-sitemap-plugin.php:1004 google-sitemap-plugin.php:1091
-#: google-sitemap-plugin.php:1160
+#: google-sitemap-plugin.php:1443 google-sitemap-plugin.php:1533
+#: google-sitemap-plugin.php:1602
 msgid "Manual verification required."
 msgstr "Je vyžadováno ruční ověření."
 
-#: google-sitemap-plugin.php:1034
+#: google-sitemap-plugin.php:1475
 msgid "Deleted"
 msgstr "Odstraněno"
 
-#: google-sitemap-plugin.php:1106 google-sitemap-plugin.php:1109
-#: google-sitemap-plugin.php:1125
+#: google-sitemap-plugin.php:1548 google-sitemap-plugin.php:1551
+#: google-sitemap-plugin.php:1567
 msgid "Verification Code"
 msgstr "Ověřovací kód"
 
-#: google-sitemap-plugin.php:1107
+#: google-sitemap-plugin.php:1549
 msgid "Received and added to the site"
 msgstr "Přijato a přidáno na web"
 
-#: google-sitemap-plugin.php:1110
+#: google-sitemap-plugin.php:1552
 msgid "Received, but has not been added to the site"
 msgstr "Přijato avšak nepřidáno na web"
 
-#: google-sitemap-plugin.php:1200
+#: google-sitemap-plugin.php:1642
 msgid "Please add the sitemap file manually."
 msgstr "Přidejte soubor sitemap.xml manuálně."
 
-#: google-sitemap-plugin.php:1205
+#: google-sitemap-plugin.php:1647
 msgid "Error 404"
 msgstr "Chyba 404"
 
-#: google-sitemap-plugin.php:1207
+#: google-sitemap-plugin.php:1649
 #, php-format
 msgid "The sitemap file %s not found."
 msgstr "Soubor sitemap.xml %s nebyl nalezen."
 
-#: google-sitemap-plugin.php:1217
+#: google-sitemap-plugin.php:1659
 msgid "The sitemap file not found."
 msgstr "Soubor sitemap.xml nebyl nalezen."
 
-#: google-sitemap-plugin.php:1294
+#: google-sitemap-plugin.php:1738
 msgid "FAQ"
 msgstr ""
 "Časté dotazy <acronym title=\\\"Frequently asked questions\\\">(FAQ)</"
 "acronym>"
 
-#: google-sitemap-plugin.php:1295
+#: google-sitemap-plugin.php:1739
 msgid "Support"
 msgstr "Podpora"
 
-#: includes/class-gglstmp-settings.php:28
+#: google-sitemap-plugin.php:1911 google-sitemap-plugin.php:1920
+msgid "Google-Sitemap-plugin Canonical Settings"
+msgstr ""
+
+#: google-sitemap-plugin.php:1946
+msgid "Canonical Url:"
+msgstr ""
+
+#: includes/class-gglstmp-settings.php:29
 msgid "Structure"
 msgstr "Struktura"
 
-#: includes/class-gglstmp-settings.php:29
+#: includes/class-gglstmp-settings.php:30
 msgid "Misc"
 msgstr "Různé"
 
-#: includes/class-gglstmp-settings.php:30
+#: includes/class-gglstmp-settings.php:31
 msgid "License Key"
 msgstr "Licenční klíč"
 
-#: includes/class-gglstmp-settings.php:156
+#: includes/class-gglstmp-settings.php:170
 msgid "Settings saved."
 msgstr "Nastavení uloženo."
 
-#: includes/class-gglstmp-settings.php:195
+#: includes/class-gglstmp-settings.php:212
 msgid ""
 "Also, please add the following code to the beginning of your \".htaccess\" "
 "file:"
 msgstr "Také přidejte následující kód na začátek souboru \".htaccess\":"
 
-#: includes/class-gglstmp-settings.php:209
+#: includes/class-gglstmp-settings.php:225
+msgid "Media Sitemap"
+msgstr ""
+
+#: includes/class-gglstmp-settings.php:230
+msgid "Enable to add a media sitemap (video & image)"
+msgstr ""
+
+#: includes/class-gglstmp-settings.php:235
 msgid "This option will be applied to all websites in the network."
 msgstr "Tato volba bude použita pro všechny weby v síti."
 
-#: includes/class-gglstmp-settings.php:212
-#: includes/class-gglstmp-settings.php:300
+#: includes/class-gglstmp-settings.php:238
+#: includes/class-gglstmp-settings.php:347
 msgid "Activate"
 msgstr "Aktivovat"
 
-#: includes/class-gglstmp-settings.php:215
-#: includes/class-gglstmp-settings.php:304
+#: includes/class-gglstmp-settings.php:241
+#: includes/class-gglstmp-settings.php:351
 msgid "Install Now"
 msgstr "Instalovat nyní"
 
-#: includes/class-gglstmp-settings.php:221
+#: includes/class-gglstmp-settings.php:247
 #, php-format
 msgid "%s Plugin"
 msgstr "%s Plugin"
 
-#: includes/class-gglstmp-settings.php:223
+#: includes/class-gglstmp-settings.php:252
 #, php-format
 msgid "Enable to allow XML files access using %s plugin."
 msgstr "Povolte přístup ke XML souborům pomocí %s pluginu."
 
-#: includes/class-gglstmp-settings.php:224
+#: includes/class-gglstmp-settings.php:253
 msgid "The following string will be added to your .htaccess file"
 msgstr "Následující řetězec bude přidán do vašeho .htaccess souboru"
 
-#: includes/class-gglstmp-settings.php:232
-#: includes/class-gglstmp-settings.php:354 includes/pro_banners.php:21
+#: includes/class-gglstmp-settings.php:263
+#: includes/class-gglstmp-settings.php:413 includes/pro_banners.php:21
 msgid "Close"
 msgstr "Zavřít"
 
-#: includes/class-gglstmp-settings.php:243
+#: includes/class-gglstmp-settings.php:274
 msgid "URLs Limit"
 msgstr "Limit URL adres"
 
-#: includes/class-gglstmp-settings.php:247
+#: includes/class-gglstmp-settings.php:279
 msgid ""
 "A sitemap file can't contain more than 50,000 URLs and must be no larger "
 "than 50 MB uncompressed."
@@ -244,21 +260,21 @@ msgstr ""
 "Soubor sitemap.xml nesmí obsahovat více než 50 000 URL adres a v "
 "nekomprimované podobě nesmí být větší než 50 MB."
 
-#: includes/class-gglstmp-settings.php:248
+#: includes/class-gglstmp-settings.php:283
 msgid "Decrease the limit if your sitemap exceeds file size limit."
 msgstr ""
 "Snižte limit, pokud váš soubor sitemap.xml překročí limit velikosti souboru."
 
-#: includes/class-gglstmp-settings.php:249
+#: includes/class-gglstmp-settings.php:284
 msgid ""
 "When the limit is reached, the sitemap will be splitted into multiple files."
 msgstr "Po dosažení limitu bude soubor sitemap.xml rozdělen na více souborů."
 
-#: includes/class-gglstmp-settings.php:254
+#: includes/class-gglstmp-settings.php:289
 msgid "Google Webmaster Tools"
 msgstr "Google Webmaster Tools"
 
-#: includes/class-gglstmp-settings.php:257
+#: includes/class-gglstmp-settings.php:292
 msgid ""
 "This hosting does not support сURL, so you cannot add a sitemap file "
 "automatically."
@@ -266,27 +282,27 @@ msgstr ""
 "Váš hosting nepodporuje cURL, takže nemůžete přidat soubor sitemap.xml (do "
 "Google?) automaticky."
 
-#: includes/class-gglstmp-settings.php:260
+#: includes/class-gglstmp-settings.php:296
 msgid "Logout from Google Webmaster Tools"
 msgstr "Odhlásit se z Google Webmaster Tools"
 
-#: includes/class-gglstmp-settings.php:264
+#: includes/class-gglstmp-settings.php:300
 msgid "Manage Website with Google Webmaster Tools"
 msgstr "Spravovat web s  Google Webmaster Tools"
 
-#: includes/class-gglstmp-settings.php:266
+#: includes/class-gglstmp-settings.php:303
 msgid "Add"
 msgstr "Přidat"
 
-#: includes/class-gglstmp-settings.php:267 includes/pro_banners.php:138
+#: includes/class-gglstmp-settings.php:305 includes/pro_banners.php:138
 msgid "Delete"
 msgstr "Smazat"
 
-#: includes/class-gglstmp-settings.php:268
+#: includes/class-gglstmp-settings.php:307
 msgid "Get Info"
 msgstr "Získat informace"
 
-#: includes/class-gglstmp-settings.php:270
+#: includes/class-gglstmp-settings.php:309
 msgid ""
 "Add, delete or get info about this website using your Google Webmaster Tools "
 "account."
@@ -294,72 +310,72 @@ msgstr ""
 "Přidat, odstranit nebo zobrazit informace o tomto webu pomocí účtu Google "
 "Webmaster Tools."
 
-#: includes/class-gglstmp-settings.php:278
+#: includes/class-gglstmp-settings.php:319
 msgid "Get Authorization Code"
 msgstr "Získat autorizační kód"
 
-#: includes/class-gglstmp-settings.php:281
+#: includes/class-gglstmp-settings.php:326
 msgid "Authorize"
 msgstr "Schválit"
 
-#: includes/class-gglstmp-settings.php:284
+#: includes/class-gglstmp-settings.php:329
 msgid "Invalid authorization code. Please try again."
 msgstr "Neplatný autorizační kód. Zkuste to znovu."
 
-#: includes/class-gglstmp-settings.php:289
+#: includes/class-gglstmp-settings.php:334
 msgid "You can also add your sitemap to Google Webmaster Tools manually."
 msgstr "Můžete také přidat soubor sitemap.xml na Google Webmaster Tools ručně."
 
-#: includes/class-gglstmp-settings.php:289
+#: includes/class-gglstmp-settings.php:336
 msgid "Read the instruction"
 msgstr "Přečíst si instrukce"
 
-#: includes/class-gglstmp-settings.php:294
+#: includes/class-gglstmp-settings.php:341
 msgid "Alternate Language Pages"
 msgstr ""
 
-#: includes/class-gglstmp-settings.php:307
+#: includes/class-gglstmp-settings.php:355
 msgid "Enable to add alternate language pages using Multilanguage plugin."
 msgstr ""
 
-#: includes/class-gglstmp-settings.php:321
+#: includes/class-gglstmp-settings.php:369
 msgid "Post category"
 msgstr "Kategorie příspěvku"
 
-#: includes/class-gglstmp-settings.php:322
+#: includes/class-gglstmp-settings.php:370
 msgid "Post tag"
 msgstr "Štítek příspěvku"
 
-#: includes/class-gglstmp-settings.php:324
+#: includes/class-gglstmp-settings.php:372
 msgid "Sitemap Structure"
 msgstr "Struktura sitemap.xml"
 
-#: includes/class-gglstmp-settings.php:329
+#: includes/class-gglstmp-settings.php:377
 msgid "Post Types"
 msgstr "Typy příspěvků"
 
-#: includes/class-gglstmp-settings.php:336
+#: includes/class-gglstmp-settings.php:389
 msgid "Enable to add post type links to the sitemap."
 msgstr "Do souboru sitemap.xml přidat typy příspěvků."
 
-#: includes/class-gglstmp-settings.php:340
+#: includes/class-gglstmp-settings.php:393
 msgid "Taxonomies"
 msgstr "Taxonomie"
 
-#: includes/class-gglstmp-settings.php:347
+#: includes/class-gglstmp-settings.php:404
 msgid "Enable to taxonomy links to the sitemap."
 msgstr "Do souboru sitemap.xml přidat taxonomie."
 
-#: includes/class-gglstmp-settings.php:403
+#: includes/class-gglstmp-settings.php:462
 #, php-format
 msgid "%s is in the site root directory."
 msgstr "%s je v kořenovém adresáři webu."
 
-#: includes/class-gglstmp-settings.php:404
+#: includes/class-gglstmp-settings.php:463
 msgid "The Sitemap file"
 msgstr "Soubor sitemap.xml"
 
-#: includes/class-gglstmp-settings.php:430
+#: includes/class-gglstmp-settings.php:489
 #, php-format
 msgid ""
 "Can't access XML files. Try to add the following rule %s to your %s file "
@@ -371,11 +387,11 @@ msgstr ""
 "adresáři vašeho webu. Vyhledejte následující řádek %s a kód vložte hned za "
 "ním."
 
-#: includes/class-gglstmp-settings.php:446
+#: includes/class-gglstmp-settings.php:505
 msgid "Note"
 msgstr "Poznámka"
 
-#: includes/class-gglstmp-settings.php:446
+#: includes/class-gglstmp-settings.php:506
 msgid ""
 "Another plugin is providing Google Client functionality and may interrupt "
 "proper plugin work."

@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.9
-Tested up to: 4.9.5
-Stable tag: 3.1.6
+Tested up to: 5.0.3
+Stable tag: 3.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,8 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 	* Custom post types
 	* Custom taxonomies
 * Add a path to your sitemap file in robots.txt automatically
+* Add media sitemap [NEW]
+* Add canonical URLs to pages and posts [NEW]
 * Set the maximum number of URLs in one sitemap file
 * Connect your Google Webmaster Tools account to:
 	* Add website
@@ -146,6 +148,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.1.7 - 15.01.2019 =
+* NEW : The ability to add media sitemap.
+* NEW : The ability to add canonical links to pages and posts.
 
 = V3.1.6 - 26.04.2018 =
 * Update : Compatibility with PHP versions lower than 5.5 has been added.
@@ -347,6 +353,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.1.7 =
+* Functionality expanded
+* New features added
 
 = V3.1.6 =
 * The compatibility with PHP versions lower than 5.5 version updated.

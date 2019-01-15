@@ -6,13 +6,13 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.1.6
+Version: 3.1.7
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
 
 /*
-	© Copyright 2017  BestWebSoft  ( https://support.bestwebsoft.com )
+	© Copyright 2019  BestWebSoft  ( https://support.bestwebsoft.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -30,53 +30,56 @@ License: GPLv2 or later
 
 if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 	function gglstmp_admin_menu() {
-		global $gglstmp_options, $wp_version, $submenu, $gglstmp_plugin_info;
+		if ( ! is_plugin_active( 'google-sitemap-pro/google-sitemap-pro.php' ) ) {
+			global $gglstmp_options, $wp_version, $submenu, $gglstmp_plugin_info;
 
-		$settings = add_menu_page(
-			__( 'Google Sitemap Settings', 'google-sitemap-plugin' ), /* $page_title */
-			'Google Sitemap', /* $menu_title */
-			'manage_options', /* $capability */
-			'google-sitemap-plugin.php', /* $menu_slug */
-			'gglstmp_settings_page', /* $callable_function */
-			'none' /* $icon_url */
-		);
-
-		add_submenu_page(
-			'google-sitemap-plugin.php', /* $parent_slug */
-			__( 'Google Sitemap Settings', 'google-sitemap-plugin' ), /* $page_title */
-			__( 'Settings', 'google-sitemap-plugin' ), /* $menu_title */
-			'manage_options', /* $capability */
-			'google-sitemap-plugin.php', /* $menu_slug */
-			'gglstmp_settings_page' /* $callable_function */
-		);
-
-		if ( ! bws_hide_premium_options_check( $gglstmp_options ) ) {
-			add_submenu_page( 'google-sitemap-plugin.php', /* $parent_slug */
-				__( 'Custom Links', 'google-sitemap-plugin' ), /* $page_title */
-				__( 'Custom Links', 'google-sitemap-plugin' ), /* $menu_title */
+			$settings = add_menu_page(
+				__( 'Google Sitemap Settings', 'google-sitemap-plugin' ), /* $page_title */
+				'Google Sitemap', /* $menu_title */
 				'manage_options', /* $capability */
-				'google-sitemap-custom-links.php', /* $menu_slug */
+				'google-sitemap-plugin.php', /* $menu_slug */
+				'gglstmp_settings_page', /* $callable_function */
+				'none' /* $icon_url */
+			);
+
+			add_submenu_page(
+				'google-sitemap-plugin.php', /* $parent_slug */
+				__( 'Google Sitemap Settings', 'google-sitemap-plugin' ), /* $page_title */
+				__( 'Settings', 'google-sitemap-plugin' ), /* $menu_title */
+				'manage_options', /* $capability */
+				'google-sitemap-plugin.php', /* $menu_slug */
 				'gglstmp_settings_page' /* $callable_function */
 			);
+
+			if ( ! bws_hide_premium_options_check( $gglstmp_options ) ) {
+				add_submenu_page( 'google-sitemap-plugin.php', /* $parent_slug */
+					__( 'Custom Links', 'google-sitemap-plugin' ), /* $page_title */
+					__( 'Custom Links', 'google-sitemap-plugin' ), /* $menu_title */
+					'manage_options', /* $capability */
+					'google-sitemap-custom-links.php', /* $menu_slug */
+					'gglstmp_settings_page' /* $callable_function */
+				);
+			}
+
+			add_submenu_page(
+				'google-sitemap-plugin.php', /* $parent_slug */
+				'BWS Panel', /* $page_title */
+				'BWS Panel', /* $menu_title */
+				'manage_options', /* $capability */
+				'gglstmp-bws-panel', /* $menu_slug */
+				'bws_add_menu_render' /* $callable_function */
+			);
+
+			if ( isset( $submenu['google-sitemap-plugin.php'] ) ) {
+				$submenu['google-sitemap-plugin.php'][] = array(
+					'<span style="color:#d86463"> ' . __( 'Upgrade to Pro', 'google-sitemap-plugin' ) . '</span>',
+					'manage_options',
+					'https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=' . $gglstmp_plugin_info["Version"] . '&wp_v=' . $wp_version
+				);
+			}
+
+			add_action( "load-{$settings}", 'gglstmp_add_tabs' );
 		}
-
-		add_submenu_page(
-			'google-sitemap-plugin.php', /* $parent_slug */
-			'BWS Panel', /* $page_title */
-			'BWS Panel', /* $menu_title */
-			'manage_options', /* $capability */
-			'gglstmp-bws-panel', /* $menu_slug */
-			'bws_add_menu_render' /* $callable_function */
-		);
-
-		if ( isset( $submenu['google-sitemap-plugin.php'] ) ) {
-			$submenu['google-sitemap-plugin.php'][] = array(
-				'<span style="color:#d86463"> ' . __( 'Upgrade to Pro', 'google-sitemap-plugin' ) . '</span>',
-				'manage_options',
-				'https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=' . $gglstmp_plugin_info["Version"] . '&wp_v=' . $wp_version );
-		}
-
-		add_action( "load-{$settings}", 'gglstmp_add_tabs' );
 	}
 }
 
@@ -90,7 +93,7 @@ if ( ! function_exists( 'gglstmp_plugins_loaded' ) ) {
 /* Function adds language files */
 if ( ! function_exists( 'gglstmp_init' ) ) {
 	function gglstmp_init() {
-		global $gglstmp_plugin_info;
+		global $gglstmp_plugin_info, $gglstmp_options;
 
 		if ( empty( $gglstmp_plugin_info ) ) {
 			if ( ! function_exists( 'get_plugin_data' ) ) {
@@ -119,25 +122,51 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 			if ( file_exists( $robots_txt_url ) ) {
 				$robots_content = file_get_contents( $robots_txt_url );
 				$robots_content .= "\n";
-				$public = get_option( 'blog_public' );
+				$public         = get_option( 'blog_public' );
 				header( 'Content-Type: text/plain; charset=utf-8' );
 				echo apply_filters( 'robots_txt', $robots_content, $public );
 				exit;
 			}
 		}
 
+		/* Verification of the existence of an sitemaps. Calling up the sitemap creation function */
+		$gglstmp_media_from_bd = get_option( 'gglstmp_options' );
+		$gglstmp_media_sitemap = isset( $_POST['gglstmp_media_sitemap'] ) ? $_POST['gglstmp_media_sitemap'] : $gglstmp_media_from_bd['media_sitemap'];
+
+		/* delete all sitemaps, update option 'media_sitemap' */
+		if ( isset( $_POST['gglstmp_media_sitemap'] ) ) { // if true => option has been change
+			$blog_id = get_current_blog_id();
+			gglstmp_delete_sitemap( $blog_id, true );
+
+			$gglstmp_options['media_sitemap'] = $gglstmp_media_sitemap;
+			update_option( 'gglstmp_options', $gglstmp_options );
+		}
+
+		if ( 1 == $gglstmp_options['media_sitemap'] ) {
+			$sitemaps_type = [ 'video_sitemap', 'image_sitemap', 'sitemap' ];
+		} else {
+			$sitemaps_type = [ 'sitemap' ];
+		}
+
+		/* check for file existence and call refresh function */
 		if ( is_multisite() ) {
 			$blog_id = get_current_blog_id();
-			$filename = "sitemap_{$blog_id}.xml";
+			foreach ( $sitemaps_type as $sitemap ) {
+				$filename = "{$sitemap}_{$blog_id}.xml";
+				if ( ! file_exists( ABSPATH . $filename ) ) {
+					$sitemap_recreate = true;
+				}
+			}
 		} else {
-			$filename = "sitemap.xml";
+			foreach ( $sitemaps_type as $sitemap ) {
+				$filename = "{$sitemap}.xml";
+				if ( ! file_exists( ABSPATH . $filename ) ) {
+					$sitemap_recreate = true;
+				}
+			}
 		}
 
-		if ( ! file_exists( ABSPATH . $filename ) ) {
-			$sitemaprecreate = true;
-		}
-
-		if ( isset( $sitemaprecreate ) ) {
+		if ( isset( $sitemap_recreate ) ) {
 			gglstmp_schedule_sitemap( false, false, true );
 		}
 	}
@@ -191,8 +220,8 @@ if ( ! function_exists( 'gglstmp_register_settings' ) ) {
 			$options_default = gglstmp_get_options_default();
 			$gglstmp_options = array_merge( $options_default, $gglstmp_options );
 			/**
-			* Register uninstall hook
-			*/
+			 * Register uninstall hook
+			 */
 			if ( ! isset( $gglstmp_options['plugin_option_version'] ) || version_compare( str_replace( 'pro-', '', $gglstmp_options['plugin_option_version'] ), '3.1.0', '<' ) ) {
 				unset( $gglstmp_options['sitemap'] );
 				gglstmp_activate();
@@ -215,17 +244,19 @@ if ( ! function_exists( 'gglstmp_get_options_default' ) ) {
 		global $gglstmp_plugin_info;
 
 		$options_default = array(
-			'plugin_option_version' 	=> $gglstmp_plugin_info['Version'],
-			'first_install'				=> strtotime( "now" ),
-			'display_settings_notice'	=> 1,
-			'suggest_feature_banner'	=> 1,
-			'post_type'					=> array( 'page', 'post' ),
-			'taxonomy'					=> array(),
-			'limit'						=> 50000,
-			'sitemap_cron_delay'		=> 600, /* delay in seconds to next cron */
-			'sitemaps'					=> array(),
-			'alternate_language'		=> 0,
+			'plugin_option_version'   => $gglstmp_plugin_info['Version'],
+			'first_install'           => strtotime( "now" ),
+			'display_settings_notice' => 1,
+			'suggest_feature_banner'  => 1,
+			'post_type'               => array( 'page', 'post' ),
+			'taxonomy'                => array(),
+			'limit'                   => 50000,
+			'sitemap_cron_delay'      => 600, /* delay in seconds to next cron */
+			'sitemaps'                => array(),
+			'alternate_language'      => 0,
+			'media_sitemap'           => 0
 		);
+
 		return $options_default;
 	}
 }
@@ -233,12 +264,15 @@ if ( ! function_exists( 'gglstmp_get_options_default' ) ) {
 /**
  * @since 3.1.1
  * Update sitemap on permalink structure update.
- * @param	array	$rules	array of existing rules. No modification is needed.
- * @return	array	$rules
+ *
+ * @param    array $rules array of existing rules. No modification is needed.
+ *
+ * @return    array    $rules
  */
 if ( ! function_exists( 'gglstmp_rewrite_rules' ) ) {
 	function gglstmp_rewrite_rules( $rules ) {
 		gglstmp_schedule_sitemap();
+
 		return $rules;
 	}
 }
@@ -246,9 +280,11 @@ if ( ! function_exists( 'gglstmp_rewrite_rules' ) ) {
 /**
  * @since 3.1.0
  * Schedules sitemap preparing task for specified blog.
- * @param	mixed	$blog_id	(int)The blog id the sitemap is created for. Default is false - for current blog.
- * @param	bool	$no_cron	Set if sitemap creation would be executed using cron. Default is false.
- * @return	void
+ *
+ * @param    mixed $blog_id (int)The blog id the sitemap is created for. Default is false - for current blog.
+ * @param    bool $no_cron Set if sitemap creation would be executed using cron. Default is false.
+ *
+ * @return    void
  */
 if ( ! function_exists( 'gglstmp_schedule_sitemap' ) ) {
 	function gglstmp_schedule_sitemap( $blog_id = false, $no_cron = false, $now = false ) {
@@ -285,8 +321,10 @@ if ( ! function_exists( 'gglstmp_edited_term' ) ) {
  * A single sitemap file will be created if the limit isn't reached,
  * otherwise sitemap file for each part of array of items will be created. Blog index file would be created also.
  * If multisite network is used, network index file will be created also.
- * @param	mixed		$blog_id	(int)The blog id the sitemap is created for. Default is false - for current blog.
- * @return	void
+ *
+ * @param    mixed $blog_id (int)The blog id the sitemap is created for. Default is false - for current blog.
+ *
+ * @return    void
  */
 if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 	function gglstmp_prepare_sitemap( $blog_id = false ) {
@@ -294,11 +332,12 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 
 		$old_blog = $wpdb->blogid;
 
-		$create_index = true;
-		$counter = 0;
-		$part_num = 1;
-		$elements = array();
-		$is_multisite = is_multisite();
+		$counter        = 0;
+		$part_num       = 1;
+		$elements       = array();
+		$image_elements = array();
+		$video_elements = array();
+		$is_multisite   = is_multisite();
 
 		if ( $is_multisite && ! empty( $blog_id ) ) {
 			switch_to_blog( absint( $blog_id ) );
@@ -351,8 +390,8 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 
 		/* get all taxonomies */
 		$taxonomies = array(
-			'category' => __( 'Post categories','google-sitemap-plugin' ),
-			'post_tag' => __( 'Post tags','google-sitemap-plugin' )
+			'category' => __( 'Post categories', 'google-sitemap-plugin' ),
+			'post_tag' => __( 'Post tags', 'google-sitemap-plugin' )
 		);
 
 		foreach ( $taxonomies as $key => $taxonomy_name ) {
@@ -362,16 +401,16 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 		}
 
 		/* add home page */
-		$show_on_front = !! ( 'page' == get_option( 'show_on_front' ) );
-		$frontpage_id = get_option( 'page_on_front' );
+		$show_on_front      = ! ! ( 'page' == get_option( 'show_on_front' ) );
+		$frontpage_id       = get_option( 'page_on_front' );
 		$frontpage_is_added = false;
 
 		if ( ! empty( $post_types ) ) {
-			$post_status_string = "p.`post_status` IN ('" . implode( "','", (array)$post_status ) . "')";
+			$post_status_string = "p.`post_status` IN ('" . implode( "','", (array) $post_status ) . "')";
 
 			$excluded_posts_string = $post_types_string = '';
 
-			$post_types_string = "AND p.`post_type` IN ('" . implode( "','", (array)$post_types ) . "')";
+			$post_types_string = "AND p.`post_type` IN ('" . implode( "','", (array) $post_types ) . "')";
 
 			if ( ! empty( $excluded_posts ) ) {
 				$excluded_posts_string = "AND p.`ID` NOT IN (" . implode( ",", $excluded_posts ) . ")";
@@ -409,14 +448,68 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 				foreach ( $posts as $post ) {
 					$priority = 0.8;
 					if ( $show_on_front && $frontpage_id == $post->ID ) {
-						$priority = 1.0;
+						$priority           = 1.0;
 						$frontpage_is_added = true;
 					}
+
+					if ( $gglstmp_options['media_sitemap'] ) {
+						/* Prepear video_list and image_list data for sitemap */
+						$video_list = get_attached_media( 'video', $post );
+						$image_list = get_attached_media( 'image', $post );
+						/* Add image to list */
+						$image_item = [];
+						if ( ! empty( $image_list ) ) {
+							$image_count = 0;
+							foreach ( $image_list as $image ) {
+								$image_count ++;
+								if ( $image_count > 1000 ) {
+									break;
+								}
+								$attachment_metadata = wp_get_attachment_metadata( $image->ID );
+
+								$explode_metadata = explode( '/', $attachment_metadata['file'] );
+								array_pop( $explode_metadata );
+								$image_upload_date = implode( ' ', $explode_metadata );
+
+								$image_guid       = basename( $image->guid );
+								$check_img_exists = gglstmp_if_file_exists( $image_guid, $image_upload_date );
+								if ( $check_img_exists ) {
+									$image_item[] = $image->guid;
+								}
+							}
+							/* Add array image_elements of one post */
+							$image_elements[] = array(
+								'url'            => get_permalink( $post ),
+								'image_list_url' => $image_item
+							);
+						}
+						/* Add video to list */
+						$video_item = [];
+						if ( ! empty( $video_list ) ) {
+							$video_count = 0;
+							foreach ( $video_list as $video ) {
+								$video_count ++;
+								if ( $video_count > 1000 ) {
+									break;
+								}
+								$video_info[] = $video->guid;
+								$video_info[] = $video->post_title;
+								$video_item[] = $video_info;
+							}
+							/* Add array video_elements of one post */
+							$video_elements[] = array(
+								'url'            => get_permalink( $post ),
+								'video_list_url' => $video_item
+							);
+						}
+					}
+
+					/* Data for default sitemap */
 					$elements[] = array(
-						'url'		=> get_permalink( $post ),
-						'date'		=> date( 'Y-m-d\TH:i:sP', strtotime( $post->post_modified ) ),
-						'frequency'	=> 'monthly',
-						'priority'	=> $priority
+						'url'       => get_permalink( $post ),
+						'date'      => date( 'Y-m-d\TH:i:sP', strtotime( $post->post_modified ) ),
+						'frequency' => 'monthly',
+						'priority'  => $priority
 					);
 
 				}
@@ -425,10 +518,10 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 
 		if ( ! $frontpage_is_added ) {
 			$elements[] = array(
-				'url'		=> home_url( '/' ),
-				'date'		=> date( 'Y-m-d\TH:i:sP', time() ),
-				'frequency'	=> 'monthly',
-				'priority'	=> 1.0
+				'url'       => home_url( '/' ),
+				'date'      => date( 'Y-m-d\TH:i:sP', time() ),
+				'frequency' => 'monthly',
+				'priority'  => 1.0
 			);
 		}
 
@@ -438,12 +531,12 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 
 				if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 					foreach ( $terms as $term_value ) {
-						$modified = $wpdb->get_var( "SELECT `post_modified` FROM $wpdb->posts, $wpdb->term_relationships WHERE `post_status` = 'publish' AND `term_taxonomy_id` = " . $term_value->term_taxonomy_id . " AND $wpdb->posts.ID= $wpdb->term_relationships.object_id ORDER BY `post_modified` DESC" );
+						$modified   = $wpdb->get_var( "SELECT `post_modified` FROM $wpdb->posts, $wpdb->term_relationships WHERE `post_status` = 'publish' AND `term_taxonomy_id` = " . $term_value->term_taxonomy_id . " AND $wpdb->posts.ID= $wpdb->term_relationships.object_id ORDER BY `post_modified` DESC" );
 						$elements[] = array(
-							'url'		=> get_term_link( (int)$term_value->term_id, $taxonomy ),
-							'date'		=> date( 'Y-m-d\TH:i:sP', strtotime( $modified ) ),
-							'frequency'	=> 'monthly',
-							'priority'	=> 0.8
+							'url'       => get_term_link( (int) $term_value->term_id, $taxonomy ),
+							'date'      => date( 'Y-m-d\TH:i:sP', strtotime( $modified ) ),
+							'frequency' => 'monthly',
+							'priority'  => 0.8
 						);
 					}
 				}
@@ -454,46 +547,69 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 		$existing_files = gglstmp_get_sitemap_files();
 		array_map( "unlink", $existing_files );
 
-		$gglstmp_options['sitemaps'] = array();
+		$gglstmp_options['sitemaps']   = array();
 		$gglstmp_options['link_count'] = count( $elements );
 
-		if ( count( $elements ) <= $gglstmp_options['limit'] ) {
-			$part_num = 0;
-			gglstmp_create_sitemap( $elements, $part_num );
-			if ( ! $is_multisite ) {
-				$create_index = false;
-			}
-		} else {
-			$parts = array_chunk( $elements, $gglstmp_options['limit'] );
-			foreach ( $parts as $part_num => $part_elements ) {
-				gglstmp_create_sitemap( $part_elements, $part_num + 1 );
-			}
-		}
-
-		if ( $is_multisite || $create_index ) {
-
-			if ( $is_multisite ) {
-				/* removing main index file */
-				$existing_files = gglstmp_get_sitemap_files( 0 );
-				array_map( "unlink", $existing_files );
-
-				if ( count( $elements ) > $gglstmp_options['limit'] ) {
-					/* creating subsite sitemap only when limit is exhausted or external sitemap is added */
-					gglstmp_create_sitemap_index();
+		/* create sitemap */
+		if ( $gglstmp_options['media_sitemap'] ) {
+			/* standard sitemap with link */
+			if ( count( $elements ) <= $gglstmp_options['limit'] ) {
+				$part_num = 0;
+				gglstmp_create_sitemap( $elements, $part_num );
+			} else {
+				$parts = array_chunk( $elements, $gglstmp_options['limit'] );
+				foreach ( $parts as $part_num => $part_elements ) {
+					gglstmp_create_sitemap( $part_elements, $part_num + 1 );
 				}
-
-				/* create main network sitemap index file. Only for subfolder structure, as index sitemap cannot contain sitemaps located on different domain/subdomain */
-				gglstmp_create_sitemap_index( 0 );
-			} elseif( count( $elements ) > $gglstmp_options['limit'] ) {
-				/* external sitemap is added as custom link on a sinle site */
+			}
+			/* checking image_sitemap */
+			if ( count( $image_elements ) <= $gglstmp_options['limit'] ) {
+				$image_part_num = 0;
+				gglstmp_create_image_sitemap( $image_elements, $image_part_num );
+			} else {
+				$parts_image = array_chunk( $image_elements, $gglstmp_options['limit'] );
+				foreach ( $parts_image as $image_part_num => $part_image_elements ) {
+					gglstmp_create_image_sitemap( $part_image_elements, $image_part_num + 1 );
+				}
+			}
+			/* checking video_sitemap */
+			if ( count( $video_elements ) <= $gglstmp_options['limit'] ) {
+				$video_part_num = 0;
+				gglstmp_create_video_sitemap( $video_elements, $video_part_num );
+			} else {
+				$parts_video = array_chunk( $video_elements, $gglstmp_options['limit'] );
+				foreach ( $parts_video as $video_part_num => $part_video_elements ) {
+					gglstmp_create_video_sitemap( $part_video_elements, $video_part_num + 1 );
+				}
+			}
+			gglstmp_create_sitemap_index();
+		} else {
+			if ( count( $elements ) <= $gglstmp_options['limit'] ) {
+				$part_num = 0;
+				gglstmp_create_sitemap( $elements, $part_num );
+			} else {
+				$parts = array_chunk( $elements, $gglstmp_options['limit'] );
+				foreach ( $parts as $part_num => $part_elements ) {
+					gglstmp_create_sitemap( $part_elements, $part_num + 1 );
+				}
 				gglstmp_create_sitemap_index();
 			}
 		}
 
+		if ( $is_multisite ) {
+			/* removing main index file */
+			$existing_files = gglstmp_get_sitemap_files( 0 );
+			if ( ! $gglstmp_options['media_sitemap'] ) {
+				array_map( "unlink", $existing_files );
+			}
+			/* Create main network sitemap index file. Only for subfolder structure, as index sitemap cannot contain sitemaps located on different domain/subdomain. */
+			gglstmp_create_sitemap_index( 0 );
+		}
 		/**
 		 * Options update is necessary because 'gglstmp_create_sitemap' and 'gglstmp_create_sitemap_index' functions
 		 * have modified $gglstmp_options global variable by calling 'gglstmp_save_sitemap_info' function
 		 */
+
 		update_option( 'gglstmp_options', $gglstmp_options );
 		if ( $is_multisite ) {
 			switch_to_blog( $old_blog );
@@ -512,25 +628,28 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
  * On single subsite of multisite network, $blog_id == 1:
  * a) $part_num isn't set: "sitemap_1.xml"
  * b) $part_num is set and equals 2: "sitemap_1_2.xml".
- * @param	array		$elements		An array of elements to include to the sitemap.
- * @param	int			$part_num		(optional) Indicates the number of the part of elements. It is included to the sitemap filename.
- * @return	void
+ *
+ * @param    array $elements An array of elements to include to the sitemap.
+ * @param    int $part_num (optional) Indicates the number of the part of elements. It is included to the sitemap filename.
+ *
+ * @return    void
  */
 if ( ! function_exists( 'gglstmp_create_sitemap' ) ) {
 	function gglstmp_create_sitemap( $elements, $part_num = 0 ) {
 		global $blog_id, $mltlngg_languages, $mltlngg_enabled_languages, $gglstmp_options;
 
-		$xml					= new DomDocument( '1.0', 'utf-8' );
-		$home_url				= site_url( '/' );
-		$xml_stylesheet_path	= ( defined( 'WP_CONTENT_DIR' ) ) ? $home_url . basename( WP_CONTENT_DIR ) : $home_url . 'wp-content';
-		$xml_stylesheet_path	.= ( defined( 'WP_PLUGIN_DIR' ) ) ? '/' . basename( WP_PLUGIN_DIR ) . '/google-sitemap-plugin/sitemap.xsl' : '/plugins/google-sitemap-plugin/sitemap.xsl';
-		$xslt = $xml->createProcessingInstruction( 'xml-stylesheet', "type=\"text/xsl\" href=\"$xml_stylesheet_path\"" );
+		$xml                 = new DomDocument( '1.0', 'utf-8' );
+		$home_url            = site_url( '/' );
+		$xml_stylesheet_path = ( defined( 'WP_CONTENT_DIR' ) ) ? $home_url . basename( WP_CONTENT_DIR ) : $home_url . 'wp-content';
+		$xml_stylesheet_path .= ( defined( 'WP_PLUGIN_DIR' ) ) ? '/' . basename( WP_PLUGIN_DIR ) . '/google-sitemap-plugin/sitemap.xsl' : '/plugins/google-sitemap-plugin/sitemap.xsl';
+		$xslt                = $xml->createProcessingInstruction( 'xml-stylesheet', "type=\"text/xsl\" href=\"$xml_stylesheet_path\"" );
 		$xml->appendChild( $xslt );
-		$urlset = $xml->appendChild( $xml->createElementNS( 'http://www.sitemaps.org/schemas/sitemap/0.9','urlset' ) );
+		$urlset = $xml->appendChild( $xml->createElementNS( 'http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset' ) );
 
 		/* Used to check compatibility and work with the plugin Multilanguage*/
+		$count_lang =  empty( $mltlngg_enabled_languages ) ?  '' : count( $mltlngg_enabled_languages );
 		$compatibility = false;
-		if( ! empty( $gglstmp_options['alternate_language'] ) && count( $mltlngg_enabled_languages ) > 1 ) {
+		if ( ! empty( $gglstmp_options['alternate_language'] ) && ( '' != $count_lang ) ) {
 			$compatibility = true;
 		}
 
@@ -542,8 +661,8 @@ if ( ! function_exists( 'gglstmp_create_sitemap' ) ) {
 			foreach ( $mltlngg_enabled_languages as $language ) {
 				foreach ( $mltlngg_languages as $item ) {
 					if ( $language['name'] == $item[2] ) {
-						$language['lang'] = $item[0];
-						$enabled_languages[$item[2]] = $language;
+						$language['lang']              = $item[0];
+						$enabled_languages[ $item[2] ] = $language;
 					}
 				}
 			}
@@ -558,7 +677,7 @@ if ( ! function_exists( 'gglstmp_create_sitemap' ) ) {
 			if ( $compatibility ) {
 				foreach ( $enabled_languages as $language ) {
 					$args_links["lang"] = $language["locale"];
-					$args_links["url"] = $element["url"];
+					$args_links["url"]  = $element["url"];
 
 					$url = $urlset->appendChild( $xml->createElement( 'url' ) );
 					$loc = $url->appendChild( $xml->createElement( 'loc' ) );
@@ -566,7 +685,7 @@ if ( ! function_exists( 'gglstmp_create_sitemap' ) ) {
 
 					foreach ( $enabled_languages as $language ) {
 						$args_links["lang"] = $language["locale"];
-						$link = $url->appendChild( $xml->createElement( 'xhtml:link' ) );
+						$link               = $url->appendChild( $xml->createElement( 'xhtml:link' ) );
 						$link->setAttribute( "rel", "alternate" );
 						$link->setAttribute( "hreflang", $language['lang'] );
 						$link->setAttribute( "href", $lang_link( $args_links ) );
@@ -600,10 +719,301 @@ if ( ! function_exists( 'gglstmp_create_sitemap' ) ) {
 
 		$part_num = ( absint( $part_num ) > 0 ) ? '_' . absint( $part_num ) : '';
 
-		if ( is_multisite() ) {
-			$filename = 'sitemap_' . absint( $blog_id ) . $part_num . '.xml';
+
+		if ( $gglstmp_options['media_sitemap'] ) {
+			if ( is_multisite() ) {
+				$filename = 'default_sitemap_' . absint( $blog_id ) . $part_num . '.xml';
+			} else {
+				$filename = 'default_sitemap' . $part_num . '.xml';
+			}
 		} else {
-			$filename = 'sitemap' . $part_num . '.xml';
+			if ( is_multisite() ) {
+				$filename = 'sitemap_' . absint( $blog_id ) . $part_num . '.xml';
+			} else {
+				$filename = 'sitemap' . $part_num . '.xml';
+			}
+		}
+
+		$xml->save( ABSPATH . $filename );
+		gglstmp_save_sitemap_info( $filename );
+	}
+}
+
+if ( ! function_exists( 'gglstmp_create_image_sitemap' ) ) {
+	function gglstmp_create_image_sitemap( $elements, $part_num = 0 ) {
+		global $blog_id, $mltlngg_languages, $mltlngg_enabled_languages, $gglstmp_options;
+
+		$xml                 = new DomDocument( '1.0', 'utf-8' );
+		$home_url            = site_url( '/' );
+		$xml_stylesheet_path = ( defined( 'WP_CONTENT_DIR' ) ) ? $home_url . basename( WP_CONTENT_DIR ) : $home_url . 'wp-content';
+		$xml_stylesheet_path .= ( defined( 'WP_PLUGIN_DIR' ) ) ? '/' . basename( WP_PLUGIN_DIR ) . '/google-sitemap-plugin/image_sitemap.xsl' : '/plugins/google-sitemap-plugin/image_sitemap.xsl'; // добавить путь с xsl файлу оформления sitemap
+		$xslt                = $xml->createProcessingInstruction( 'xml-stylesheet', "type=\"text/xsl\" href=\"$xml_stylesheet_path\"" );
+		$xml->appendChild( $xslt );
+		$urlset = $xml->appendChild( $xml->createElementNS( 'http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset' ) );
+
+		/* Add namespace for image_sitemap */
+		$img_spacename        = $xml->createAttribute( 'xmlns:image' );
+		$img_spacename->value = 'http://www.google.com/schemas/sitemap-image/1.1';
+		$urlset->appendChild( $img_spacename );
+
+		/* Used to check compatibility and work with the plugin Multilanguage */
+		$count_lang =  empty( $mltlngg_enabled_languages ) ?  '' : count( $mltlngg_enabled_languages );
+		$compatibility = false;
+		if ( ! empty( $gglstmp_options['alternate_language'] ) && ( '' != $count_lang ) ) {
+			$compatibility = true;
+		}
+
+		/* Create an array with active languages and add a value for hreflang */
+		$enabled_languages = array();
+		if ( $compatibility ) {
+			$urlset->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
+
+			foreach ( $mltlngg_enabled_languages as $language ) {
+				foreach ( $mltlngg_languages as $item ) {
+					if ( $language['name'] == $item[2] ) {
+						$language['lang']              = $item[0];
+						$enabled_languages[ $item[2] ] = $language;
+					}
+				}
+			}
+
+			if ( function_exists( 'mltlngg_get_lang_link' ) ) {
+				$lang_link = 'mltlngg_get_lang_link';
+			}
+			$args_links = array();
+		}
+
+		foreach ( $elements as $element ) {
+			if ( $compatibility ) {
+				foreach ( $enabled_languages as $language ) {
+					$args_links["lang"] = $language["locale"];
+					$args_links["url"]  = $element["url"];
+
+					$url = $urlset->appendChild( $xml->createElement( 'url' ) );
+					$loc = $url->appendChild( $xml->createElement( 'loc' ) );
+					$loc->appendChild( $xml->createTextNode( $lang_link( $args_links ) ) );
+
+					foreach ( $enabled_languages as $language ) {
+						$args_links["lang"] = $language["locale"];
+						$link               = $url->appendChild( $xml->createElement( 'xhtml:link' ) );
+						$link->setAttribute( "rel", "alternate" );
+						$link->setAttribute( "hreflang", $language['lang'] );
+						$link->setAttribute( "href", $lang_link( $args_links ) );
+					}
+
+					if ( isset( $element['image_list_url'] ) ) {
+						foreach ( $element['image_list_url'] as $image_it ) {
+							$image     = $url->appendChild( $xml->createElement( 'image:image' ) );
+							$imagecont = $image->appendChild( $xml->createElement( 'image:loc' ) );
+							$imagecont->appendChild( $xml->createTextNode( $image_it ) );
+						}
+					}
+				}
+			} else {
+				$url = $urlset->appendChild( $xml->createElement( 'url' ) );
+				$loc = $url->appendChild( $xml->createElement( 'loc' ) );
+				$loc->appendChild( $xml->createTextNode( $element['url'] ) );
+
+				if ( isset( $element['image_list_url'] ) ) {
+					foreach ( $element['image_list_url'] as $image_it ) {
+						$image     = $url->appendChild( $xml->createElement( 'image:image' ) );
+						$imagecont = $image->appendChild( $xml->createElement( 'image:loc' ) );
+						$imagecont->appendChild( $xml->createTextNode( $image_it ) );
+					}
+				}
+			}
+		}
+
+		$xml->formatOutput = true;
+
+		if ( ! is_writable( ABSPATH ) ) {
+			@chmod( ABSPATH, 0755 );
+		}
+
+		$part_num = ( absint( $part_num ) > 0 ) ? '_' . absint( $part_num ) : '';
+
+		if ( is_multisite() ) {
+			$filename = 'image_sitemap_' . absint( $blog_id ) . $part_num . '.xml';
+		} else {
+			$filename = 'image_sitemap' . $part_num . '.xml';
+		}
+		$xml->save( ABSPATH . $filename );
+		gglstmp_save_sitemap_info( $filename );
+	}
+}
+
+if ( ! function_exists( 'gglstmp_if_file_exists' ) ) {
+	function gglstmp_if_file_exists( $filename, $time_dir = null, $format = '', $echo = true, $dir = '', $show_if_not_exists = '' ) {
+		$error   = false;
+		$path    = '';
+		$abspath = ltrim( ABSPATH, '/' );
+
+		if ( ! is_bool( $dir ) ) {
+			$dir = trim( trim( str_replace( $abspath, '', $dir ) ), '/' );
+		}
+
+		if ( false === $dir || empty( $dir ) ) {
+			$uploads = wp_upload_dir( $time_dir );
+			if ( isset( $uploads['error'] ) && ! empty( $uploads['error'] ) ) {
+				$error = true;
+			} else {
+				$path = $uploads['path'];
+				$dir  = str_replace( $abspath, '', $path );
+			}
+		} elseif ( true === $dir ) {
+			// If $dir is set to true, then $filename is already the full path
+			$path     = dirname( $filename );
+			$filename = basename( $filename );
+			$dir      = str_replace( ABSPATH, '', $path );
+		} else {
+			$path = ABSPATH . $dir;
+		}
+
+		$full_path = $path . '/' . $filename;
+
+		$exists = ( $error || empty( $filename ) ) ? false : file_exists( $full_path );
+
+		if ( empty( $format ) ) {
+			$format = $exists;
+			$echo   = false;
+		} else {
+			if ( ! $exists ) {
+				$format = $show_if_not_exists;
+			}
+
+			if ( $format ) {
+				$pathparts = pathinfo( $full_path );
+				$tags      = array(
+					'%file_directory%' => $pathparts['dirname'],
+					'%file_extension%' => isset( $pathparts['extension'] ) ? $pathparts['extension'] : '',
+					'%file_name%'      => $pathparts['basename'],
+					'%file_path%'      => $full_path,
+					'%file_url%'       => site_url() . '/' . $dir . '/' . $filename
+				);
+
+				foreach ( $tags as $tag => $new ) {
+					$format = str_replace( $tag, $new, $format );
+				}
+			}
+		}
+
+		if ( $echo ) {
+			echo $format;
+		}
+
+		return $format;
+	}
+}
+
+if ( ! function_exists( 'gglstmp_create_video_sitemap' ) ) {
+	function gglstmp_create_video_sitemap( $elements, $part_num = 0 ) {
+		global $blog_id, $mltlngg_languages, $mltlngg_enabled_languages, $gglstmp_options;
+
+		$xml                 = new DomDocument( '1.0', 'utf-8' );
+		$home_url            = site_url( '/' );
+		$xml_stylesheet_path = ( defined( 'WP_CONTENT_DIR' ) ) ? $home_url . basename( WP_CONTENT_DIR ) : $home_url . 'wp-content';
+		$xml_stylesheet_path .= ( defined( 'WP_PLUGIN_DIR' ) ) ? '/' . basename( WP_PLUGIN_DIR ) . '/google-sitemap-plugin/video_sitemap.xsl' : '/plugins/google-sitemap-plugin/video_sitemap.xsl';
+		$xslt                = $xml->createProcessingInstruction( 'xml-stylesheet', "type=\"text/xsl\" href=\"$xml_stylesheet_path\"" );
+		$xml->appendChild( $xslt );
+		$urlset = $xml->appendChild( $xml->createElementNS( 'http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset' ) );
+
+		/* Add namespace for video_sitemap */
+		$video_spacename        = $xml->createAttribute( 'xmlns:video' );
+		$video_spacename->value = 'http://www.google.com/schemas/sitemap-video/1.1';
+		$urlset->appendChild( $video_spacename );
+
+		/* Used to check compatibility and work with the plugin Multilanguage */
+		$count_lang =  empty( $mltlngg_enabled_languages ) ?  '' : count( $mltlngg_enabled_languages );
+		$compatibility = false;
+		if ( ! empty( $gglstmp_options['alternate_language'] ) && ( '' != $count_lang ) ) {
+			$compatibility = true;
+		}
+
+		/* Create an array with active languages and add a value for hreflang */
+		$enabled_languages = array();
+		if ( $compatibility ) {
+			$urlset->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
+
+			foreach ( $mltlngg_enabled_languages as $language ) {
+				foreach ( $mltlngg_languages as $item ) {
+					if ( $language['name'] == $item[2] ) {
+						$language['lang']              = $item[0];
+						$enabled_languages[ $item[2] ] = $language;
+					}
+				}
+			}
+
+			if ( function_exists( 'mltlngg_get_lang_link' ) ) {
+				$lang_link = 'mltlngg_get_lang_link';
+			}
+			$args_links = array();
+		}
+
+		foreach ( $elements as $element ) {
+			if ( $compatibility ) {
+				foreach ( $enabled_languages as $language ) {
+					$args_links["lang"] = $language["locale"];
+					$args_links["url"]  = $element["url"];
+
+					$url = $urlset->appendChild( $xml->createElement( 'url' ) );
+					$loc = $url->appendChild( $xml->createElement( 'loc' ) );
+					$loc->appendChild( $xml->createTextNode( $lang_link( $args_links ) ) );
+
+					foreach ( $enabled_languages as $language ) {
+						$args_links["lang"] = $language["locale"];
+						$link               = $url->appendChild( $xml->createElement( 'xhtml:link' ) );
+						$link->setAttribute( "rel", "alternate" );
+						$link->setAttribute( "hreflang", $language['lang'] );
+						$link->setAttribute( "href", $lang_link( $args_links ) );
+					}
+
+					if ( isset( $element['video_list_url'] ) ) {
+						foreach ( $element['video_list_url'] as $video_it ) {
+							$video = $url->appendChild( $xml->createElement( 'video:video' ) );
+
+							/*video url*/
+							$videocont = $video->appendChild( $xml->createElement( 'video:url' ) );
+							$videocont->appendChild( $xml->createTextNode( $video_it[0] ) );
+
+							/*video title*/
+							$videotitle = $video->appendChild( $xml->createElement( 'video:title' ) );
+							$videotitle->appendChild( $xml->createTextNode( $video_it[1] ) );
+						}
+					}
+				}
+			} else {
+				$url = $urlset->appendChild( $xml->createElement( 'url' ) );
+				$loc = $url->appendChild( $xml->createElement( 'loc' ) );
+				$loc->appendChild( $xml->createTextNode( $element['url'] ) );
+
+				if ( isset( $element['video_list_url'] ) ) {
+					foreach ( $element['video_list_url'] as $video_it ) {
+						$video = $url->appendChild( $xml->createElement( 'video:video' ) );
+
+						/*video url*/
+						$videocont = $video->appendChild( $xml->createElement( 'video:url' ) );
+						$videocont->appendChild( $xml->createTextNode( $video_it[0] ) );
+
+						/*video title*/
+						$videotitle = $video->appendChild( $xml->createElement( 'video:title' ) );
+						$videotitle->appendChild( $xml->createTextNode( $video_it[1] ) );
+					}
+				}
+			}
+		}
+
+		$xml->formatOutput = true;
+
+		if ( ! is_writable( ABSPATH ) ) {
+			@chmod( ABSPATH, 0755 );
+		}
+
+		$part_num = ( absint( $part_num ) > 0 ) ? '_' . absint( $part_num ) : '';
+
+		if ( is_multisite() ) {
+			$filename = 'video_sitemap_' . absint( $blog_id ) . $part_num . '.xml';
+		} else {
+			$filename = 'video_sitemap' . $part_num . '.xml';
 		}
 		$xml->save( ABSPATH . $filename );
 		gglstmp_save_sitemap_info( $filename );
@@ -613,13 +1023,14 @@ if ( ! function_exists( 'gglstmp_create_sitemap' ) ) {
 /**
  * @since 3.1.0
  * Function creates xml sitemap index file.
- * @param	mixed	$blog_id	(optional) Sets if the index file is created for network (0) or for single subsite (false: current blog id).
- * @return	void
+ *
+ * @param    mixed $blog_id (optional) Sets if the index file is created for network (0) or for single subsite (false: current blog id).
+ *
+ * @return    void
  */
 if ( ! function_exists( 'gglstmp_create_sitemap_index' ) ) {
-	function gglstmp_create_sitemap_index( $blog_id = false ) {
-		global $wpdb;
-
+	function gglstmp_create_sitemap_index( $blog_id = false, $index_type = '' ) {
+		global $wpdb, $gglstmp_options;
 		/* index sitemap for network supports only subfolder multisite installation */
 		if ( 0 === $blog_id && is_multisite() && is_subdomain_install() ) {
 			return;
@@ -628,27 +1039,34 @@ if ( ! function_exists( 'gglstmp_create_sitemap_index' ) ) {
 		$blog_id = ( false === $blog_id ) ? get_current_blog_id() : absint( $blog_id );
 
 		if ( ! is_multisite() || 0 === $blog_id ) {
-			$index_filename = "sitemap.xml";
+			if ( '' === $index_type ) {
+				$index_filename = "sitemap.xml";
+			} else {
+				$index_filename = "{$index_type}_sitemap.xml";
+			}
 		} else {
-			$index_filename = "sitemap_{$blog_id}.xml";
+			if ( '' === $index_type ) {
+				$index_filename = "sitemap_{$blog_id}.xml";
+			} else {
+				$index_filename = "{$index_type}_sitemap_{$blog_id}.xml";
+			}
 		}
 
-		$elements = gglstmp_get_index_elements( $blog_id );
-
-		$index_file      = ABSPATH . $index_filename;
+		$elements   = gglstmp_get_index_elements( $blog_id, $index_type );
+		$index_file = ABSPATH . $index_filename;
 
 		if ( file_exists( $index_file ) ) {
 			unlink( $index_file );
 		}
 
-		$xmlindex        = new DomDocument( '1.0', 'utf-8' );
+		$xmlindex = new DomDocument( '1.0', 'utf-8' );
 		$site_url = ( 0 === $blog_id ) ? network_site_url( '/' ) : site_url( '/' );
 
 		$xml_stylesheet_path = ( defined( 'WP_CONTENT_DIR' ) ) ? $site_url . basename( WP_CONTENT_DIR ) : $site_url . 'wp-content';
 		$xml_stylesheet_path .= ( defined( 'WP_PLUGIN_DIR' ) ) ? '/' . basename( WP_PLUGIN_DIR ) . '/google-sitemap-plugin/sitemap-index.xsl' : '/plugins/google-sitemap-plugin/sitemap-index.xsl';
 
 		$xmlindex->appendChild( $xmlindex->createProcessingInstruction( 'xml-stylesheet', "type=\"text/xsl\" href=\"$xml_stylesheet_path\"" ) );
-		$sitemapindex = $xmlindex->appendChild( $xmlindex->createElementNS( 'http://www.sitemaps.org/schemas/sitemap/0.9','sitemapindex' ) );
+		$sitemapindex = $xmlindex->appendChild( $xmlindex->createElementNS( 'http://www.sitemaps.org/schemas/sitemap/0.9', 'sitemapindex' ) );
 		foreach ( $elements as $element ) {
 			$sitemap = $sitemapindex->appendChild( $xmlindex->createElement( 'sitemap' ) );
 			$loc     = $sitemap->appendChild( $xmlindex->createElement( 'loc' ) );
@@ -675,18 +1093,20 @@ if ( ! function_exists( 'gglstmp_create_sitemap_index' ) ) {
 /**
  * @since 3.1.0
  * Function gets the elements from the blogs options and returns an array of elements to include to the index sitemap file.
- * @param	mixed		$blog_id			(optional) Sets the range of elements to return. false - current subsite, 0 - network index, (int) - id of the subsite
- * @return	array		$include_index		(optional) Sets if index element should be also included.
+ *
+ * @param    mixed $blog_id (optional) Sets the range of elements to return. false - current subsite, 0 - network index, (int) - id of the subsite
+ *
+ * @return    array        $include_index        (optional) Sets if index element should be also included.
  */
 if ( ! function_exists( 'gglstmp_get_index_elements' ) ) {
 	function gglstmp_get_index_elements( $blog_id = false, $include_index = false ) {
 		global $wpdb;
 		$index_elements = $external_index_elements = array();
-		$is_multisite = is_multisite();
+		$is_multisite   = is_multisite();
 		if ( $is_multisite && 0 === $blog_id ) {
 			/* building main network index */
 			$old_blog = $wpdb->blogid;
-			$blogids = $wpdb->get_col( "SELECT `blog_id` FROM $wpdb->blogs" );
+			$blogids  = $wpdb->get_col( "SELECT `blog_id` FROM $wpdb->blogs" );
 			foreach ( $blogids as $id ) {
 				switch_to_blog( $id );
 				$blog_options = get_option( 'gglstmp_options' );
@@ -717,6 +1137,7 @@ if ( ! function_exists( 'gglstmp_get_index_elements' ) ) {
 				}
 			}
 		}
+
 		return $index_elements;
 	}
 }
@@ -724,11 +1145,13 @@ if ( ! function_exists( 'gglstmp_get_index_elements' ) ) {
 /**
  * @since 3.1.0
  * Function returns all the corresponding existing sitemap files.
- * @param	mixed		$blog_id		(optional, default: false) "all" || false || (int)blog_id. Specifies the range of xml files to return.
- * 										"all" - all availabe sitemap .xml files.
- * 										false - sitemaps of current blog.
- * 										blog_id - sitemaps of specified blog, 0 - network index file.
- * @return	array		$files			An array of filenames of existing files of the specified type.
+ *
+ * @param    mixed $blog_id (optional, default: false) "all" || false || (int)blog_id. Specifies the range of xml files to return.
+ *                                        "all" - all availabe sitemap .xml files.
+ *                                        false - sitemaps of current blog.
+ *                                        blog_id - sitemaps of specified blog, 0 - network index file.
+ *
+ * @return    array        $files            An array of filenames of existing files of the specified type.
  */
 if ( ! function_exists( 'gglstmp_get_sitemap_files' ) ) {
 	function gglstmp_get_sitemap_files( $blog_id = false ) {
@@ -740,20 +1163,21 @@ if ( ! function_exists( 'gglstmp_get_sitemap_files' ) ) {
 			}
 			if ( 'all' === $blog_id ) {
 				/* all existing sitemap files */
-				$mask = "sitemap*.xml";
+				$mask = "*sitemap*.xml";
 			} elseif ( 0 === $blog_id ) {
 				/* main network index */
-				$mask = "sitemap.xml";
+				$mask = "*sitemap.xml";
 			} else {
 				/* all subsite sitemap files */
-				$mask = "sitemap_{$blog_id}*.xml";
+				$mask = "*sitemap_{$blog_id}*.xml";
 			}
 		} else {
-			$mask = "sitemap*.xml";
+			$mask = "*sitemap*.xml";
 		}
 
-		if ( isset( $mask ) )
+		if ( isset( $mask ) ) {
 			$files = glob( ABSPATH . $mask );
+		}
 
 		return $files;
 	}
@@ -761,8 +1185,10 @@ if ( ! function_exists( 'gglstmp_get_sitemap_files' ) ) {
 
 /**
  * Function checks the availability of the sitemap file by the provided URL.
- * @param	string		$url			The url of the xml sitemap file to check.
- * @return	array		$result			An array with the code and message of the external url check. 200 == $result['code'] if success.
+ *
+ * @param    string $url The url of the xml sitemap file to check.
+ *
+ * @return    array        $result            An array with the code and message of the external url check. 200 == $result['code'] if success.
  */
 if ( ! function_exists( 'gglstmp_check_sitemap' ) ) {
 	function gglstmp_check_sitemap( $url ) {
@@ -778,25 +1204,27 @@ if ( ! function_exists( 'gglstmp_check_sitemap' ) ) {
 /**
  * @since 3.1.0
  * Function checks the availability of the sitemap file by the provided URL.
- * @param	string		$filename					The filename to save to the options.
- * @param	string		$is_index					Indicates if the file is an index sitemap.
- * 													false if is regular sitemap
- * 													'index' if is sitemap index
- * @return	void
+ *
+ * @param    string $filename The filename to save to the options.
+ * @param    string $is_index Indicates if the file is an index sitemap.
+ *                                                    false if is regular sitemap
+ *                                                    'index' if is sitemap index
+ *
+ * @return    void
  */
 if ( ! function_exists( 'gglstmp_save_sitemap_info' ) ) {
 	function gglstmp_save_sitemap_info( $filename = 'sitemap.xml', $is_index = false ) {
 		global $gglstmp_options;
 		$xml_url  = home_url( '/' ) . $filename;
 		$xml_path = ABSPATH . $filename;
-		$is_index = !! $is_index ? 1 : 0 ;
+		$is_index = ! ! $is_index ? 1 : 0;
 
 		$sitemap_data = array(
-			'is_index'	=> $is_index,
-			'file'		=> $filename,
-			'path'		=> $xml_path,
-			'loc'		=> $xml_url,
-			'lastmod'	=> date( 'Y-m-d\TH:i:sP', filemtime( $xml_path ) )
+			'is_index' => $is_index,
+			'file'     => $filename,
+			'path'     => $xml_path,
+			'loc'      => $xml_url,
+			'lastmod'  => date( 'Y-m-d\TH:i:sP', filemtime( $xml_path ) )
 		);
 
 		if ( file_exists( $xml_path ) ) {
@@ -819,7 +1247,7 @@ if ( ! function_exists( 'gglstmp_get_sitemap_info' ) ) {
 	}
 }
 
-if ( ! function_exists ( 'gglstmp_client' ) ) {
+if ( ! function_exists( 'gglstmp_client' ) ) {
 	function gglstmp_client() {
 		global $gglstmp_plugin_info;
 
@@ -830,11 +1258,15 @@ if ( ! function_exists ( 'gglstmp_client' ) ) {
 		$client = new Google_Client();
 		$client->setClientId( '37374817621-7ujpfn4ai4q98q4nb0gaaq5ga7j7u0ka.apps.googleusercontent.com' );
 		$client->setClientSecret( 'GMefWPZdRIWk3J7USu6_Kf6_' );
-		$client->setScopes( array( 'https://www.googleapis.com/auth/webmasters', 'https://www.googleapis.com/auth/siteverification' ) );
+		$client->setScopes( array(
+			'https://www.googleapis.com/auth/webmasters',
+			'https://www.googleapis.com/auth/siteverification'
+		) );
 		$client->setRedirectUri( 'urn:ietf:wg:oauth:2.0:oob' );
 		$client->setAccessType( 'offline' );
 		$client->setDeveloperKey( 'AIzaSyBRFiI5TGKKeteDoDa8T8GkJGxRFa1IMxE' );
 		$client->setApplicationName( $gglstmp_plugin_info['Name'] );
+
 		return $client;
 	}
 }
@@ -846,7 +1278,7 @@ if ( ! function_exists( 'gglstmp_plugin_status' ) ) {
 			'plugin'      => '',
 			'plugin_info' => array(),
 		);
-		foreach ( (array)$plugins as $plugin ) {
+		foreach ( (array) $plugins as $plugin ) {
 			if ( array_key_exists( $plugin, $all_plugins ) ) {
 				if (
 					( $is_network && is_plugin_active_for_network( $plugin ) ) ||
@@ -854,12 +1286,12 @@ if ( ! function_exists( 'gglstmp_plugin_status' ) ) {
 				) {
 					$result['status']      = 'actived';
 					$result['plugin']      = $plugin;
-					$result['plugin_info'] = $all_plugins[$plugin];
+					$result['plugin_info'] = $all_plugins[ $plugin ];
 					break;
 				} else {
 					$result['status']      = 'deactivated';
 					$result['plugin']      = $plugin;
-					$result['plugin_info'] = $all_plugins[$plugin];
+					$result['plugin_info'] = $all_plugins[ $plugin ];
 				}
 
 			}
@@ -867,31 +1299,37 @@ if ( ! function_exists( 'gglstmp_plugin_status' ) ) {
 		if ( empty( $result['status'] ) ) {
 			$result['status'] = 'not_installed';
 		}
+
 		return $result;
 	}
 }
 
 /* Display setting page */
-if ( ! function_exists ( 'gglstmp_settings_page' ) ) {
+if ( ! function_exists( 'gglstmp_settings_page' ) ) {
 	function gglstmp_settings_page() {
 		global $gglstmp_plugin_info, $gglstmp_list_table;
 		require_once( dirname( __FILE__ ) . '/includes/pro_banners.php' ); ?>
-		<div class="wrap">
+        <div class="wrap">
 			<?php if ( 'google-sitemap-plugin.php' == $_GET['page'] ) { /* Showing settings tab */
 				require_once( dirname( __FILE__ ) . '/includes/class-gglstmp-settings.php' );
 				$page = new Gglstmp_Settings_Tabs( plugin_basename( __FILE__ ) ); ?>
-				<h1>Google Sitemap <?php _e( 'Settings', 'google-sitemap-plugin' ); ?></h1>
-				<noscript><div class="error below-h2"><p><strong><?php _e( "Please enable JavaScript in your browser.", 'google-sitemap-plugin' ); ?></strong></p></div></noscript>
+                <h1>Google Sitemap <?php _e( 'Settings', 'google-sitemap-plugin' ); ?></h1>
+                <noscript>
+                    <div class="error below-h2"><p>
+                            <strong><?php _e( "Please enable JavaScript in your browser.", 'google-sitemap-plugin' ); ?></strong>
+                        </p></div>
+                </noscript>
 				<?php $page->display_content();
 			} else { ?>
-				<h1>
+                <h1>
 					<?php _e( 'Custom Links', 'google-sitemap-plugin' ); ?>
-					<button disabled="disabled" class="page-title-action add-new-h2" ><?php _e( 'Add New', 'google-sitemap-plugin' ); ?></button>
-				</h1>
+                    <button disabled="disabled"
+                            class="page-title-action add-new-h2"><?php _e( 'Add New', 'google-sitemap-plugin' ); ?></button>
+                </h1>
 				<?php gglstmp_pro_block( "gglstmp_custom_links_block", false );
 				bws_plugin_reviews_block( $gglstmp_plugin_info['Name'], 'google-sitemap-plugin' );
 			} ?>
-		</div>
+        </div>
 	<?php }
 }
 
@@ -900,11 +1338,12 @@ if ( ! function_exists( 'gglstmp_robots_add_sitemap' ) ) {
 		if ( '0' != $public ) {
 			$home_url = get_option( 'home' );
 			$filename = ( is_multisite() ) ? "sitemap_" . get_current_blog_id() . ".xml" : "sitemap.xml";
-			$line = "Sitemap: " . $home_url . "/" . $filename;
+			$line     = "Sitemap: " . $home_url . "/" . $filename;
 			if ( file_exists( ABSPATH . $filename ) && false === strpos( $output, $line ) ) {
 				$output .= "\n" . $line . "\n";
 			}
 		}
+
 		return $output;
 	}
 }
@@ -925,7 +1364,7 @@ if ( ! function_exists( 'gglstmp_get_site_info' ) ) {
 		global $gglstmp_options;
 
 		$instruction_url = 'https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/';
-		$home_url = home_url( '/' );
+		$home_url        = home_url( '/' );
 		$wmt_sites_array = $wmt_sitemaps_arr = array();
 
 		$return = '<table id="gglstmp_manage_table"><tr><th>' . __( 'Website', 'google-sitemap-plugin' ) . '</th>
@@ -962,12 +1401,12 @@ if ( ! function_exists( 'gglstmp_get_site_info' ) ) {
 				$return .= '<tr><th>' . __( 'Sitemap Status', 'google-sitemap-plugin' ) . '</th>';
 
 				if ( is_multisite() ) {
-					$blog_id = get_current_blog_id();
-					$xml_file =  'sitemap_' . $blog_id . '.xml';
+					$blog_id     = get_current_blog_id();
+					$xml_file    = 'sitemap_' . $blog_id . '.xml';
 					$url_sitemap = home_url( '/' ) . $xml_file;
 				} else {
-					$xml_file = 'sitemap.xml';
-					$url_sitemap  = home_url( '/' ) . $xml_file;
+					$xml_file    = 'sitemap.xml';
+					$url_sitemap = home_url( '/' ) . $xml_file;
 				}
 
 				if ( ! empty( $url_sitemap ) ) {
@@ -987,7 +1426,7 @@ if ( ! function_exists( 'gglstmp_get_site_info' ) ) {
 				}
 			}
 		} catch ( Google_Service_Exception $e ) {
-			$error = $e->getErrors();
+			$error    = $e->getErrors();
 			$sv_error = isset( $error[0]['message'] ) ? $error[0]['message'] : __( 'Unexpected error', 'google-sitemap-plugin' );
 		} catch ( Google_IO_Exception $e ) {
 			$sv_error = $e->getMessage();
@@ -1004,6 +1443,7 @@ if ( ! function_exists( 'gglstmp_get_site_info' ) ) {
 			$return .= '<tr><th></th><td>' . __( "Manual verification required.", 'google-sitemap-plugin' ) . ' <a target="_blank" href="' . $instruction_url . '">' . __( 'Learn More', 'google-sitemap-plugin' ) . '</a></td></tr>';
 		}
 		$return .= '</table>';
+
 		return $return;
 	}
 }
@@ -1014,7 +1454,7 @@ if ( ! function_exists( 'gglstmp_delete_site' ) ) {
 		global $gglstmp_options;
 
 		$home_url = home_url( '/' );
-		$return = '<table id="gglstmp_manage_table"><tr><th>' . __( 'Website', 'google-sitemap-plugin' ) . '</th>
+		$return   = '<table id="gglstmp_manage_table"><tr><th>' . __( 'Website', 'google-sitemap-plugin' ) . '</th>
 					<td><a href="' . $home_url . '" target="_blank">' . $home_url . '</a></td></tr>';
 
 		try {
@@ -1025,7 +1465,8 @@ if ( ! function_exists( 'gglstmp_delete_site' ) ) {
 				} catch ( Google_Service_Exception $e ) {
 				} catch ( Google_IO_Exception $e ) {
 				} catch ( Google_Auth_Exception $e ) {
-				} catch ( Exception $e ) {}
+				} catch ( Exception $e ) {
+				}
 			}
 
 			$webmasters->sites->delete( $home_url );
@@ -1036,7 +1477,7 @@ if ( ! function_exists( 'gglstmp_delete_site' ) ) {
 			update_option( 'gglstmp_options', $gglstmp_options );
 
 		} catch ( Google_Service_Exception $e ) {
-			$error = $e->getErrors();
+			$error    = $e->getErrors();
 			$sv_error = isset( $error[0]['message'] ) ? $error[0]['message'] : __( 'Unexpected error', 'google-sitemap-plugin' );
 		} catch ( Google_IO_Exception $e ) {
 			$sv_error = $e->getMessage();
@@ -1053,6 +1494,7 @@ if ( ! function_exists( 'gglstmp_delete_site' ) ) {
 			}
 		}
 		$return .= '</table>';
+
 		return $return;
 	}
 }
@@ -1063,7 +1505,7 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 		global $gglstmp_options;
 
 		$instruction_url = 'https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/';
-		$home_url = home_url( '/' );
+		$home_url        = home_url( '/' );
 
 		$return = '<table id="gglstmp_manage_table"><tr><th>' . __( 'Website', 'google-sitemap-plugin' ) . '</th>
 					<td><a href="' . $home_url . '" target="_blank">' . $home_url . '</a></td></tr>';
@@ -1072,7 +1514,7 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 			$return .= '<tr><th>' . __( 'Status', 'google-sitemap-plugin' ) . '</th>
 					<td class="gglstmp_success">' . __( 'Added', 'google-sitemap-plugin' ) . '</td></tr>';
 		} catch ( Google_Service_Exception $e ) {
-			$error = $e->getErrors();
+			$error     = $e->getErrors();
 			$wmt_error = isset( $error[0]['message'] ) ? $error[0]['message'] : __( 'Unexpected error', 'google-sitemap-plugin' );
 		} catch ( Google_IO_Exception $e ) {
 			$wmt_error = $e->getMessage();
@@ -1098,7 +1540,7 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 				$gglstmp_sv_get_token_request = new Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequest;
 				$gglstmp_sv_get_token_request->setSite( $gglstmp_sv_get_token_request_site );
 				$gglstmp_sv_get_token_request->setVerificationMethod( 'META' );
-				$getToken = $site_verification->webResource->getToken( $gglstmp_sv_get_token_request );
+				$getToken                                    = $site_verification->webResource->getToken( $gglstmp_sv_get_token_request );
 				$gglstmp_options['site_vererification_code'] = htmlspecialchars( $getToken['token'] );
 				if ( preg_match( '|^&lt;meta name=&quot;google-site-verification&quot; content=&quot;(.*)&quot; /&gt;$|', $gglstmp_options['site_vererification_code'] ) ) {
 					update_option( 'gglstmp_options', $gglstmp_options );
@@ -1110,7 +1552,7 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 						<td>' . __( 'Received, but has not been added to the site', 'google-sitemap-plugin' ) . '</td></tr>';
 				}
 			} catch ( Google_Service_Exception $e ) {
-				$error = $e->getErrors();
+				$error    = $e->getErrors();
 				$sv_error = isset( $error[0]['message'] ) ? $error[0]['message'] : __( 'Unexpected error', 'google-sitemap-plugin' );
 			} catch ( Google_IO_Exception $e ) {
 				$sv_error = $e->getMessage();
@@ -1141,7 +1583,7 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 					$return .= '<tr><th>' . __( 'Verification Status', 'google-sitemap-plugin' ) . '</th>
 						<td class="gglstmp_success">' . __( 'Verified', 'google-sitemap-plugin' ) . '</td></tr>';
 				} catch ( Google_Service_Exception $e ) {
-					$error = $e->getErrors();
+					$error    = $e->getErrors();
 					$sv_error = isset( $error[0]['message'] ) ? $error[0]['message'] : __( 'Unexpected error', 'google-sitemap-plugin' );
 				} catch ( Google_IO_Exception $e ) {
 					$sv_error = $e->getMessage();
@@ -1165,7 +1607,7 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 					$is_multisite = is_multisite();
 
 					if ( $is_multisite ) {
-						$blog_id = get_current_blog_id();
+						$blog_id          = get_current_blog_id();
 						$sitemap_filename = "sitemap_{$blog_id}.xml";
 					} else {
 						$sitemap_filename = 'sitemap.xml';
@@ -1176,14 +1618,14 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 						! empty( $gglstmp_options['sitemaps'][ $sitemap_filename ]['path'] ) &&
 						file_exists( $gglstmp_options['sitemaps'][ $sitemap_filename ]['path'] )
 					) {
-						$sitemap_url = $gglstmp_options['sitemaps'][ $sitemap_filename ]['loc'];
+						$sitemap_url  = $gglstmp_options['sitemaps'][ $sitemap_filename ]['loc'];
 						$check_result = gglstmp_check_sitemap( $sitemap_url );
 						if ( ! is_wp_error( $check_result ) && 200 == $check_result['code'] ) {
 							try {
 								$webmasters->sitemaps->submit( $home_url, $sitemap_url );
 								$return .= '<td class="gglstmp_success">' . __( 'Added', 'google-sitemap-plugin' ) . '</td></tr>';
 							} catch ( Google_Service_Exception $e ) {
-								$error = $e->getErrors();
+								$error     = $e->getErrors();
 								$wmt_error = isset( $error[0]['message'] ) ? $error[0]['message'] : __( 'Unexpected error', 'google-sitemap-plugin' );
 							} catch ( Google_IO_Exception $e ) {
 								$wmt_error = $e->getMessage();
@@ -1221,6 +1663,7 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 		}
 
 		$return .= '</table>';
+
 		return $return;
 	}
 }
@@ -1280,6 +1723,7 @@ if ( ! function_exists( 'gglstmp_action_links' ) ) {
 				array_unshift( $links, $settings_link );
 			}
 		}
+
 		return $links;
 	}
 }
@@ -1294,11 +1738,12 @@ if ( ! function_exists( 'gglstmp_links' ) ) {
 			$links[] = '<a href="https://support.bestwebsoft.com/hc/en-us/sections/200538869" target="_blank">' . __( 'FAQ', 'google-sitemap-plugin' ) . '</a>';
 			$links[] = '<a href="https://support.bestwebsoft.com">' . __( 'Support', 'google-sitemap-plugin' ) . '</a>';
 		}
+
 		return $links;
 	}
 }
 
-if ( ! function_exists ( 'gglstmp_plugin_banner' ) ) {
+if ( ! function_exists( 'gglstmp_plugin_banner' ) ) {
 	function gglstmp_plugin_banner() {
 		global $hook_suffix, $gglstmp_plugin_info, $gglstmp_options;
 
@@ -1324,9 +1769,9 @@ if ( ! function_exists ( 'gglstmp_plugin_banner' ) ) {
 if ( ! function_exists( 'gglstmp_add_tabs' ) ) {
 	function gglstmp_add_tabs() {
 		$screen = get_current_screen();
-		$args = array(
-			'id' 			=> 'gglstmp',
-			'section' 		=> '200538869'
+		$args   = array(
+			'id'      => 'gglstmp',
+			'section' => '200538869'
 		);
 		bws_help_tab( $screen, $args );
 	}
@@ -1335,7 +1780,9 @@ if ( ! function_exists( 'gglstmp_add_tabs' ) ) {
 /**
  * Fires when the new blog has been added or during the blog activation, marking as not spam or as not archived.
  * @since   1.2.9
- * @param   int   $blog_id     Blog ID
+ *
+ * @param   int $blog_id Blog ID
+ *
  * @return  void
  */
 if ( ! function_exists( 'gglstmp_add_sitemap' ) ) {
@@ -1362,18 +1809,41 @@ if ( ! function_exists( 'gglstmp_add_sitemap' ) ) {
 /**
  * Fires when the blog has been deleted or blog status has been changed to 'spam', 'deactivated(deleted)' or 'archived'.
  * @since   1.2.9
- * @param   int   $blog_id     Blog ID
+ *
+ * @param   int $blog_id Blog ID
+ *
  * @return  void
  */
 if ( ! function_exists( 'gglstmp_delete_sitemap' ) ) {
-	function gglstmp_delete_sitemap( $blog_id ) {
+	function gglstmp_delete_sitemap( $blog_id, $gglstmp_del_init = false ) {
+		global $gglstmp_options;
+
+		if ( $gglstmp_options['media_sitemap'] ) {
+			$masks = [ 'sitemap' ];
+		} else {
+			$masks = [ 'video_sitemap', 'image_sitemap', 'sitemap' ];
+		}
 
 		/* remove blog sitemap files */
-		$mask = "sitemap_{$blog_id}*.xml";
-		array_map( "unlink", glob( ABSPATH . $mask ) );
+		if ( is_multisite() ) {
+			foreach ( $masks as $mask ) {
+				$mask_file = "{$mask}_{$blog_id}*.xml";
+				array_map( "unlink", glob( ABSPATH . "$mask_file" ) );
+			}
+			if ( $gglstmp_del_init ) {
+				array_map( "unlink", glob( ABSPATH . "sitemap.xml" ) );
+			}
+		} else {
+			foreach ( $masks as $mask ) {
+				$mask_file = "{$mask}*.xml";
+				array_map( "unlink", glob( ABSPATH . "$mask_file" ) );
+			}
+		}
 
 		/* update network index file */
-		gglstmp_create_sitemap_index( 0 );
+		if ( ! $gglstmp_del_init ) {
+			gglstmp_create_sitemap_index( 0 );
+		}
 	}
 }
 
@@ -1409,6 +1879,76 @@ if ( ! function_exists( 'gglstmp_delete_settings' ) ) {
 	}
 }
 
+/* Functionality for canonical link */
+if ( ! function_exists( 'gglstmp_canonical_tag' ) ) {
+	function gglstmp_canonical_tag() {
+		if ( is_front_page() ) {
+			$canonical_url = '<link rel="canonical" href="' . trailingslashit( home_url() ) . '"/>';
+			$canonical_url .= "\n\n";
+			echo apply_filters( 'gglstmp_canonical_tag', $canonical_url );
+		}
+		if ( is_singular() ) {
+			global $post;
+			$gglstmp_meta_canonical = get_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', true );//get the key id _gglstmp_meta_canonical_tag
+			if ( $gglstmp_meta_canonical ) {
+				//calls the custom meta text
+				$canonical_url = '<link rel="canonical" href="' . $gglstmp_meta_canonical . '"/>';
+				$canonical_url .= "\n\n";
+				echo apply_filters( 'gglstmp_canonical_tag', $canonical_url );
+			} else {
+				$canonical_url = '<link rel="canonical" href="' . get_permalink() . '"/>';
+				$canonical_url .= "\n\n";
+				echo apply_filters( 'gglstmp_canonical_tag', $canonical_url );
+			}
+		}
+	}
+}
+
+if ( ! function_exists( 'gglstmp_add_custom_canonical_url' ) ) {
+	function gglstmp_add_custom_canonical_url( $post ) {
+		add_meta_box(
+			'Meta Box',
+			__( 'Google-Sitemap-plugin Canonical Settings', 'google-sitemap-plugin' ),
+			'gglstmp_custom_meta_box_content_canonical_url',
+			'page',
+			'normal',
+			'high'
+		);
+
+		add_meta_box(
+			'Meta Box',
+			__( 'Google-Sitemap-plugin Canonical Settings', 'google-sitemap-plugin' ),
+			'gglstmp_custom_meta_box_content_canonical_url',
+			'post',
+			'normal',
+			'high'
+		);
+	}
+}
+
+if ( ! function_exists( 'gglstmp_save_custom_canonical_tag_box' ) ) {
+	function gglstmp_save_custom_canonical_tag_box() {
+		global $post;
+		// Get our form field
+		if ( isset( $_POST['gglstmp-meta-canonical-url'] ) ) {
+			$gglstmp_meta_canonical = esc_attr( $_POST['gglstmp-meta-canonical-url'] );
+			// Update post meta canonical url
+			update_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', $gglstmp_meta_canonical );
+		}
+	}
+}
+
+if ( ! function_exists( 'gglstmp_custom_meta_box_content_canonical_url' ) ) {
+	// Content for the custom meta box
+	function gglstmp_custom_meta_box_content_canonical_url( $post ) {
+		// Get post Custom Canonical Url
+		$gglstmp_meta_canonical = get_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', true );
+		$custom_canon_url       = __( 'Canonical Url:', 'google-sitemap-plugin' );
+		echo "<p><label>$custom_canon_url</label></p>";
+		echo '<p><input style="width:99%;" class="meta-text" type="text" name="gglstmp-meta-canonical-url" value="' . $gglstmp_meta_canonical . '" /></p>';
+	}
+}
+
 register_activation_hook( __FILE__, 'gglstmp_activate' );
 
 add_action( 'admin_menu', 'gglstmp_admin_menu' );
@@ -1425,15 +1965,15 @@ add_action( 'transition_post_status', 'gglstmp_check_post_status', 10, 3 );
 add_action( 'save_post', 'gglstmp_update_sitemap', 10, 2 );
 add_action( 'trashed_post', 'gglstmp_update_sitemap' );
 
-add_action( 'gglstmp_sitemap_cron','gglstmp_prepare_sitemap' );
+add_action( 'gglstmp_sitemap_cron', 'gglstmp_prepare_sitemap' );
 
 /* rebuild sitemap on permalink structure change, on taxonomy term add/edit/delete */
-add_action( 'permalink_structure_changed','gglstmp_schedule_sitemap', 10, 0 );
-add_action( 'created_term','gglstmp_edited_term', 10, 3 );
-add_action( 'edited_term','gglstmp_edited_term', 10, 3 );
-add_action( 'delete_term','gglstmp_edited_term', 10, 3 );
+add_action( 'permalink_structure_changed', 'gglstmp_schedule_sitemap', 10, 0 );
+add_action( 'created_term', 'gglstmp_edited_term', 10, 3 );
+add_action( 'edited_term', 'gglstmp_edited_term', 10, 3 );
+add_action( 'delete_term', 'gglstmp_edited_term', 10, 3 );
 
-add_filter( 'rewrite_rules_array','gglstmp_rewrite_rules', PHP_INT_MAX, 1 );
+add_filter( 'rewrite_rules_array', 'gglstmp_rewrite_rules', PHP_INT_MAX, 1 );
 
 add_action( 'wp_head', 'gglstmp_add_verification_code' );
 
@@ -1453,3 +1993,12 @@ add_action( 'deactivate_blog', 'gglstmp_delete_sitemap' );
 add_action( 'make_delete_blog', 'gglstmp_delete_sitemap' );
 add_action( 'archive_blog', 'gglstmp_delete_sitemap' );
 add_action( 'make_spam_blog', 'gglstmp_delete_sitemap' );
+
+/* Functionality for canonical link */
+remove_action( 'wp_head', 'rel_canonical' );
+add_action( 'wp_head', 'gglstmp_canonical_tag' );
+// Create custom meta box
+add_action( 'add_meta_boxes', 'gglstmp_add_custom_canonical_url' );
+// Save meta box content
+add_action( 'save_post', 'gglstmp_save_custom_canonical_tag_box' );
+// Add a custom meta box to a post

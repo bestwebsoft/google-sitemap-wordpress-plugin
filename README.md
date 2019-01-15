@@ -19,6 +19,8 @@
 </ul>
 </li>
 <li>Add a path to your sitemap file in robots.txt automatically</li>
+<li>Add media sitemap [NEW]</li>
+<li>Add canonical URLs to pages and posts [NEW]</li>
 <li>Set the maximum number of URLs in one sitemap file</li>
 <li>Connect your Google Webmaster Tools account to:
 <ul>
