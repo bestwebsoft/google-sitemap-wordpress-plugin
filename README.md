@@ -19,8 +19,8 @@
 </ul>
 </li>
 <li>Add a path to your sitemap file in robots.txt automatically</li>
-<li>Add media sitemap [NEW]</li>
-<li>Add canonical URLs to pages and posts [NEW]</li>
+<li>Add media sitemap</li>
+<li>Add canonical URLs to pages and posts</li>
 <li>Set the maximum number of URLs in one sitemap file</li>
 <li>Connect your Google Webmaster Tools account to:
 <ul>
@@ -48,7 +48,7 @@
 </ul>
 </li>
 <li>Configure all subsites on the network</li>
-<li>Add custom URLs to the sitemap file</li>
+<li>Add custom URLs to the sitemap file [NEW]</li>
 <li>Get answer to your support question within one business day (<a href="https://bestwebsoft.com/support-policy/" rel="nofollow">Support Policy</a>)</li>
 </ul>
 <p><a href="https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b" rel="nofollow">Upgrade to Pro Now</a></p>

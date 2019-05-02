@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.9
-Tested up to: 5.0.3
-Stable tag: 3.1.7
+Tested up to: 5.1.1
+Stable tag: 3.1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,8 +32,8 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 	* Custom post types
 	* Custom taxonomies
 * Add a path to your sitemap file in robots.txt automatically
-* Add media sitemap [NEW]
-* Add canonical URLs to pages and posts [NEW]
+* Add media sitemap
+* Add canonical URLs to pages and posts
 * Set the maximum number of URLs in one sitemap file
 * Connect your Google Webmaster Tools account to:
 	* Add website
@@ -55,7 +55,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 > 	* Your website content changes for all pages
 > 	* External sitemap file update
 > * Configure all subsites on the network
-> * Add custom URLs to the sitemap file
+> * Add custom URLs to the sitemap file [NEW]
 > * Get answer to your support question within one business day ([Support Policy](https://bestwebsoft.com/support-policy/))
 >
 > [Upgrade to Pro Now](https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b)
@@ -148,6 +148,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.1.8 - 02.05.2019 =
+* PRO : Ability to add multiple URLs at once has been added.
+* Bugfix : Small bugs have been fixed.
+* Update : Czech language file has been updated.
 
 = V3.1.7 - 15.01.2019 =
 * NEW : The ability to add media sitemap.
@@ -353,6 +358,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.1.8 =
+* Functionality expanded.
+* Bugs fixed.
 
 = V3.1.7 =
 * Functionality expanded

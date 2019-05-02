@@ -51,6 +51,9 @@
     box-sizing: border-box;
     padding-left: 0;
 }
+.bws_pro_version_bloc .bws_help_box {
+    z-index: 0 !important;
+}
 @media screen and (max-width: 782px) {
     #gglstmp_manage_table th {
         padding-bottom: 0;

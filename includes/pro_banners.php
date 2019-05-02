@@ -17,7 +17,7 @@ if ( ! function_exists( 'gglstmp_pro_block' ) ) {
 		if ( ! bws_hide_premium_options_check( $gglstmp_options ) || ! $show_cross ) { ?>
 			<div class="bws_pro_version_bloc gglstmp_pro_block <?php echo $func;?>" title="<?php _e( 'This option is available in Pro version of plugin', 'google-sitemap-plugin' ); ?>">
 				<div class="bws_pro_version_table_bloc">
-					<?php if ( $show_cross ) { ?>
+                    <?php if ( $show_cross ) { ?>
 						<button type="submit" name="bws_hide_premium_options" class="notice-dismiss bws_hide_premium_options" title="<?php _e( 'Close', 'google-sitemap-plugin' ); ?>"></button>
 					<?php } ?>
 					<div class="bws_table_bg"></div>
@@ -78,7 +78,7 @@ if ( ! function_exists( 'gglstmp_extra_block' ) ) {
 if ( ! function_exists( 'gglstmp_custom_links_block' ) ) {
 	function gglstmp_custom_links_block() {
 		$date = date_i18n( get_option( 'date_format' ), 1458086400 ); ?>
-		<ul class="subsubsub">
+        <ul class="subsubsub">
 			<li class="all"><a class="current"><?php _e( 'All', 'google-sitemap-plugin' ); ?>&nbsp;<span class="count">(5)</span></a> |</li>
 			<li class="enabled"><a><?php _e( 'Enabled', 'google-sitemap-plugin' ); ?>&nbsp;<span class="count">(3)</span></a> |</li>
 			<li class="disabled"><a><?php _e( 'Disabled', 'google-sitemap-plugin' ); ?>&nbsp;<span class="count">(2)</span></a></li>
@@ -114,7 +114,7 @@ if ( ! function_exists( 'gglstmp_custom_links_block' ) ) {
 						<input type="url" style="width: 100%; box-sizing: border-box;" disabled="disabled" />
 						<div class="bws_info">
 							<strong><?php _e( "Please note", "google-sitemap-plugin" ); ?>:</strong>
-							<?php _e( "All URLs listed in the sitemap.xml must use the same protocol (HTTP or HTTPS) and must be located on the same host as the sitemap.xml. For more info see", "google-sitemap-plugin" ); ?>&nbsp;<a href="http://www.sitemaps.org/protocol.html#location" target="_blank"><?php _e( "here", "google-sitemap-plugin" ); ?></a>.
+							<?php _e( "All URLs listed in the sitemap.xml must use the same protocol (HTTP or HTTPS) and must be located on the same host as the sitemap.xml.", "google-sitemap-plugin" ); ?>&nbsp;<a href="http://www.sitemaps.org/protocol.html#location" target="_blank"><?php _e( 'Learn More', 'google-sitemap-plugin' ); ?></a><br/><strong><?php _e( 'You can also add multiple URLs at once.' , 'google-sitemap-plugin' ); ?></strong><?php echo bws_add_help_box(''); ?></div>
 						</div>
 					</td>
 					<td class="is_sitemap column-is_sitemap" data-colname="Sitemap"><input type="checkbox" disabled="disabled" value="1"></td>

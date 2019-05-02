@@ -263,7 +263,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                                 title="<?php _e( 'Close', 'google-sitemap-plugin' ); ?>"></button>
                         <div class="bws_table_bg"></div>
                         <table class="form-table bws_pro_version">
-							<?php gglstmp_frequency_block(); ?>
+                            <?php gglstmp_frequency_block(); ?>
                         </table>
                     </div>
 					<?php $this->bws_pro_block_links(); ?>

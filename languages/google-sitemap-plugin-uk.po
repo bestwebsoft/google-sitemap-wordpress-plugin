@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Google Sitemap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-25 16:53+0200\n"
-"PO-Revision-Date: 2018-12-25 16:53+0200\n"
+"POT-Creation-Date: 2019-04-12 15:52+0300\n"
+"PO-Revision-Date: 2019-04-12 15:52+0300\n"
 "Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
 "Language: uk\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -120,6 +120,7 @@ msgstr "Будь ласка, перевірте файл sitemap вручну."
 #: google-sitemap-plugin.php:1533 google-sitemap-plugin.php:1572
 #: google-sitemap-plugin.php:1602 google-sitemap-plugin.php:1642
 #: includes/class-gglstmp-settings.php:282 includes/pro_banners.php:47
+#: includes/pro_banners.php:117
 msgid "Learn More"
 msgstr "Дізнатись більше"
 
@@ -509,16 +510,15 @@ msgstr "Будь ласка, зауважте"
 #: includes/pro_banners.php:117
 msgid ""
 "All URLs listed in the sitemap.xml must use the same protocol (HTTP or "
-"HTTPS) and must be located on the same host as the sitemap.xml. For more "
-"info see"
+"HTTPS) and must be located on the same host as the sitemap.xml."
 msgstr ""
 "Всі URL-адреси, що містяться в sitemap.xml, повинні використовувати той "
 "самий протокол ( HTTP або HTTPS ) та розміщені на тому ж хості, що і файл "
-"sitemap.xml. Для отримання більш детальної інформації прочитайте"
+"sitemap.xml."
 
 #: includes/pro_banners.php:117
-msgid "here"
-msgstr "тут"
+msgid "You can also add multiple URLs at once."
+msgstr "Можна також одночасно додати кілька URL-адрес."
 
 #: includes/pro_banners.php:124
 msgid "Always"
@@ -544,6 +544,9 @@ msgstr "Так"
 #: includes/pro_banners.php:165 includes/pro_banners.php:173
 msgid "No"
 msgstr "Ні"
+
+#~ msgid "here"
+#~ msgstr "тут"
 
 #~ msgid ""
 #~ "Can't access XML files on subsites. Add the following rule %s to your %s "

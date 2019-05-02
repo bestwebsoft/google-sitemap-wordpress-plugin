@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.1.7
+Version: 3.1.8
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -34,40 +34,40 @@ if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 			global $gglstmp_options, $wp_version, $submenu, $gglstmp_plugin_info;
 
 			$settings = add_menu_page(
-				__( 'Google Sitemap Settings', 'google-sitemap-plugin' ), /* $page_title */
-				'Google Sitemap', /* $menu_title */
-				'manage_options', /* $capability */
-				'google-sitemap-plugin.php', /* $menu_slug */
-				'gglstmp_settings_page', /* $callable_function */
-				'none' /* $icon_url */
+				__( 'Google Sitemap Settings', 'google-sitemap-plugin' ),
+				'Google Sitemap',
+				'manage_options',
+				'google-sitemap-plugin.php',
+				'gglstmp_settings_page',
+				'none'
 			);
 
 			add_submenu_page(
-				'google-sitemap-plugin.php', /* $parent_slug */
-				__( 'Google Sitemap Settings', 'google-sitemap-plugin' ), /* $page_title */
-				__( 'Settings', 'google-sitemap-plugin' ), /* $menu_title */
-				'manage_options', /* $capability */
-				'google-sitemap-plugin.php', /* $menu_slug */
-				'gglstmp_settings_page' /* $callable_function */
+				'google-sitemap-plugin.php',
+				__( 'Google Sitemap Settings', 'google-sitemap-plugin' ),
+				__( 'Settings', 'google-sitemap-plugin' ),
+				'manage_options',
+				'google-sitemap-plugin.php',
+				'gglstmp_settings_page'
 			);
 
 			if ( ! bws_hide_premium_options_check( $gglstmp_options ) ) {
-				add_submenu_page( 'google-sitemap-plugin.php', /* $parent_slug */
-					__( 'Custom Links', 'google-sitemap-plugin' ), /* $page_title */
-					__( 'Custom Links', 'google-sitemap-plugin' ), /* $menu_title */
-					'manage_options', /* $capability */
-					'google-sitemap-custom-links.php', /* $menu_slug */
-					'gglstmp_settings_page' /* $callable_function */
+				add_submenu_page( 'google-sitemap-plugin.php',
+					__( 'Custom Links', 'google-sitemap-plugin' ),
+					__( 'Custom Links', 'google-sitemap-plugin' ),
+					'manage_options',
+					'google-sitemap-custom-links.php',
+					'gglstmp_settings_page'
 				);
 			}
 
 			add_submenu_page(
-				'google-sitemap-plugin.php', /* $parent_slug */
-				'BWS Panel', /* $page_title */
-				'BWS Panel', /* $menu_title */
-				'manage_options', /* $capability */
-				'gglstmp-bws-panel', /* $menu_slug */
-				'bws_add_menu_render' /* $callable_function */
+				'google-sitemap-plugin.php',
+				'BWS Panel',
+				'BWS Panel',
+				'manage_options',
+				'gglstmp-bws-panel',
+				'bws_add_menu_render'
 			);
 
 			if ( isset( $submenu['google-sitemap-plugin.php'] ) ) {
