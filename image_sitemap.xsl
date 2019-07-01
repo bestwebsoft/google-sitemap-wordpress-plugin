@@ -114,6 +114,7 @@
                         <tr id="table-header">
                             <th>URL</th>
                             <th>Image URL</th>
+                            <th>Image title</th>
                             <th>Thumbnail</th>
                         </tr>
                         <xsl:for-each select="sitemap:urlset/sitemap:url">
@@ -137,6 +138,11 @@
                                         <a href="{$itemURL}">
                                             <xsl:value-of select="substring(image:loc, 0, 100)"/>
                                         </a>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <xsl:value-of select="image:title"/>
+                                        </span>
                                     </td>
                                     <td>
                                         <xsl:variable name="itemURL">

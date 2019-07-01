@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.1.8
+Version: 3.1.9
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -453,11 +453,14 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 					}
 
 					if ( $gglstmp_options['media_sitemap'] ) {
+
 						/* Prepear video_list and image_list data for sitemap */
 						$video_list = get_attached_media( 'video', $post );
 						$image_list = get_attached_media( 'image', $post );
+
 						/* Add image to list */
 						$image_item = [];
+
 						if ( ! empty( $image_list ) ) {
 							$image_count = 0;
 							foreach ( $image_list as $image ) {
@@ -474,13 +477,13 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 								$image_guid       = basename( $image->guid );
 								$check_img_exists = gglstmp_if_file_exists( $image_guid, $image_upload_date );
 								if ( $check_img_exists ) {
-									$image_item[] = $image->guid;
+									$image_item[] = array( 'guid' => $image->guid, 'image_title' => $image->post_title );
 								}
 							}
 							/* Add array image_elements of one post */
 							$image_elements[] = array(
 								'url'            => get_permalink( $post ),
-								'image_list_url' => $image_item
+								'image_list' => $image_item
 							);
 						}
 						/* Add video to list */
@@ -801,11 +804,17 @@ if ( ! function_exists( 'gglstmp_create_image_sitemap' ) ) {
 						$link->setAttribute( "href", $lang_link( $args_links ) );
 					}
 
-					if ( isset( $element['image_list_url'] ) ) {
-						foreach ( $element['image_list_url'] as $image_it ) {
+					if ( ! empty( $element['image_list'] ) ) {
+						foreach ( $element['image_list'] as $image_it ) {
 							$image     = $url->appendChild( $xml->createElement( 'image:image' ) );
-							$imagecont = $image->appendChild( $xml->createElement( 'image:loc' ) );
-							$imagecont->appendChild( $xml->createTextNode( $image_it ) );
+
+							/* image title */
+							$image_title = $image->appendChild( $xml->createElement( 'image:title' ) );
+							$image_title->appendChild( $xml->createTextNode( $image_it['image_title'] ) );
+
+							/* image loc */
+							$image_loc = $image->appendChild( $xml->createElement( 'image:loc' ) );
+							$image_loc->appendChild( $xml->createTextNode( $image_it['guid'] ) );
 						}
 					}
 				}
@@ -814,11 +823,18 @@ if ( ! function_exists( 'gglstmp_create_image_sitemap' ) ) {
 				$loc = $url->appendChild( $xml->createElement( 'loc' ) );
 				$loc->appendChild( $xml->createTextNode( $element['url'] ) );
 
-				if ( isset( $element['image_list_url'] ) ) {
-					foreach ( $element['image_list_url'] as $image_it ) {
-						$image     = $url->appendChild( $xml->createElement( 'image:image' ) );
-						$imagecont = $image->appendChild( $xml->createElement( 'image:loc' ) );
-						$imagecont->appendChild( $xml->createTextNode( $image_it ) );
+				if ( ! empty( $element['image_list'] ) ) {
+					foreach ( $element['image_list'] as $image_it ) {
+
+						$image  = $url->appendChild( $xml->createElement( 'image:image' ) );
+
+						/* image title */
+						$image_title = $image->appendChild( $xml->createElement( 'image:title' ) );
+						$image_title->appendChild( $xml->createTextNode( $image_it['image_title'] ) );
+
+                        /* image loc */
+						$image_loc = $image->appendChild( $xml->createElement( 'image:loc' ) );
+						$image_loc->appendChild( $xml->createTextNode( $image_it['guid'] ) );
 					}
 				}
 			}
