@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.1.9
+Version: 3.2.0
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -416,107 +416,133 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 				$excluded_posts_string = "AND p.`ID` NOT IN (" . implode( ",", $excluded_posts ) . ")";
 			}
 
-			$posts = $wpdb->get_results(
-				"SELECT
-					`ID`,
-					`post_author`,
-					`post_status`,
-					`post_name`,
-					`post_parent`,
-					`post_type`,
-					`post_date`,
-					`post_date_gmt`,
-					`post_modified`,
-					`post_modified_gmt`,
-					GROUP_CONCAT(t.`term_id`) as term_id
-				FROM `{$wpdb->posts}` p
-				LEFT JOIN {$wpdb->term_relationships} tr
-					ON p.`ID` = tr.`object_id`
-				LEFT JOIN {$wpdb->term_taxonomy} tt
-					ON tt.`term_taxonomy_id` = tr.`term_taxonomy_id`
-				LEFT JOIN {$wpdb->terms} t
-					ON t.`term_id` = tt.`term_id`
-				WHERE
-					{$post_status_string}
-					{$post_types_string}
-					{$excluded_posts_string}
-				GROUP BY `ID`
-				ORDER BY `post_date_gmt` DESC;"
-			);
+			// get the number of posts for sitemap
+			$count_posts = $wpdb->query( "
+                SELECT COUNT( * )
+                FROM `{$wpdb->posts}` p
+                LEFT JOIN {$wpdb->term_relationships} tr
+                    ON p.`ID` = tr.`object_id`
+                LEFT JOIN {$wpdb->term_taxonomy} tt
+                    ON tt.`term_taxonomy_id` = tr.`term_taxonomy_id`
+                LEFT JOIN {$wpdb->terms} t
+                    ON t.`term_id` = tt.`term_id`
+                WHERE
+                    {$post_status_string}
+                    {$post_types_string}
+                    {$excluded_posts_string}
+                GROUP BY `ID`
+            " );
 
-			if ( ! empty( $posts ) ) {
-				foreach ( $posts as $post ) {
-					$priority = 0.8;
-					if ( $show_on_front && $frontpage_id == $post->ID ) {
-						$priority           = 1.0;
-						$frontpage_is_added = true;
-					}
+			// count the number of iterations needed
+            $counter = ( int ) ceil( $count_posts / 5000 );
 
-					if ( $gglstmp_options['media_sitemap'] ) {
+			// loop to limit 5000 posts for iteration
+            for (
+                    $i = 0, $offset = 0, $limit = 5000;
+                    $i < $counter;
+                    $i++, $offset += 5000
+            ) {
+                $posts = $wpdb->get_results(
+                    "SELECT
+                        `ID`,
+                        `post_author`,
+                        `post_status`,
+                        `post_name`,
+                        `post_parent`,
+                        `post_type`,
+                        `post_date`,
+                        `post_date_gmt`,
+                        `post_modified`,
+                        `post_modified_gmt`,
+                        GROUP_CONCAT(t.`term_id`) as term_id
+                    FROM `{$wpdb->posts}` p
+                    LEFT JOIN {$wpdb->term_relationships} tr
+                        ON p.`ID` = tr.`object_id`
+                    LEFT JOIN {$wpdb->term_taxonomy} tt
+                        ON tt.`term_taxonomy_id` = tr.`term_taxonomy_id`
+                    LEFT JOIN {$wpdb->terms} t
+                        ON t.`term_id` = tt.`term_id`
+                    WHERE
+                        {$post_status_string}
+                        {$post_types_string}
+                        {$excluded_posts_string}
+                    GROUP BY `ID`
+                    ORDER BY `post_date_gmt` DESC LIMIT {$offset}, {$limit};"
+                );
 
-						/* Prepear video_list and image_list data for sitemap */
-						$video_list = get_attached_media( 'video', $post );
-						$image_list = get_attached_media( 'image', $post );
+                if ( ! empty( $posts ) ) {
+                    foreach ( $posts as $post ) {
+                        $priority = 0.8;
+                        if ( $show_on_front && $frontpage_id == $post->ID ) {
+                            $priority           = 1.0;
+                            $frontpage_is_added = true;
+                        }
 
-						/* Add image to list */
-						$image_item = [];
+                        if ( $gglstmp_options['media_sitemap'] ) {
 
-						if ( ! empty( $image_list ) ) {
-							$image_count = 0;
-							foreach ( $image_list as $image ) {
-								$image_count ++;
-								if ( $image_count > 1000 ) {
-									break;
-								}
-								$attachment_metadata = wp_get_attachment_metadata( $image->ID );
+                            /* Prepear video_list and image_list data for sitemap */
+                            $video_list = get_attached_media( 'video', $post );
+                            $image_list = get_attached_media( 'image', $post );
 
-								$explode_metadata = explode( '/', $attachment_metadata['file'] );
-								array_pop( $explode_metadata );
-								$image_upload_date = implode( ' ', $explode_metadata );
+                            /* Add image to list */
+                            $image_item = [];
 
-								$image_guid       = basename( $image->guid );
-								$check_img_exists = gglstmp_if_file_exists( $image_guid, $image_upload_date );
-								if ( $check_img_exists ) {
-									$image_item[] = array( 'guid' => $image->guid, 'image_title' => $image->post_title );
-								}
-							}
-							/* Add array image_elements of one post */
-							$image_elements[] = array(
-								'url'            => get_permalink( $post ),
-								'image_list' => $image_item
-							);
-						}
-						/* Add video to list */
-						$video_item = [];
-						if ( ! empty( $video_list ) ) {
-							$video_count = 0;
-							foreach ( $video_list as $video ) {
-								$video_count ++;
-								if ( $video_count > 1000 ) {
-									break;
-								}
-								$video_info[] = $video->guid;
-								$video_info[] = $video->post_title;
-								$video_item[] = $video_info;
-							}
-							/* Add array video_elements of one post */
-							$video_elements[] = array(
-								'url'            => get_permalink( $post ),
-								'video_list_url' => $video_item
-							);
-						}
-					}
+                            if ( ! empty( $image_list ) ) {
+                                $image_count = 0;
+                                foreach ( $image_list as $image ) {
+                                    $image_count ++;
+                                    if ( $image_count > 1000 ) {
+                                        break;
+                                    }
+                                    $attachment_metadata = wp_get_attachment_metadata( $image->ID );
 
-					/* Data for default sitemap */
-					$elements[] = array(
-						'url'       => get_permalink( $post ),
-						'date'      => date( 'Y-m-d\TH:i:sP', strtotime( $post->post_modified ) ),
-						'frequency' => 'monthly',
-						'priority'  => $priority
-					);
+                                    $explode_metadata = explode( '/', $attachment_metadata['file'] );
+                                    array_pop( $explode_metadata );
+                                    $image_upload_date = implode( ' ', $explode_metadata );
 
-				}
-			}
+                                    $image_guid       = basename( $image->guid );
+                                    $check_img_exists = gglstmp_if_file_exists( $image_guid, $image_upload_date );
+                                    if ( $check_img_exists ) {
+                                        $image_item[] = array( 'guid' => $image->guid, 'image_title' => $image->post_title );
+                                    }
+                                }
+                                /* Add array image_elements of one post */
+                                $image_elements[] = array(
+                                    'url'            => get_permalink( $post ),
+                                    'image_list' => $image_item
+                                );
+                            }
+                            /* Add video to list */
+                            $video_item = [];
+                            if ( ! empty( $video_list ) ) {
+                                $video_count = 0;
+                                foreach ( $video_list as $video ) {
+                                    $video_count ++;
+                                    if ( $video_count > 1000 ) {
+                                        break;
+                                    }
+                                    $video_info[] = $video->guid;
+                                    $video_info[] = $video->post_title;
+                                    $video_item[] = $video_info;
+                                }
+                                /* Add array video_elements of one post */
+                                $video_elements[] = array(
+                                    'url'            => get_permalink( $post ),
+                                    'video_list_url' => $video_item
+                                );
+                            }
+                        }
+
+                        /* Data for default sitemap */
+                        $elements[] = array(
+                            'url'       => get_permalink( $post ),
+                            'date'      => date( 'Y-m-d\TH:i:sP', strtotime( $post->post_modified ) ),
+                            'frequency' => 'monthly',
+                            'priority'  => $priority
+                        );
+                    }
+                }
+            }
 		}
 
 		if ( ! $frontpage_is_added ) {

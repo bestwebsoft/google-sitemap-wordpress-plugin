@@ -48,7 +48,7 @@
 </ul>
 </li>
 <li>Configure all subsites on the network</li>
-<li>Add custom URLs to the sitemap file [NEW]</li>
+<li>Add custom URLs to the sitemap file</li>
 <li>Get answer to your support question within one business day (<a href="https://bestwebsoft.com/support-policy/" rel="nofollow">Support Policy</a>)</li>
 </ul>
 <p><a href="https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b" rel="nofollow">Upgrade to Pro Now</a></p>

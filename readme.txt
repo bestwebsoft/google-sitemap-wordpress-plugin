@@ -4,7 +4,7 @@ Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 3.9
 Tested up to: 5.2.2
-Stable tag: 3.1.9
+Stable tag: 3.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,7 +55,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 > 	* Your website content changes for all pages
 > 	* External sitemap file update
 > * Configure all subsites on the network
-> * Add custom URLs to the sitemap file [NEW]
+> * Add custom URLs to the sitemap file
 > * Get answer to your support question within one business day ([Support Policy](https://bestwebsoft.com/support-policy/))
 >
 > [Upgrade to Pro Now](https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b)
@@ -149,7 +149,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 
 == Changelog ==
 
-= V3.1.9 - 1.07.2019 =
+= V3.2.0 - 08.08.2019 =
+* Bugfix : The bug with recording a large number of posts in the sitemap file has been fixed.
+
+= V3.1.9 - 01.07.2019 =
 * Bugfix : The bug the possibility of using image title in the image_sitemap.xml file has been fixed.
 
 = V3.1.8 - 02.05.2019 =
@@ -361,6 +364,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.2.0 =
+* Bugs fixed.
 
 = V3.1.9 =
 * Bugs fixed.
