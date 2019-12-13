@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Google Sitemap\n"
+"Project-Id-Version: Sitemap by BestWebSoft\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-12 15:50+0300\n"
-"PO-Revision-Date: 2019-04-12 15:51+0300\n"
+"POT-Creation-Date: 2019-12-03 14:46+0200\n"
+"PO-Revision-Date: 2019-12-03 14:46+0200\n"
 "Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
 "Language: ru_RU\n"
@@ -13,24 +13,25 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.4\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: bws_menu\n"
 
 #: google-sitemap-plugin.php:37 google-sitemap-plugin.php:47
-#: includes/class-gglstmp-settings.php:180
-msgid "Google Sitemap Settings"
-msgstr "Настройки Google Sitemap"
+#: includes/class-gglstmp-settings.php:203
+msgid "Sitemap Settings"
+msgstr "Настройки Sitemap"
 
-#: google-sitemap-plugin.php:48 google-sitemap-plugin.php:1316
-#: google-sitemap-plugin.php:1722 google-sitemap-plugin.php:1736
-#: includes/class-gglstmp-settings.php:28
+#: google-sitemap-plugin.php:48 google-sitemap-plugin.php:1363
+#: google-sitemap-plugin.php:1837 google-sitemap-plugin.php:1851
+#: includes/class-gglstmp-settings.php:29
 msgid "Settings"
 msgstr "Настройки"
 
 #: google-sitemap-plugin.php:56 google-sitemap-plugin.php:57
-#: google-sitemap-plugin.php:1325
+#: google-sitemap-plugin.php:1372
 msgid "Custom Links"
 msgstr "Пользовательские ссылки"
 
@@ -38,187 +39,195 @@ msgstr "Пользовательские ссылки"
 msgid "Upgrade to Pro"
 msgstr "Обновить до Pro"
 
-#: google-sitemap-plugin.php:393
+#: google-sitemap-plugin.php:398
 msgid "Post categories"
 msgstr "Рубрики записей"
 
-#: google-sitemap-plugin.php:394
+#: google-sitemap-plugin.php:399
 msgid "Post tags"
 msgstr "Метки записей"
 
-#: google-sitemap-plugin.php:1319
+#: google-sitemap-plugin.php:1366
 msgid "Please enable JavaScript in your browser."
 msgstr "Пожалуйста, включите поддержку JavaScript в вашем браузере."
 
-#: google-sitemap-plugin.php:1327
+#: google-sitemap-plugin.php:1374
 msgid "Add New"
 msgstr "Добавить ссылку"
 
-#: google-sitemap-plugin.php:1370 google-sitemap-plugin.php:1457
-#: google-sitemap-plugin.php:1510
+#: google-sitemap-plugin.php:1417 google-sitemap-plugin.php:1504
+#: google-sitemap-plugin.php:1557
 msgid "Website"
 msgstr "Сайт"
 
-#: google-sitemap-plugin.php:1381 google-sitemap-plugin.php:1385
-#: google-sitemap-plugin.php:1474 google-sitemap-plugin.php:1490
-#: google-sitemap-plugin.php:1514 google-sitemap-plugin.php:1528
+#: google-sitemap-plugin.php:1428 google-sitemap-plugin.php:1432
+#: google-sitemap-plugin.php:1521 google-sitemap-plugin.php:1537
+#: google-sitemap-plugin.php:1561 google-sitemap-plugin.php:1575
 msgid "Status"
 msgstr "Статус"
 
-#: google-sitemap-plugin.php:1382 google-sitemap-plugin.php:1414
-#: google-sitemap-plugin.php:1491
+#: google-sitemap-plugin.php:1429 google-sitemap-plugin.php:1461
+#: google-sitemap-plugin.php:1538
 msgid "Not added"
 msgstr "Не добавлено"
 
-#: google-sitemap-plugin.php:1386 google-sitemap-plugin.php:1417
-#: google-sitemap-plugin.php:1515 google-sitemap-plugin.php:1626
+#: google-sitemap-plugin.php:1433 google-sitemap-plugin.php:1464
+#: google-sitemap-plugin.php:1562 google-sitemap-plugin.php:1673
 msgid "Added"
 msgstr "Добавлено"
 
-#: google-sitemap-plugin.php:1388 google-sitemap-plugin.php:1571
-#: google-sitemap-plugin.php:1583 google-sitemap-plugin.php:1597
+#: google-sitemap-plugin.php:1435 google-sitemap-plugin.php:1618
+#: google-sitemap-plugin.php:1630 google-sitemap-plugin.php:1644
 msgid "Verification Status"
 msgstr "Статус проверки"
 
-#: google-sitemap-plugin.php:1390 google-sitemap-plugin.php:1584
+#: google-sitemap-plugin.php:1437 google-sitemap-plugin.php:1631
 msgid "Verified"
 msgstr "Проверено"
 
-#: google-sitemap-plugin.php:1392
+#: google-sitemap-plugin.php:1439
 msgid "Not verified"
 msgstr "Не проверено"
 
-#: google-sitemap-plugin.php:1401 google-sitemap-plugin.php:1605
+#: google-sitemap-plugin.php:1448 google-sitemap-plugin.php:1652
 msgid "Sitemap Status"
 msgstr "Статус Sitemap"
 
-#: google-sitemap-plugin.php:1419
+#: google-sitemap-plugin.php:1466
 msgid "Added with errors."
 msgstr "Добавлено с ошибками."
 
-#: google-sitemap-plugin.php:1419
+#: google-sitemap-plugin.php:1466
 msgid "View errors in Google Webmaster Tools"
 msgstr "Просмотреть ошибки в Google Webmaster Tools"
 
-#: google-sitemap-plugin.php:1422
+#: google-sitemap-plugin.php:1469
 msgid "Sitemap URL"
 msgstr "Sitemap URL"
 
-#: google-sitemap-plugin.php:1425 google-sitemap-plugin.php:1441
-#: google-sitemap-plugin.php:1493 google-sitemap-plugin.php:1530
-#: google-sitemap-plugin.php:1568 google-sitemap-plugin.php:1599
-#: google-sitemap-plugin.php:1639 google-sitemap-plugin.php:1659
-#: includes/class-gglstmp-settings.php:488
+#: google-sitemap-plugin.php:1472 google-sitemap-plugin.php:1488
+#: google-sitemap-plugin.php:1540 google-sitemap-plugin.php:1577
+#: google-sitemap-plugin.php:1615 google-sitemap-plugin.php:1646
+#: google-sitemap-plugin.php:1686 google-sitemap-plugin.php:1706
+#: includes/class-gglstmp-settings.php:499
 msgid "Error"
 msgstr "Ошибка"
 
-#: google-sitemap-plugin.php:1425
+#: google-sitemap-plugin.php:1472
 msgid "Please check the sitemap file manually."
 msgstr "Пожалуйста, проверьте файл Sitemap вручную."
 
-#: google-sitemap-plugin.php:1425 google-sitemap-plugin.php:1443
-#: google-sitemap-plugin.php:1533 google-sitemap-plugin.php:1572
-#: google-sitemap-plugin.php:1602 google-sitemap-plugin.php:1642
-#: includes/class-gglstmp-settings.php:282 includes/pro_banners.php:47
+#: google-sitemap-plugin.php:1472 google-sitemap-plugin.php:1490
+#: google-sitemap-plugin.php:1580 google-sitemap-plugin.php:1619
+#: google-sitemap-plugin.php:1649 google-sitemap-plugin.php:1689
+#: includes/class-gglstmp-settings.php:301 includes/pro_banners.php:47
 #: includes/pro_banners.php:117
 msgid "Learn More"
 msgstr "Подробнее"
 
-#: google-sitemap-plugin.php:1430 google-sitemap-plugin.php:1481
-#: google-sitemap-plugin.php:1518 google-sitemap-plugin.php:1556
-#: google-sitemap-plugin.php:1587 google-sitemap-plugin.php:1629
+#: google-sitemap-plugin.php:1477 google-sitemap-plugin.php:1528
+#: google-sitemap-plugin.php:1565 google-sitemap-plugin.php:1603
+#: google-sitemap-plugin.php:1634 google-sitemap-plugin.php:1676
 msgid "Unexpected error"
 msgstr "Неожиданная ошибка"
 
-#: google-sitemap-plugin.php:1443 google-sitemap-plugin.php:1533
-#: google-sitemap-plugin.php:1602
+#: google-sitemap-plugin.php:1490 google-sitemap-plugin.php:1580
+#: google-sitemap-plugin.php:1649
 msgid "Manual verification required."
 msgstr "Требуется ручная проверка."
 
-#: google-sitemap-plugin.php:1475
+#: google-sitemap-plugin.php:1522
 msgid "Deleted"
 msgstr "Удален"
 
-#: google-sitemap-plugin.php:1548 google-sitemap-plugin.php:1551
-#: google-sitemap-plugin.php:1567
+#: google-sitemap-plugin.php:1595 google-sitemap-plugin.php:1598
+#: google-sitemap-plugin.php:1614
 msgid "Verification Code"
 msgstr "Код подтверждения"
 
-#: google-sitemap-plugin.php:1549
+#: google-sitemap-plugin.php:1596
 msgid "Received and added to the site"
 msgstr "Получен и добавлен на сайт"
 
-#: google-sitemap-plugin.php:1552
+#: google-sitemap-plugin.php:1599
 msgid "Received, but has not been added to the site"
 msgstr "Получен, но не добавлен на сайт"
 
-#: google-sitemap-plugin.php:1642
+#: google-sitemap-plugin.php:1689
 msgid "Please add the sitemap file manually."
 msgstr "Пожалуйста, добавьте файл Sitemap вручную."
 
-#: google-sitemap-plugin.php:1647
+#: google-sitemap-plugin.php:1694
 msgid "Error 404"
 msgstr "Ошибка 404"
 
-#: google-sitemap-plugin.php:1649
+#: google-sitemap-plugin.php:1696
 #, php-format
 msgid "The sitemap file %s not found."
 msgstr "Файл sitemap %s не найден."
 
-#: google-sitemap-plugin.php:1659
+#: google-sitemap-plugin.php:1706
 msgid "The sitemap file not found."
 msgstr "Файл sitemap не найден."
 
-#: google-sitemap-plugin.php:1738
+#: google-sitemap-plugin.php:1789 google-sitemap-plugin.php:1798
+msgid "Sitemap plugin"
+msgstr "Sitemap плагин"
+
+#: google-sitemap-plugin.php:1822
+msgid "Canonical Url"
+msgstr "Канонический Url"
+
+#: google-sitemap-plugin.php:1853
 msgid "FAQ"
 msgstr "FAQ"
 
-#: google-sitemap-plugin.php:1739
+#: google-sitemap-plugin.php:1854
 msgid "Support"
 msgstr "Тех.поддержка"
 
-#: google-sitemap-plugin.php:1911 google-sitemap-plugin.php:1920
-msgid "Google-Sitemap-plugin Canonical Settings"
-msgstr "Google Sitemap: канонические ссылки "
-
-#: google-sitemap-plugin.php:1946
-msgid "Canonical Url:"
-msgstr "Канонический Url"
-
-#: includes/class-gglstmp-settings.php:29
+#: includes/class-gglstmp-settings.php:30
 msgid "Structure"
 msgstr "Структура"
 
-#: includes/class-gglstmp-settings.php:30
+#: includes/class-gglstmp-settings.php:31
 msgid "Misc"
 msgstr "Разное"
 
-#: includes/class-gglstmp-settings.php:31
+#: includes/class-gglstmp-settings.php:32
 msgid "License Key"
 msgstr "Лицензионный ключ"
 
-#: includes/class-gglstmp-settings.php:170
+#: includes/class-gglstmp-settings.php:89
+msgid "Post category"
+msgstr "Рубрика записей"
+
+#: includes/class-gglstmp-settings.php:90
+msgid "Post tag"
+msgstr "Метка записей"
+
+#: includes/class-gglstmp-settings.php:193
 msgid "Settings saved."
 msgstr "Настройки сохранены."
 
-#: includes/class-gglstmp-settings.php:199
+#: includes/class-gglstmp-settings.php:220
 #, php-format
 msgctxt "%robots.txt file link%"
 msgid "Enable to add a sitemap file path to the %s file."
 msgstr "Включите, чтобы добавить путь файла Sitemap в файл %s."
 
-#: includes/class-gglstmp-settings.php:204
+#: includes/class-gglstmp-settings.php:225
 #, php-format
 msgctxt "%reading settings page link%"
 msgid "\"Search Engine Visibility\" option have to be unmarked on the %s."
 msgstr "Опция \"Видимость для поисковых систем\" дожна быть не отмечена на %s."
 
-#: includes/class-gglstmp-settings.php:208
+#: includes/class-gglstmp-settings.php:229
 msgctxt "...on the reading settings page."
 msgid "Reading Settings page"
 msgstr "странице настроек чтения"
 
-#: includes/class-gglstmp-settings.php:212
+#: includes/class-gglstmp-settings.php:233
 msgid ""
 "Also, please add the following code to the beginning of your \".htaccess\" "
 "file:"
@@ -226,52 +235,52 @@ msgstr ""
 "Так же, пожалуйста, добавьте следующий код в начало вашего файла \".htaccess"
 "\":"
 
-#: includes/class-gglstmp-settings.php:225
+#: includes/class-gglstmp-settings.php:246
 msgid "Media Sitemap"
 msgstr "Media Sitemap"
 
-#: includes/class-gglstmp-settings.php:230
+#: includes/class-gglstmp-settings.php:249
 msgid "Enable to add a media sitemap (video & image)"
 msgstr "Включите, чтобы добавить медиа карту сайта (видео и картинки)."
 
-#: includes/class-gglstmp-settings.php:235
+#: includes/class-gglstmp-settings.php:254
 msgid "This option will be applied to all websites in the network."
 msgstr "Эта опция будет применена ко всем сайтам в сети."
 
-#: includes/class-gglstmp-settings.php:238
-#: includes/class-gglstmp-settings.php:347
+#: includes/class-gglstmp-settings.php:257
+#: includes/class-gglstmp-settings.php:366
 msgid "Activate"
 msgstr "Активировать"
 
-#: includes/class-gglstmp-settings.php:241
-#: includes/class-gglstmp-settings.php:351
+#: includes/class-gglstmp-settings.php:260
+#: includes/class-gglstmp-settings.php:370
 msgid "Install Now"
 msgstr "Установить Сейчас"
 
-#: includes/class-gglstmp-settings.php:247
+#: includes/class-gglstmp-settings.php:266
 #, php-format
 msgid "%s Plugin"
 msgstr "%s плагин"
 
-#: includes/class-gglstmp-settings.php:252
+#: includes/class-gglstmp-settings.php:271
 #, php-format
 msgid "Enable to allow XML files access using %s plugin."
 msgstr "Включите, чтобы разрешить доступ к файлам XML с помощью плагина %s."
 
-#: includes/class-gglstmp-settings.php:253
+#: includes/class-gglstmp-settings.php:272
 msgid "The following string will be added to your .htaccess file"
 msgstr "В ваш .htaccess файл будет добавлена следующая строка"
 
-#: includes/class-gglstmp-settings.php:263
-#: includes/class-gglstmp-settings.php:413 includes/pro_banners.php:21
+#: includes/class-gglstmp-settings.php:282
+#: includes/class-gglstmp-settings.php:424 includes/pro_banners.php:21
 msgid "Close"
 msgstr "Закрыть"
 
-#: includes/class-gglstmp-settings.php:274
+#: includes/class-gglstmp-settings.php:293
 msgid "URLs Limit"
 msgstr "Лимит ссылок"
 
-#: includes/class-gglstmp-settings.php:279
+#: includes/class-gglstmp-settings.php:298
 msgid ""
 "A sitemap file can't contain more than 50,000 URLs and must be no larger "
 "than 50 MB uncompressed."
@@ -279,22 +288,22 @@ msgstr ""
 "Файл sitemap не может содержать более 50000 ссылок и не должен превышать "
 "50MB в несжатом состоянии."
 
-#: includes/class-gglstmp-settings.php:283
+#: includes/class-gglstmp-settings.php:302
 msgid "Decrease the limit if your sitemap exceeds file size limit."
 msgstr ""
 "Уменьшите значение если размер файла sitemap превышает допустимое значение."
 
-#: includes/class-gglstmp-settings.php:284
+#: includes/class-gglstmp-settings.php:303
 msgid ""
 "When the limit is reached, the sitemap will be splitted into multiple files."
 msgstr ""
 "Файл sitemap будет разбит на несколько частей при достижении лимита ссылок."
 
-#: includes/class-gglstmp-settings.php:289
+#: includes/class-gglstmp-settings.php:308
 msgid "Google Webmaster Tools"
 msgstr "Google Webmaster Tools"
 
-#: includes/class-gglstmp-settings.php:292
+#: includes/class-gglstmp-settings.php:311
 msgid ""
 "This hosting does not support сURL, so you cannot add a sitemap file "
 "automatically."
@@ -302,27 +311,27 @@ msgstr ""
 "Ваш хостинг не поддерживает сURL, поэтому вы не можете добавить sitemap "
 "автоматически."
 
-#: includes/class-gglstmp-settings.php:296
+#: includes/class-gglstmp-settings.php:315
 msgid "Logout from Google Webmaster Tools"
 msgstr "Выйти из Google Webmaster Tools"
 
-#: includes/class-gglstmp-settings.php:300
+#: includes/class-gglstmp-settings.php:319
 msgid "Manage Website with Google Webmaster Tools"
 msgstr "Управляйте веб-сайтом с помощью Google Webmaster Tools"
 
-#: includes/class-gglstmp-settings.php:303
+#: includes/class-gglstmp-settings.php:322
 msgid "Add"
 msgstr "Добавить"
 
-#: includes/class-gglstmp-settings.php:305 includes/pro_banners.php:138
+#: includes/class-gglstmp-settings.php:324 includes/pro_banners.php:138
 msgid "Delete"
 msgstr "Удалить"
 
-#: includes/class-gglstmp-settings.php:307
+#: includes/class-gglstmp-settings.php:326
 msgid "Get Info"
 msgstr "Получить информацию"
 
-#: includes/class-gglstmp-settings.php:309
+#: includes/class-gglstmp-settings.php:328
 msgid ""
 "Add, delete or get info about this website using your Google Webmaster Tools "
 "account."
@@ -330,74 +339,66 @@ msgstr ""
 "Добавьте, удалите или получите информацию об этом сайте с помощью своей "
 "учетной записи Google Webmaster Tools."
 
-#: includes/class-gglstmp-settings.php:319
+#: includes/class-gglstmp-settings.php:338
 msgid "Get Authorization Code"
 msgstr "Получить код авторизации"
 
-#: includes/class-gglstmp-settings.php:326
+#: includes/class-gglstmp-settings.php:345
 msgid "Authorize"
 msgstr "Авторизироваться"
 
-#: includes/class-gglstmp-settings.php:329
+#: includes/class-gglstmp-settings.php:348
 msgid "Invalid authorization code. Please try again."
 msgstr "Недействительный код авторизации. Пожалуйста, попробуйте еще раз."
 
-#: includes/class-gglstmp-settings.php:334
+#: includes/class-gglstmp-settings.php:353
 msgid "You can also add your sitemap to Google Webmaster Tools manually."
 msgstr "Вы также можете вручную добавить sitemap в Google Webmaster Tools."
 
-#: includes/class-gglstmp-settings.php:336
+#: includes/class-gglstmp-settings.php:355
 msgid "Read the instruction"
 msgstr "Читать инструкцию"
 
-#: includes/class-gglstmp-settings.php:341
+#: includes/class-gglstmp-settings.php:360
 msgid "Alternate Language Pages"
 msgstr "Страницы альтернативных языков"
 
-#: includes/class-gglstmp-settings.php:355
+#: includes/class-gglstmp-settings.php:374
 msgid "Enable to add alternate language pages using Multilanguage plugin."
 msgstr ""
 "Включите, чтобы добавить страницы альтернативных языков используя плагин "
 "Multilanguage."
 
-#: includes/class-gglstmp-settings.php:369
-msgid "Post category"
-msgstr "Рубрика записей"
-
-#: includes/class-gglstmp-settings.php:370
-msgid "Post tag"
-msgstr "Метка записей"
-
-#: includes/class-gglstmp-settings.php:372
+#: includes/class-gglstmp-settings.php:384
 msgid "Sitemap Structure"
 msgstr "Структура Sitemap"
 
-#: includes/class-gglstmp-settings.php:377
+#: includes/class-gglstmp-settings.php:389
 msgid "Post Types"
 msgstr "Типы записей"
 
-#: includes/class-gglstmp-settings.php:389
+#: includes/class-gglstmp-settings.php:400
 msgid "Enable to add post type links to the sitemap."
 msgstr "Включите, чтобы добавить ссылки типов записей в sitemap."
 
-#: includes/class-gglstmp-settings.php:393
+#: includes/class-gglstmp-settings.php:404
 msgid "Taxonomies"
 msgstr "Таксономии"
 
-#: includes/class-gglstmp-settings.php:404
+#: includes/class-gglstmp-settings.php:415
 msgid "Enable to taxonomy links to the sitemap."
 msgstr "Включите, чтобы добавить ссылки таксономий в sitemap."
 
-#: includes/class-gglstmp-settings.php:462
+#: includes/class-gglstmp-settings.php:473
 #, php-format
 msgid "%s is in the site root directory."
 msgstr "%s находится в корневом каталоге сайта."
 
-#: includes/class-gglstmp-settings.php:463
+#: includes/class-gglstmp-settings.php:474
 msgid "The Sitemap file"
 msgstr "Файл Sitemap"
 
-#: includes/class-gglstmp-settings.php:489
+#: includes/class-gglstmp-settings.php:500
 #, php-format
 msgid ""
 "Can't access XML files. Try to add the following rule %s to your %s file "
@@ -409,11 +410,11 @@ msgstr ""
 "корневом каталоге сайта. Найдите следующую строку %s и вставь этот код после "
 "нее."
 
-#: includes/class-gglstmp-settings.php:505
+#: includes/class-gglstmp-settings.php:516
 msgid "Note"
 msgstr "Примечание"
 
-#: includes/class-gglstmp-settings.php:506
+#: includes/class-gglstmp-settings.php:517
 msgid ""
 "Another plugin is providing Google Client functionality and may interrupt "
 "proper plugin work."
@@ -543,6 +544,9 @@ msgstr "Да"
 #: includes/pro_banners.php:165 includes/pro_banners.php:173
 msgid "No"
 msgstr "Нет"
+
+#~ msgid "Google-Sitemap-plugin Canonical Settings"
+#~ msgstr "Google Sitemap: канонические ссылки "
 
 #~ msgid "here"
 #~ msgstr "здесь"

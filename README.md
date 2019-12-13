@@ -1,7 +1,7 @@
 <a href="https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/" target=_blank>Google Sitemap WordPress Plugin</a>
 ========================
 
-<p>Google Sitemap plugin automatically generates XML sitemap for your WordPress website and helps search engines index your blog. Such sitemap file helps web crawlers to extract the structure of your website more effectively.</p>
+<p>Sitemap plugin automatically generates XML sitemap for your WordPress website and helps search engines index your blog. Such sitemap file helps web crawlers to extract the structure of your website more effectively.</p>
 <p>The plugin supports default WordPress pages as well as custom URLs. It can be also added to your Google Webmaster Tools account.</p>
 <p>Improve your website SEO today!</p>
 <p><a href="https://bestwebsoft.com/demo-for-google-sitemap/?ref=readme" rel="nofollow">View Demo</a></p>
@@ -67,7 +67,6 @@
 <ul>
 <li>Czech (cs_CZ) (thanks to <a href="mailto:&#107;&#117;&#x63;&#x65;&#114;&#x61;&#x6d;&#105;&#064;&#x67;&#109;&#097;&#x69;&#108;&#046;&#x63;&#x6f;&#109;" rel="nofollow">Michal Kučera</a>, www.n0lim.it)</li>
 <li>Russian (ru_RU)</li>
-<li>Spanish (es_ES)</li>
 <li>Ukrainian (uk)</li>
 </ul>
 <p>Some of these translations are not complete. We are constantly adding new features which should be translated. If you would like to create your own language pack or update the existing one, you can send <a href="https://codex.wordpress.org/Translating_WordPress" rel="nofollow">the text of PO and MO files</a> to <a href="https://support.bestwebsoft.com/hc/en-us/requests/new" rel="nofollow">BestWebSoft</a> and we&#8217;ll add it to the plugin. You can download the latest version of the program for work with PO and MO <a href="http://www.poedit.net/download.php" rel="nofollow">files Poedit</a>.</p>

@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Google Sitemap by BestWebSoft
+Plugin Name: Sitemap by BestWebSoft
 Plugin URI: https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/
 Description: Generate and add XML sitemap to WordPress website. Help search engines index your blog.
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.2.1
+Version: 3.2.2
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -34,8 +34,8 @@ if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 			global $gglstmp_options, $wp_version, $submenu, $gglstmp_plugin_info;
 
 			$settings = add_menu_page(
-				__( 'Google Sitemap Settings', 'google-sitemap-plugin' ),
-				'Google Sitemap',
+				__( 'Sitemap Settings', 'google-sitemap-plugin' ),
+				'Sitemap',
 				'manage_options',
 				'google-sitemap-plugin.php',
 				'gglstmp_settings_page',
@@ -44,7 +44,7 @@ if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 
 			add_submenu_page(
 				'google-sitemap-plugin.php',
-				__( 'Google Sitemap Settings', 'google-sitemap-plugin' ),
+				__( 'Sitemap Settings', 'google-sitemap-plugin' ),
 				__( 'Settings', 'google-sitemap-plugin' ),
 				'manage_options',
 				'google-sitemap-plugin.php',
@@ -107,7 +107,7 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 		bws_include_init( plugin_basename( __FILE__ ) );
 
 		/* check compatible with current WP version */
-		bws_wp_min_version_check( plugin_basename( __FILE__ ), $gglstmp_plugin_info, '3.9' );
+		bws_wp_min_version_check( plugin_basename( __FILE__ ), $gglstmp_plugin_info, '4.0' );
 
 		/* Get options from the database */
 		gglstmp_register_settings();
@@ -127,19 +127,6 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 				echo apply_filters( 'robots_txt', $robots_content, $public );
 				exit;
 			}
-		}
-
-		/* Verification of the existence of an sitemaps. Calling up the sitemap creation function */
-		$gglstmp_media_from_bd = get_option( 'gglstmp_options' );
-		$gglstmp_media_sitemap = isset( $_POST['gglstmp_media_sitemap'] ) ? $_POST['gglstmp_media_sitemap'] : $gglstmp_media_from_bd['media_sitemap'];
-
-		/* delete all sitemaps, update option 'media_sitemap' */
-		if ( isset( $_POST['gglstmp_media_sitemap'] ) ) { // if true => option has been change
-			$blog_id = get_current_blog_id();
-			gglstmp_delete_sitemap( $blog_id, true );
-
-			$gglstmp_options['media_sitemap'] = $gglstmp_media_sitemap;
-			update_option( 'gglstmp_options', $gglstmp_options );
 		}
 
 		if ( 1 == $gglstmp_options['media_sitemap'] ) {
@@ -175,7 +162,7 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 if ( ! function_exists( 'gglstmp_admin_init' ) ) {
 	function gglstmp_admin_init() {
 		/* Add variable for bws_menu */
-		global $bws_plugin_info, $gglstmp_plugin_info;
+		global $pagenow, $bws_plugin_info, $gglstmp_plugin_info, $gglstmp_options;
 
 		if ( empty( $bws_plugin_info ) ) {
 			$bws_plugin_info = array( 'id' => '83', 'version' => $gglstmp_plugin_info["Version"] );
@@ -185,6 +172,11 @@ if ( ! function_exists( 'gglstmp_admin_init' ) ) {
 			if ( ! session_id() ) {
 				session_start();
 			}
+		}
+
+		if ( 'plugins.php' == $pagenow ) {
+			if ( function_exists( 'bws_plugin_banner_go_pro' ) )
+				bws_plugin_banner_go_pro( $gglstmp_options, $gglstmp_plugin_info, 'gglstmp', 'google-sitemap', '8fbb5d23fd00bdcb213d6c0985d16ec5', '83', 'google-sitemap-plugin' );
 		}
 	}
 }
@@ -1353,20 +1345,19 @@ if ( ! function_exists( 'gglstmp_settings_page' ) ) {
 		require_once( dirname( __FILE__ ) . '/includes/pro_banners.php' ); ?>
         <div class="wrap">
 			<?php if ( 'google-sitemap-plugin.php' == $_GET['page'] ) { /* Showing settings tab */
+				if ( ! class_exists( 'Bws_Settings_Tabs' ) )
+					require_once( dirname( __FILE__ ) . '/bws_menu/class-bws-settings.php' );
 				require_once( dirname( __FILE__ ) . '/includes/class-gglstmp-settings.php' );
 				$page = new Gglstmp_Settings_Tabs( plugin_basename( __FILE__ ) ); ?>
-                <h1>Google Sitemap <?php _e( 'Settings', 'google-sitemap-plugin' ); ?></h1>
+                <h1>Sitemap <?php _e( 'Settings', 'google-sitemap-plugin' ); ?></h1>
                 <noscript>
-                    <div class="error below-h2"><p>
-                            <strong><?php _e( "Please enable JavaScript in your browser.", 'google-sitemap-plugin' ); ?></strong>
-                        </p></div>
+                    <div class="error below-h2"><p><strong><?php _e( "Please enable JavaScript in your browser.", 'google-sitemap-plugin' ); ?></strong></p></div>
                 </noscript>
 				<?php $page->display_content();
 			} else { ?>
                 <h1>
 					<?php _e( 'Custom Links', 'google-sitemap-plugin' ); ?>
-                    <button disabled="disabled"
-                            class="page-title-action add-new-h2"><?php _e( 'Add New', 'google-sitemap-plugin' ); ?></button>
+                    <button disabled="disabled" class="page-title-action add-new-h2"><?php _e( 'Add New', 'google-sitemap-plugin' ); ?></button>
                 </h1>
 				<?php gglstmp_pro_block( "gglstmp_custom_links_block", false );
 				bws_plugin_reviews_block( $gglstmp_plugin_info['Name'], 'google-sitemap-plugin' );
@@ -1751,6 +1742,74 @@ if ( ! function_exists( 'gglstmp_update_sitemap' ) ) {
 	}
 }
 
+
+/* Functionality for canonical link */
+if ( ! function_exists( 'gglstmp_canonical_tag' ) ) {
+	function gglstmp_canonical_tag() {
+		if ( is_front_page() ) {
+			$canonical_url = '<link rel="canonical" href="' . trailingslashit( home_url() ) . '"/>';
+			$canonical_url .= "\n\n";
+			echo apply_filters( 'gglstmp_canonical_tag', $canonical_url );
+		}
+		if ( is_singular() ) {
+			global $post;
+			$gglstmp_meta_canonical = get_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', true );//get the key id _gglstmp_meta_canonical_tag
+			if ( $gglstmp_meta_canonical ) {
+				//calls the custom meta text
+				$canonical_url = '<link rel="canonical" href="' . $gglstmp_meta_canonical . '"/>';
+				$canonical_url .= "\n\n";
+				echo apply_filters( 'gglstmp_canonical_tag', $canonical_url );
+			} else {
+				$canonical_url = '<link rel="canonical" href="' . get_permalink() . '"/>';
+				$canonical_url .= "\n\n";
+				echo apply_filters( 'gglstmp_canonical_tag', $canonical_url );
+			}
+		}
+	}
+}
+
+if ( ! function_exists( 'gglstmp_add_custom_canonical_url' ) ) {
+	function gglstmp_add_custom_canonical_url( $post ) {
+		add_meta_box(
+			'Meta Box',
+			__( 'Sitemap plugin', 'google-sitemap-plugin' ),
+			'gglstmp_custom_meta_box_content_canonical_url',
+			'page',
+			'normal',
+			'high'
+		);
+
+		add_meta_box(
+			'Meta Box',
+			__( 'Sitemap plugin', 'google-sitemap-plugin' ),
+			'gglstmp_custom_meta_box_content_canonical_url',
+			'post',
+			'normal',
+			'high'
+		);
+	}
+}
+
+if ( ! function_exists( 'gglstmp_save_custom_canonical_tag_box' ) ) {
+	function gglstmp_save_custom_canonical_tag_box() {
+		global $post;
+		// Get our form field
+		if ( isset( $_POST['gglstmp-meta-canonical-url'] ) ) {
+			$gglstmp_meta_canonical = esc_url( $_POST['gglstmp-meta-canonical-url'] );
+			// Update post meta canonical url
+			update_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', $gglstmp_meta_canonical );
+		}
+	}
+}
+
+if ( ! function_exists( 'gglstmp_custom_meta_box_content_canonical_url' ) ) {
+	// Content for the custom meta box
+	function gglstmp_custom_meta_box_content_canonical_url( $post ) { ?>
+		<label><?php _e( 'Canonical Url', 'google-sitemap-plugin' ); ?>:</label>
+		<input style="width:99%;" class="meta-text" type="text" name="gglstmp-meta-canonical-url" value="<?php echo get_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', true ); ?>" /></p>
+	<?php }
+}
+
 /* Adding setting link in activate plugin page */
 if ( ! function_exists( 'gglstmp_action_links' ) ) {
 	function gglstmp_action_links( $links, $file ) {
@@ -1787,17 +1846,9 @@ if ( ! function_exists( 'gglstmp_links' ) ) {
 
 if ( ! function_exists( 'gglstmp_plugin_banner' ) ) {
 	function gglstmp_plugin_banner() {
-		global $hook_suffix, $gglstmp_plugin_info, $gglstmp_options;
+		global $hook_suffix, $gglstmp_plugin_info;
 
 		if ( 'plugins.php' == $hook_suffix ) {
-			if ( ! $gglstmp_options ) {
-				gglstmp_register_settings();
-			}
-
-			if ( isset( $gglstmp_options['first_install'] ) && strtotime( '-1 week' ) > $gglstmp_options['first_install'] ) {
-				bws_plugin_banner( $gglstmp_plugin_info, 'gglstmp', 'google-sitemap', '8fbb5d23fd00bdcb213d6c0985d16ec5', '83', '//ps.w.org/google-sitemap-plugin/assets/icon-128x128.png' );
-			}
-
 			bws_plugin_banner_to_settings( $gglstmp_plugin_info, 'gglstmp_options', 'google-sitemap-plugin', 'admin.php?page=google-sitemap-plugin.php' );
 		}
 
@@ -1918,76 +1969,6 @@ if ( ! function_exists( 'gglstmp_delete_settings' ) ) {
 		require_once( dirname( __FILE__ ) . '/bws_menu/bws_include.php' );
 		bws_include_init( plugin_basename( __FILE__ ) );
 		bws_delete_plugin( plugin_basename( __FILE__ ) );
-	}
-}
-
-/* Functionality for canonical link */
-if ( ! function_exists( 'gglstmp_canonical_tag' ) ) {
-	function gglstmp_canonical_tag() {
-		if ( is_front_page() ) {
-			$canonical_url = '<link rel="canonical" href="' . trailingslashit( home_url() ) . '"/>';
-			$canonical_url .= "\n\n";
-			echo apply_filters( 'gglstmp_canonical_tag', $canonical_url );
-		}
-		if ( is_singular() ) {
-			global $post;
-			$gglstmp_meta_canonical = get_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', true );//get the key id _gglstmp_meta_canonical_tag
-			if ( $gglstmp_meta_canonical ) {
-				//calls the custom meta text
-				$canonical_url = '<link rel="canonical" href="' . $gglstmp_meta_canonical . '"/>';
-				$canonical_url .= "\n\n";
-				echo apply_filters( 'gglstmp_canonical_tag', $canonical_url );
-			} else {
-				$canonical_url = '<link rel="canonical" href="' . get_permalink() . '"/>';
-				$canonical_url .= "\n\n";
-				echo apply_filters( 'gglstmp_canonical_tag', $canonical_url );
-			}
-		}
-	}
-}
-
-if ( ! function_exists( 'gglstmp_add_custom_canonical_url' ) ) {
-	function gglstmp_add_custom_canonical_url( $post ) {
-		add_meta_box(
-			'Meta Box',
-			__( 'Google-Sitemap-plugin Canonical Settings', 'google-sitemap-plugin' ),
-			'gglstmp_custom_meta_box_content_canonical_url',
-			'page',
-			'normal',
-			'high'
-		);
-
-		add_meta_box(
-			'Meta Box',
-			__( 'Google-Sitemap-plugin Canonical Settings', 'google-sitemap-plugin' ),
-			'gglstmp_custom_meta_box_content_canonical_url',
-			'post',
-			'normal',
-			'high'
-		);
-	}
-}
-
-if ( ! function_exists( 'gglstmp_save_custom_canonical_tag_box' ) ) {
-	function gglstmp_save_custom_canonical_tag_box() {
-		global $post;
-		// Get our form field
-		if ( isset( $_POST['gglstmp-meta-canonical-url'] ) ) {
-			$gglstmp_meta_canonical = esc_attr( $_POST['gglstmp-meta-canonical-url'] );
-			// Update post meta canonical url
-			update_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', $gglstmp_meta_canonical );
-		}
-	}
-}
-
-if ( ! function_exists( 'gglstmp_custom_meta_box_content_canonical_url' ) ) {
-	// Content for the custom meta box
-	function gglstmp_custom_meta_box_content_canonical_url( $post ) {
-		// Get post Custom Canonical Url
-		$gglstmp_meta_canonical = get_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', true );
-		$custom_canon_url       = __( 'Canonical Url:', 'google-sitemap-plugin' );
-		echo "<p><label>$custom_canon_url</label></p>";
-		echo '<p><input style="width:99%;" class="meta-text" type="text" name="gglstmp-meta-canonical-url" value="' . $gglstmp_meta_canonical . '" /></p>';
 	}
 }
 

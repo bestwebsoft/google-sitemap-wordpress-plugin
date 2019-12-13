@@ -1,10 +1,10 @@
-=== Google Sitemap by BestWebSoft ===
+=== Sitemap by BestWebSoft ===
 Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 4.0
-Tested up to: 5.2.2
-Stable tag: 3.2.1
+Tested up to: 5.3
+Stable tag: 3.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Generate and add XML sitemap to WordPress website. Help search engines index you
 
 == Description ==
 
-Google Sitemap plugin automatically generates XML sitemap for your WordPress website and helps search engines index your blog. Such sitemap file helps web crawlers to extract the structure of your website more effectively.
+Sitemap plugin automatically generates XML sitemap for your WordPress website and helps search engines index your blog. Such sitemap file helps web crawlers to extract the structure of your website more effectively.
 
 The plugin supports default WordPress pages as well as custom URLs. It can be also added to your Google Webmaster Tools account.
 
@@ -77,7 +77,6 @@ Visit our Help Center if you have any questions, our friendly Support Team is ha
 
 * Czech (cs_CZ) (thanks to [Michal Kučera](mailto:kucerami@gmail.com), www.n0lim.it)
 * Russian (ru_RU)
-* Spanish (es_ES)
 * Ukrainian (uk)
 
 Some of these translations are not complete. We are constantly adding new features which should be translated. If you would like to create your own language pack or update the existing one, you can send [the text of PO and MO files](http://codex.wordpress.org/Translating_WordPress) to [BestWebSoft](https://support.bestwebsoft.com/hc/en-us/requests/new) and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO [files Poedit](http://www.poedit.net/download.php).
@@ -92,17 +91,17 @@ Some of these translations are not complete. We are constantly adding new featur
 
 1. Upload the folder `google-sitemap-plugin` to the directory `/wp-content/plugins/`.
 2. Activate the plugin via the 'Plugins' menu in WordPress.
-3. The site settings are available in "Google Sitemap".
+3. The site settings are available in "Sitemap".
 
-[View a Step-by-step Instruction on Google Sitemap Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
+[View a Step-by-step Instruction on Sitemap Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
 
 https://www.youtube.com/watch?v=NKlAnFTzNrQ
 
 == Frequently Asked Questions ==
 
-= How does the Google XML Sitemap plugin work? =
+= How does the Sitemap plugin work? =
 
-Google XML Sitemap plugin generates the "sitemap.xml" file, which is located in the website root directory. You can add this file to your Google Tools account.
+Sitemap plugin generates the "sitemap.xml" file, which is located in the website root directory. You can add this file to your Google Tools account.
 The plugin cannot apply any visual changes to your website.
 
 = How to create sitemap.xml file? =
@@ -148,6 +147,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.2.2 - 11.12.2019 =
+* Update : Plugin was renamed.
+* Bugfix : Vulnerabilities and security issues were fixed.
 
 = V3.2.1 - 04.09.2019 =
 * Update: The deactivation feedback has been changed. Misleading buttons have been removed.
@@ -367,6 +370,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.2.2 =
+* Bugs fixed.
 
 = V3.2.1 =
 * Usability improved

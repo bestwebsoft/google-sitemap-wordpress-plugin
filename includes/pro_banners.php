@@ -1,7 +1,7 @@
 <?php
 /**
  * Banners on plugin settings page
- * @package Google Sitemap by BestWebSoft
+ * @package Sitemap by BestWebSoft
  * @since 3.0.3
  */
 
@@ -24,7 +24,7 @@ if ( ! function_exists( 'gglstmp_pro_block' ) ) {
 					<?php call_user_func( $func ); ?>
 				</div>
 				<div class="bws_pro_version_tooltip">
-					<a class="bws_button" href="https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Google Sitemap Pro"><?php _e( 'Upgrade to Pro', 'google-sitemap-plugin' ); ?></a>
+					<a class="bws_button" href="https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Sitemap Pro"><?php _e( 'Upgrade to Pro', 'google-sitemap-plugin' ); ?></a>
 				</div>
 			</div>
 		<?php }

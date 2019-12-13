@@ -155,7 +155,7 @@
                     </table>
                 </div>
                 <div id="footer">
-                    Generated with <a href="https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/">Google Sitemap</a> plugin by <a href="https://bestwebsoft.com">BestWebSoft</a>
+                    Generated with <a href="https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/">Sitemap</a> plugin by <a href="https://bestwebsoft.com">BestWebSoft</a>
                 </div>
             </body>
         </html>
