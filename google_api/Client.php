@@ -98,7 +98,6 @@ class Google_Client
         $config->setIoClass("Google_IO_Stream");
       }
     }
-
     $this->config = $config;
   }
 
@@ -124,12 +123,12 @@ class Google_Client
     $this->authenticated = true;
     return $this->getAuth()->authenticate($code);
   }
-  
+
   /**
-   * Loads a service account key and parameters from a JSON 
+   * Loads a service account key and parameters from a JSON
    * file from the Google Developer Console. Uses that and the
-   * given array of scopes to return an assertion credential for 
-   * use with refreshTokenWithAssertionCredential. 
+   * given array of scopes to return an assertion credential for
+   * use with refreshTokenWithAssertionCredential.
    *
    * @param string $jsonLocation File location of the project-key.json.
    * @param array $scopes The scopes to assert.
@@ -160,8 +159,7 @@ class Google_Client
    * @param string $json the configuration json
    * @throws Google_Exception
    */
-  public function setAuthConfig($json)
-  {
+  public function setAuthConfig($json) {
     $data = json_decode($json);
     $key = isset($data->installed) ? 'installed' : 'web';
     if (!isset($data->$key)) {
@@ -193,7 +191,7 @@ class Google_Client
    */
   public function prepareScopes()
   {
-    if (empty($this->requestedScopes)) {
+    if ( empty( $this->requestedScopes ) ) {
       throw new Google_Auth_Exception("No scopes specified");
     }
     $scopes = implode(' ', $this->requestedScopes);
@@ -525,11 +523,11 @@ class Google_Client
    */
   public function addScope($scope_or_scopes)
   {
-    if (is_string($scope_or_scopes) && !in_array($scope_or_scopes, $this->requestedScopes)) {
+    if ( is_string($scope_or_scopes) && !in_array( $scope_or_scopes, $this->requestedScopes ) ) {
       $this->requestedScopes[] = $scope_or_scopes;
-    } else if (is_array($scope_or_scopes)) {
-      foreach ($scope_or_scopes as $scope) {
-        $this->addScope($scope);
+    } else if ( is_array($scope_or_scopes ) ) {
+      foreach ( $scope_or_scopes as $scope ) {
+        $this->addScope( $scope );
       }
     }
   }

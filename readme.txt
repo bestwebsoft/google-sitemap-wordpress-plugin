@@ -2,9 +2,9 @@
 Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
-Requires at least: 4.0
-Tested up to: 5.3
-Stable tag: 3.2.2
+Requires at least: 4.5
+Tested up to: 5.6
+Stable tag: 3.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,9 +64,9 @@ If you have a feature suggestion or idea you'd like to see in the plugin, we'd l
 
 = Documentation & Videos =
 
+* [[Doc] User Guide](https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4)
 * [[Doc] Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
 * [[Doc] Purchase](https://docs.google.com/document/d/1EUdBVvnm7IHZ6y0DNyldZypUQKpB8UVPToSc_LdOYQI/)
-* [[Doc] How to Add your site to Google Webmaster resource](https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/)
 * [[Video] Installation Instruction](https://www.youtube.com/watch?v=NKlAnFTzNrQ)
 
 = Help & Support =
@@ -147,6 +147,12 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.2.3 - 22.01.2021 =
+* Update : We updated all functionality for wordpress 5.6.
+* Update : BWS Panel section was updated.
+* Update : The plugin settings page was changed.
+* PRO : The bug with sitemap structure has been fixed.
 
 = V3.2.2 - 11.12.2019 =
 * Update : Plugin was renamed.
@@ -370,6 +376,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.2.3 =
+* Bugs fixed.
+* The compatibility with new WordPress version updated.
+* BWS plugins section was updated.
 
 = V3.2.2 =
 * Bugs fixed.

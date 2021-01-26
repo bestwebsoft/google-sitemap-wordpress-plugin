@@ -6,13 +6,13 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.2.2
+Version: 3.2.3
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
 
 /*
-	© Copyright 2019  BestWebSoft  ( https://support.bestwebsoft.com )
+	© Copyright 2021  BestWebSoft  ( https://support.bestwebsoft.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -51,15 +51,13 @@ if ( ! function_exists( 'gglstmp_admin_menu' ) ) {
 				'gglstmp_settings_page'
 			);
 
-			if ( ! bws_hide_premium_options_check( $gglstmp_options ) ) {
-				add_submenu_page( 'google-sitemap-plugin.php',
-					__( 'Custom Links', 'google-sitemap-plugin' ),
-					__( 'Custom Links', 'google-sitemap-plugin' ),
-					'manage_options',
-					'google-sitemap-custom-links.php',
-					'gglstmp_settings_page'
-				);
-			}
+            add_submenu_page( 'google-sitemap-plugin.php',
+                __( 'Custom Links', 'google-sitemap-plugin' ),
+                __( 'Custom Links', 'google-sitemap-plugin' ),
+                'manage_options',
+                'google-sitemap-custom-links.php',
+                'gglstmp_settings_page'
+            );
 
 			add_submenu_page(
 				'google-sitemap-plugin.php',
@@ -107,7 +105,7 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 		bws_include_init( plugin_basename( __FILE__ ) );
 
 		/* check compatible with current WP version */
-		bws_wp_min_version_check( plugin_basename( __FILE__ ), $gglstmp_plugin_info, '4.0' );
+		bws_wp_min_version_check( plugin_basename( __FILE__ ), $gglstmp_plugin_info, '4.5' );
 
 		/* Get options from the database */
 		gglstmp_register_settings();
@@ -130,9 +128,9 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 		}
 
 		if ( 1 == $gglstmp_options['media_sitemap'] ) {
-			$sitemaps_type = [ 'video_sitemap', 'image_sitemap', 'sitemap' ];
+			$sitemaps_type = array( 'video_sitemap', 'image_sitemap', 'sitemap' );
 		} else {
-			$sitemaps_type = [ 'sitemap' ];
+			$sitemaps_type = array( 'sitemap' );
 		}
 
 		/* check for file existence and call refresh function */
@@ -220,6 +218,7 @@ if ( ! function_exists( 'gglstmp_register_settings' ) ) {
 			}
 
 			$gglstmp_options['plugin_option_version'] = $gglstmp_plugin_info["Version"];
+
 			/* show pro features */
 			$gglstmp_options['hide_premium_options'] = array();
 			update_option( 'gglstmp_options', $gglstmp_options );
@@ -477,7 +476,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
                             $image_list = get_attached_media( 'image', $post );
 
                             /* Add image to list */
-                            $image_item = [];
+                            $image_item = array();
 
                             if ( ! empty( $image_list ) ) {
                                 $image_count = 0;
@@ -489,23 +488,25 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
                                     $attachment_metadata = wp_get_attachment_metadata( $image->ID );
 
                                     $explode_metadata = explode( '/', $attachment_metadata['file'] );
-                                    array_pop( $explode_metadata );
+                                    $image_guid = array_pop( $explode_metadata );
                                     $image_upload_date = implode( ' ', $explode_metadata );
 
-                                    $image_guid       = basename( $image->guid );
                                     $check_img_exists = gglstmp_if_file_exists( $image_guid, $image_upload_date );
                                     if ( $check_img_exists ) {
-                                        $image_item[] = array( 'guid' => $image->guid, 'image_title' => $image->post_title );
+                                    	$image_url = wp_get_attachment_image_url( $image->ID );
+                                    	$pos_extensions = strrpos( $image->post_title, '.' );
+                                    	$image_title = ( ( $pos_extensions === false ) ? ( $image->post_title ) : substr ( $image->post_title, 0, $pos_extensions ) );
+                                        $image_item[] = array( 'guid' => $image_url, 'image_title' => $image_title );
                                     }
                                 }
                                 /* Add array image_elements of one post */
                                 $image_elements[] = array(
-                                    'url'            => get_permalink( $post ),
+                                    'url'        => get_permalink( $post ),
                                     'image_list' => $image_item
                                 );
                             }
                             /* Add video to list */
-                            $video_item = [];
+                            $video_item = array();
                             if ( ! empty( $video_list ) ) {
                                 $video_count = 0;
                                 foreach ( $video_list as $video ) {
@@ -1384,9 +1385,10 @@ if ( ! function_exists( 'gglstmp_robots_add_sitemap' ) ) {
 /* Function for adding style */
 if ( ! function_exists( 'gglstmp_add_plugin_stylesheet' ) ) {
 	function gglstmp_add_plugin_stylesheet() {
-		wp_enqueue_style( 'gglstmp_stylesheet', plugins_url( 'css/style.css', __FILE__ ) );
+		wp_enqueue_style( 'gglstmp_icon', plugins_url( 'css/icon.css', __FILE__ ) );
 		if ( isset( $_GET['page'] ) && "google-sitemap-plugin.php" == $_GET['page'] ) {
 			bws_enqueue_settings_scripts();
+            wp_enqueue_style( 'gglstmp_stylesheet', plugins_url( 'css/style.css', __FILE__ ) );
 		}
 	}
 }
@@ -1396,7 +1398,7 @@ if ( ! function_exists( 'gglstmp_get_site_info' ) ) {
 	function gglstmp_get_site_info( $webmasters, $site_verification ) {
 		global $gglstmp_options;
 
-		$instruction_url = 'https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/';
+		$instruction_url = 'https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4';
 		$home_url        = home_url( '/' );
 		$wmt_sites_array = $wmt_sitemaps_arr = array();
 
@@ -1537,7 +1539,7 @@ if ( ! function_exists( 'gglstmp_add_site' ) ) {
 	function gglstmp_add_site( $webmasters, $site_verification ) {
 		global $gglstmp_options;
 
-		$instruction_url = 'https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/';
+		$instruction_url = 'https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4';
 		$home_url        = home_url( '/' );
 
 		$return = '<table id="gglstmp_manage_table"><tr><th>' . __( 'Website', 'google-sitemap-plugin' ) . '</th>
@@ -1912,9 +1914,9 @@ if ( ! function_exists( 'gglstmp_delete_sitemap' ) ) {
 		global $gglstmp_options;
 
 		if ( $gglstmp_options['media_sitemap'] ) {
-			$masks = [ 'sitemap' ];
+			$masks = array( 'sitemap' );
 		} else {
-			$masks = [ 'video_sitemap', 'image_sitemap', 'sitemap' ];
+			$masks = array( 'video_sitemap', 'image_sitemap', 'sitemap' );
 		}
 
 		/* remove blog sitemap files */

@@ -75,10 +75,10 @@ class Google_Auth_AppIdentity extends Google_Auth_Abstract
    * @param mixed $scopes
    * @param string $cacheKey
    */
-  private function retrieveToken($scopes, $cacheKey)
+  private function retrieveToken( $scopes, $cacheKey )
   {
-    $this->token = AppIdentityService::getAccessToken($scopes);
-    if ($this->token) {
+    $this->token = AppIdentityService::getAccessToken( $scopes );
+    if ( $this->token ) {
       $this->client->getCache()->set(
           $cacheKey,
           $this->token

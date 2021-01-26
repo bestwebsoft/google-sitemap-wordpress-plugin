@@ -37,8 +37,7 @@ class Google_Config
    *
    * @param [$ini_file_location] - optional - The location of the ini file to load
    */
-  public function __construct($ini_file_location = null)
-  {
+  public function __construct($ini_file_location = null) {
     $this->configuration = array(
       // The application_name is included in the User-Agent HTTP header.
       'application_name' => '',
@@ -162,7 +161,7 @@ class Google_Config
    */
   public function setClassConfig($class, $config, $value = null)
   {
-    if (!is_array($config)) {
+    if ( ! is_array( $config ) ) {
       if (!isset($this->configuration['classes'][$class])) {
         $this->configuration['classes'][$class] = array();
       }

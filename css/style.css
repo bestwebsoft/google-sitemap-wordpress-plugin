@@ -1,11 +1,5 @@
 /* admin page menu */
-.menu-top.toplevel_page_google-sitemap-plugin .wp-menu-image {
-    font-family: 'bwsicons' !important;
-}
-.menu-top.toplevel_page_google-sitemap-plugin .wp-menu-image:before {
-    content: "\e916";
-    font-family: 'bwsicons' !important;
-}
+
 /* styles for settings page */
 #gglstmp_authorization_button {
     margin-bottom: 20px;
@@ -25,6 +19,9 @@
 }
 .gglstmp_success {
     color: #009e10;
+}
+.bws_info {
+    word-break: normal!important;
 }
 
 /*******************************************************************************

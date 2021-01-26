@@ -38,10 +38,9 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				'options'            => $gglstmp_options,
 				'tabs'               => $tabs,
 				'wp_slug'            => 'google-sitemap-plugin',
-				'pro_page'           => 'admin.php?page=google-sitemap-pro.php',
-				'bws_license_plugin' => 'google-sitemap-pro/google-sitemap-pro.php',
 				'link_key'           => '28d4cf0b4ab6f56e703f46f60d34d039',
-				'link_pn'            => '83'
+				'link_pn'            => '83',
+                'doc_link'           => 'https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4/'
 			) );
 
 			$this->robots = get_option( 'gglstmp_robots' );
@@ -92,10 +91,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				$this,
 				'additional_restore_options'
 			) );
-			add_filter( get_parent_class( $this ) . '_display_custom_messages', array(
-				$this,
-				'display_custom_messages'
-			) );
+            add_filter( get_parent_class( $this ) . '_display_custom_messages', array( $this, 'display_custom_messages' ) );
+            add_filter( get_parent_class( $this ) . '_information_postbox_top', array( $this, 'information_postbox_top' ) );
 		}
 
 		/**
@@ -223,32 +220,13 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 								'<a href="' . home_url( '/robots.txt' ) . '" target="_blank">robots.txt</a>'
 							); ?>
 						</span>
-						<?php $tooltip_text = sprintf(
-							_x( '"Search Engine Visibility" option have to be unmarked on the %s.', '%reading settings page link%', 'google-sitemap-plugin' ),
-							sprintf(
-								'<a href="%s" target="_blank">%s</a>',
-								admin_url( '/options-reading.php#blog_public' ),
-								_x( 'Reading Settings page', '...on the reading settings page.', 'google-sitemap-plugin' )
-							)
-						);
-						if ( file_exists( ABSPATH . 'robots.txt' ) ) {
-							$tooltip_text .= "<br />" . __( 'Also, please add the following code to the beginning of your ".htaccess" file:', 'google-sitemap-plugin' ) . "<br />" .
-							                 "<pre><code>" .
-							                 "&lt;IfModule mod_rewrite.c&gt;<br />" .
-							                 "RewriteEngine On<br />" .
-							                 "RewriteBase /<br />" .
-							                 "RewriteRule robots\.txt$ index.php?gglstmp_robots=1<br />" .
-							                 "&lt;/IfModule&gt;" .
-							                 "</code></pre>";
-						}
-						echo bws_add_help_box( $tooltip_text, 'bws-hide-for-mobile bws-auto-width' ); ?>
                     </td>
                 </tr>
                 <tr>
                     <th><?php _e( 'Media Sitemap', 'google-sitemap-plugin' ); ?></th>
                     <td>
                         <input type='checkbox' name="gglstmp_media_sitemap" value="1" <?php checked( $this->options['media_sitemap'], 1 ); ?>/>
-                        <span class="bws_info"><?php _e( 'Enable to add a media sitemap (video & image)', 'google-sitemap-plugin' ); ?></span>
+                        <span class="bws_info"><?php _e( 'Enable to create separate sitemap files for images and videos.', 'google-sitemap-plugin' ); ?></span>
                     </td>
                 </tr>
 				<?php if ( $this->is_multisite && ! is_subdomain_install() ) {
@@ -307,18 +285,18 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                     </td>
                 </tr>
                 <tr>
-                    <th><?php _e( 'Google Webmaster Tools', 'google-sitemap-plugin' ); ?></th>
+                    <th><?php _e( 'Google Search Console', 'google-sitemap-plugin' ); ?></th>
                     <td>
 						<?php if ( ! $this->client ) { ?>
 							<?php _e( "This hosting does not support сURL, so you cannot add a sitemap file automatically.", 'google-sitemap-plugin' ); ?>
 						<?php } else { ?>
 						<?php if ( ! isset( $_POST['gglstmp_logout'] ) && $this->client->getAccessToken() ) { ?>
                         <input class="button-secondary bws_no_bind_notice" name="gglstmp_logout" type="submit"
-                               value="<?php _e( 'Logout from Google Webmaster Tools', 'google-sitemap-plugin' ); ?>"/>
+                               value="<?php _e( 'Logout', 'google-sitemap-plugin' ); ?>"/>
                     </td>
                 </tr>
                 <tr>
-                    <th><?php _e( 'Manage Website with Google Webmaster Tools', 'google-sitemap-plugin' ); ?></th>
+                    <th><?php _e( 'Manage Website with Google Search Console', 'google-sitemap-plugin' ); ?></th>
                     <td>
                         <input class="button-secondary bws_no_bind_notice" type='submit' name='gglstmp_menu_add'
                                value="<?php _e( 'Add', 'google-sitemap-plugin' ); ?>"/>
@@ -327,17 +305,18 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                         <input class="button-secondary bws_no_bind_notice" type='submit' name='gglstmp_menu_info'
                                value="<?php _e( 'Get Info', 'google-sitemap-plugin' ); ?>"/>
                         <div class="bws_info">
-							<?php _e( "Add, delete or get info about this website using your Google Webmaster Tools account.", 'google-sitemap-plugin' ); ?>
+							<?php _e( "Add, delete or get info about this website using your Google Search Console account.", 'google-sitemap-plugin' ); ?>
                         </div>
 						<?php echo $this->manage_info;
 						} else {
 							$gglstmp_state = mt_rand();
 							$this->client->setState( $gglstmp_state );
 							$_SESSION[ 'gglstmp_state' . $this->blog_prefix ] = $this->client;
-							$gglstmp_auth_url                                 = $this->client->createAuthUrl(); ?>
+							$gglstmp_auth_url                                 = $this->client->createAuthUrl();
+                        ?>
                             <a id="gglstmp_authorization_button" class="button-secondary button"
                                href="<?php echo $gglstmp_auth_url; ?>" target="_blank"
-                               onclick="window.open(this.href,'','top='+(screen.height/2-560/2)+',left='+(screen.width/2-640/2)+',width=640,height=560,resizable=0,scrollbars=0,menubar=0,toolbar=0,status=1,location=0').focus(); return false;"><?php _e( 'Get Authorization Code', 'google-sitemap-plugin' ); ?></a>
+                               onclick="window.open(this.href,'','top='+(screen.height/2-560/2)+',left='+(screen.width/2-240/2)+',width=640,height=560,resizable=0,scrollbars=0,menubar=0,toolbar=0,status=1,location=0').focus(); return false;"><?php _e( 'Open the Google Search Console', 'google-sitemap-plugin' ); ?></a>
                             <div id="gglstmp_authorization_form">
                                 <input id="gglstmp_authorization_code" class="bws_no_bind_notice"
                                        name="gglstmp_authorization_code" type="text" maxlength="100"
@@ -352,9 +331,9 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						}
 						} ?>
                         <div class="bws_info">
-							<?php _e( 'You can also add your sitemap to Google Webmaster Tools manually.', 'google-sitemap-plugin' ); ?>
+							<?php _e( 'You can also add your sitemap to Google Search Console manually.', 'google-sitemap-plugin' ); ?>
                             &nbsp;<a target="_blank"
-                                     href="https://docs.google.com/document/d/1VOJx_OaasVskCqi9fsAbUmxfsckoagPU5Py97yjha9w/"><?php _e( 'Read the instruction', 'google-sitemap-plugin' ); ?></a>
+                                     href="https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4"><?php _e( 'Read the instruction', 'google-sitemap-plugin' ); ?></a>
                         </div>
                     </td>
                 </tr>
@@ -457,8 +436,11 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			return $default_options;
 		}
 
-		public function display_custom_messages( $save_results ) {
-			global $gglstmp_options;
+        /**
+         * Custom content for metabox
+         * @access public
+         */
+		public function information_postbox_top() {
 			if ( $this->is_multisite ) {
 				$blog_id  = get_current_blog_id();
 				$xml_file = 'sitemap_' . $blog_id . '.xml';
@@ -469,13 +451,13 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 
 			if ( isset( $xml_file ) && file_exists( ABSPATH . $xml_file ) ) {
 
-				printf(
-					'<div class="updated bws-notice inline"><p><strong>%s</strong></p></div>',
-					sprintf(
-						__( "%s is in the site root directory.", 'google-sitemap-plugin' ),
-						'<a href="' . $xml_url . '" target="_blank">' . __( 'The Sitemap file', 'google-sitemap-plugin' ) . '</a>'
-					)
-				);
+                printf(
+                    '<div class="misc-pub-section"><strong>%s</strong></div>',
+                    sprintf(
+                        __( "Sitemap File: %s", 'google-sitemap-pro' ),
+                        '<a href="' . $xml_url . '" target="_blank">' . $xml_file . '</a>'
+                    )
+                );
 
 				if ( ! $this->is_multisite ) {
 					$status = gglstmp_check_sitemap( home_url( "/sitemap.xml" ) );
@@ -521,5 +503,30 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                 </div>
 			<?php }
 		}
+
+        public function display_custom_messages() {
+            $tooltip_text = sprintf(
+                _x('The “Robots.txt” option is enabled. You should disable the “Search Engine Visibility" option on the %s.', '%reading settings page link%', 'google-sitemap-plugin'),
+                sprintf(
+                    '<a href="%s" target="_blank">%s</a>',
+                    admin_url('/options-reading.php#blog_public'),
+                    _x('Reading Settings page', '...on the reading settings page.', 'google-sitemap-plugin')
+                )
+            );
+            if (file_exists(ABSPATH . 'robots.txt')) {
+                $tooltip_text .= "<br />" . __('Also, please add the following code to the beginning of your ".htaccess" file:', 'google-sitemap-plugin') . "<br />" .
+                    "<pre><code>" .
+                    "&lt;IfModule mod_rewrite.c&gt;<br />" .
+                    "RewriteEngine On<br />" .
+                    "RewriteBase /<br />" .
+                    "RewriteRule robots\.txt$ index.php?gglstmp_robots=1<br />" .
+                    "&lt;/IfModule&gt;" .
+                    "</code></pre>";
+            }
+            if ( 1 == $this->robots && '1' != get_option( 'blog_public' ) ) {
+                printf('<div class="updated bws-notice inline"><p><strong>%s</strong></p></div>', $tooltip_text);
+            }
+            return false;
+        }
 	}
 }

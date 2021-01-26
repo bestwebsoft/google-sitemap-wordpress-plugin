@@ -14,7 +14,7 @@
 if ( ! function_exists( 'gglstmp_pro_block' ) ) {
 	function gglstmp_pro_block( $func, $show_cross = true ) {
 		global $gglstmp_plugin_info, $wp_version, $gglstmp_options;
-		if ( ! bws_hide_premium_options_check( $gglstmp_options ) || ! $show_cross ) { ?>
+		if ( ! bws_hide_premium_options_check( $gglstmp_options ) ) : ?>
 			<div class="bws_pro_version_bloc gglstmp_pro_block <?php echo $func;?>" title="<?php _e( 'This option is available in Pro version of plugin', 'google-sitemap-plugin' ); ?>">
 				<div class="bws_pro_version_table_bloc">
                     <?php if ( $show_cross ) { ?>
@@ -27,7 +27,16 @@ if ( ! function_exists( 'gglstmp_pro_block' ) ) {
 					<a class="bws_button" href="https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=28d4cf0b4ab6f56e703f46f60d34d039&pn=83&v=<?php echo $gglstmp_plugin_info["Version"]; ?>&wp_v=<?php echo $wp_version; ?>" target="_blank" title="Sitemap Pro"><?php _e( 'Upgrade to Pro', 'google-sitemap-plugin' ); ?></a>
 				</div>
 			</div>
-		<?php }
+			<?php else : ?>
+			<p>
+				<?php _e( 'This tab contains Pro options only.', 'google-sitemap-plugin' );
+				echo ' ' . sprintf(
+					__( '%sChange the settings%s to view the Pro options.', 'google-sitemap-plugin' ),
+					'<a href="admin.php?page=google-sitemap-plugin.php&bws_active_tab=misc">',
+					'</a>'
+					); ?>
+			</p>
+			<?php endif;
 	}
 }
 

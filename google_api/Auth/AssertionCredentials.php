@@ -60,7 +60,7 @@ class Google_Auth_AssertionCredentials
       $useCache = true
   ) {
     $this->serviceAccountName = $serviceAccountName;
-    $this->scopes = is_string($scopes) ? $scopes : implode(' ', $scopes);
+    $this->scopes = is_string( $scopes ) ? $scopes : implode( ' ', $scopes );
     $this->privateKey = $privateKey;
     $this->privateKeyPassword = $privateKeyPassword;
     $this->assertionType = $assertionType;
