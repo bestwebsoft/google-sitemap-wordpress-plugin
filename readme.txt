@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 4.5
-Tested up to: 5.6
-Stable tag: 3.2.3
+Tested up to: 5.7.1
+Stable tag: 3.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,8 +40,8 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 	* Add sitemap
 	* Delete website
 	* Get website info
-* Compatible with latest WordPress version
 * Add alternate language pages using [Multilanguage](http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759) plugin
+* Compatible with latest WordPress version
 * Incredibly simple settings for fast setup without modifying code
 * Detailed step-by-step documentation and videos
 
@@ -147,6 +147,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.2.4 - 05.05.2021 =
+* Update : We updated all functionality for wordpress 5.7.
+* Update : BWS Panel section was updated.
 
 = V3.2.3 - 22.01.2021 =
 * Update : We updated all functionality for wordpress 5.6.
@@ -377,10 +381,12 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 
 == Upgrade Notice ==
 
+= V3.2.4 =
+* The compatibility with new WordPress version updated.
+
 = V3.2.3 =
 * Bugs fixed.
 * The compatibility with new WordPress version updated.
-* BWS plugins section was updated.
 
 = V3.2.2 =
 * Bugs fixed.

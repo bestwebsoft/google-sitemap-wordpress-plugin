@@ -329,7 +329,7 @@ class Google_Service_Webmasters_Sitemaps_Resource extends Google_Service_Resourc
   }
 
   /**
-   * Lists sitemaps uploaded to the site. (sitemaps.listSitemaps)
+   * Lists sitemaps uploaded to the site. (sitemaps.list_sitemaps)
    *
    * @param string $siteUrl The site's URL, including protocol, for example
    * 'http://www.example.com/'
@@ -338,7 +338,7 @@ class Google_Service_Webmasters_Sitemaps_Resource extends Google_Service_Resourc
    * @opt_param string sitemapIndex A URL of a site's sitemap index.
    * @return Google_Service_Webmasters_SitemapsListResponse
    */
-  public function listSitemaps($siteUrl, $optParams = array())
+  public function list_sitemaps($siteUrl, $optParams = array())
   {
     $params = array('siteUrl' => $siteUrl);
     $params = array_merge($params, $optParams);
@@ -552,11 +552,11 @@ class Google_Service_Webmasters_SitemapsListResponse extends Google_Collection
   protected $sitemapDataType = 'array';
 
 
-  public function setSitemap($sitemap)
+  public function set_sitemap($sitemap)
   {
     $this->sitemap = $sitemap;
   }
-  public function getSitemap()
+  public function get_sitemap()
   {
     return $this->sitemap;
   }

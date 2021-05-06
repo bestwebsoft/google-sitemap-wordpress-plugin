@@ -24,10 +24,12 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			global $gglstmp_options, $gglstmp_plugin_info;
 
 			$tabs = array(
-				'settings' => array( 'label' => __( 'Settings', 'google-sitemap-plugin' ) ),
-				'display'  => array( 'label' => __( 'Structure', 'google-sitemap-plugin' ) ),
-				'misc'     => array( 'label' => __( 'Misc', 'google-sitemap-plugin' ) ),
-				'license'  => array( 'label' => __( 'License Key', 'google-sitemap-plugin' ) )
+				'settings' => array( 'label' => esc_html__( 'Settings', 'google-sitemap-plugin' ) ),
+				'display'  => array( 'label' => esc_html__( 'Structure', 'google-sitemap-plugin' ) ),
+				'misc'     => array( 'label' => esc_html__( 'Misc', 'google-sitemap-plugin' ) ),
+				/*pls */
+				'license'  => array( 'label' => esc_html__( 'License Key', 'google-sitemap-plugin' ) )
+				/* pls*/
 			);
 
 			parent::__construct( array(
@@ -37,12 +39,16 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				'default_options'    => gglstmp_get_options_default(),
 				'options'            => $gglstmp_options,
 				'tabs'               => $tabs,
+				/*pls */
 				'wp_slug'            => 'google-sitemap-plugin',
 				'link_key'           => '28d4cf0b4ab6f56e703f46f60d34d039',
 				'link_pn'            => '83',
+				/* pls*/
                 'doc_link'           => 'https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4/'
 			) );
-
+			
+			add_action( get_parent_class( $this ) . '_additional_misc_options', array( $this, 'additional_misc_options' ) );
+			
 			$this->robots = get_option( 'gglstmp_robots' );
 
 			/* Check htaccess plugin */
@@ -83,8 +89,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			unset( $this->all_post_types['attachment'] );
 
 			$this->all_taxonomies = array(
-				'category' => __( 'Post category', 'google-sitemap-plugin' ),
-				'post_tag' => __( 'Post tag', 'google-sitemap-plugin' )
+				'category' => esc_html__( 'Post category', 'google-sitemap-plugin' ),
+				'post_tag' => esc_html__( 'Post tag', 'google-sitemap-plugin' )
 			);
 
 			add_filter( get_parent_class( $this ) . '_additional_restore_options', array(
@@ -107,6 +113,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			global $wpdb;
 
 			$message = $notice = $error = '';
+			$sitemapcreate = $reschedule = false;
 
 			if ( isset( $_POST['gglstmp_logout'] ) ) {
 				unset( $_SESSION[ 'gglstmp_authorization_code' . $this->blog_prefix ], $this->options['authorization_code'] );
@@ -138,6 +145,12 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						update_site_option( 'htccss_options', $this->htaccess_options );
 						htccss_generate_htaccess();
 					}
+				}
+
+				$filter_param = apply_filters( 'gglstmp_save_frequency_options', $this->options, $sitemapcreate );
+				if ( ! empty( $filter_param['frequency_options'] ) && ! empty( $filter_param['sitemapcreate'] ) ) {
+					$this->options = array_merge( $this->options, $filter_param['frequency_options'] );
+					$sitemapcreate = $filter_param['sitemapcreate'];
 				}
 
 				$post_types = $taxonomies = array();
@@ -185,11 +198,11 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				update_option( 'gglstmp_robots', $this->robots );
 				update_option( 'gglstmp_options', $this->options );
 
-				if ( isset( $sitemapcreate ) ) {
+				if ( $sitemapcreate ) {
 					gglstmp_schedule_sitemap();
 				}
 
-				$message = __( 'Settings saved.', 'google-sitemap-plugin' );
+				$message = esc_html__( 'Settings saved.', 'google-sitemap-plugin' );
 			}
 
 			return compact( 'message', 'notice', 'error' );
@@ -199,7 +212,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		 *
 		 */
 		public function tab_settings() { ?>
-            <h3 class="bws_tab_label"><?php _e( 'Sitemap Settings', 'google-sitemap-plugin' ); ?></h3>
+            <h3 class="bws_tab_label"><?php esc_html_e( 'Sitemap Settings', 'google-sitemap-plugin' ); ?></h3>
 			<?php $this->help_phrase();
 			global $wp_version;
 			if ( ! $this->all_plugins ) {
@@ -223,43 +236,45 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                     </td>
                 </tr>
                 <tr>
-                    <th><?php _e( 'Media Sitemap', 'google-sitemap-plugin' ); ?></th>
+                    <th><?php esc_html_e( 'Media Sitemap', 'google-sitemap-plugin' ); ?></th>
                     <td>
                         <input type='checkbox' name="gglstmp_media_sitemap" value="1" <?php checked( $this->options['media_sitemap'], 1 ); ?>/>
-                        <span class="bws_info"><?php _e( 'Enable to create separate sitemap files for images and videos.', 'google-sitemap-plugin' ); ?></span>
+                        <span class="bws_info"><?php esc_html_e( 'Enable to create separate sitemap files for images and videos.', 'google-sitemap-plugin' ); ?></span>
                     </td>
                 </tr>
 				<?php if ( $this->is_multisite && ! is_subdomain_install() ) {
 					$attr_checked           = $attr_disabled = '';
-					$htaccess_plugin_notice = __( 'This option will be applied to all websites in the network.', 'google-sitemap-plugin' );
+					$htaccess_plugin_notice = esc_html__( 'This option will be applied to all websites in the network.', 'google-sitemap-plugin' );
 					if ( 'deactivated' == $this->htaccess['status'] ) {
 						$attr_disabled          = 'disabled="disabled"';
-						$htaccess_plugin_notice = '<a href="' . network_admin_url( '/plugins.php' ) . '">' . __( 'Activate', 'google-sitemap-plugin' ) . '</a>';
+						$htaccess_plugin_notice = '<a href="' . network_admin_url( '/plugins.php' ) . '">' . esc_html__( 'Activate', 'google-sitemap-plugin' ) . '</a>';
 					} elseif ( 'not_installed' == $this->htaccess['status'] ) {
 						$attr_disabled          = 'disabled="disabled"';
-						$htaccess_plugin_notice = '<a href="https://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=bc745b0c9d4b19ba95ae2c861418e0df&pn=106&v=' . $this->plugins_info["Version"] . '&wp_v=' . $wp_version . '">' . __( 'Install Now', 'google-sitemap-plugin' ) . '</a>';
+						$htaccess_plugin_notice = '<a href="https://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=bc745b0c9d4b19ba95ae2c861418e0df&pn=106&v=' . $this->plugins_info["Version"] . '&wp_v=' . $wp_version . '">' . esc_html__( 'Install Now', 'google-sitemap-plugin' ) . '</a>';
 					}
 					if ( ! empty( $this->htaccess_options['allow_xml'] ) && empty( $attr_disabled ) ) {
 						$attr_checked = 'checked="checked"';
 					} ?>
                     <tr id="gglstmp_allow_xml_block">
-                        <th><?php printf( __( '%s Plugin', 'google-sitemap-plugin' ), 'Htaccess' ); ?></th>
+                        <th><?php printf( esc_html__( '%s Plugin', 'google-sitemap-plugin' ), 'Htaccess' ); ?></th>
                         <td>
                             <input <?php printf( "%s %s", $attr_checked, $attr_disabled ); ?> type="checkbox"
                                                                                               name="gglstmp_allow_xml"
                                                                                               value="1"/> <span
-                                    class="bws_info"><?php printf( __( 'Enable to allow XML files access using %s plugin.', 'google-sitemap-plugin' ), 'Htaccess' ); ?><?php echo $htaccess_plugin_notice; ?></span>
-							<?php echo bws_add_help_box( __( 'The following string will be added to your .htaccess file', 'google-sitemap-plugin' ) . ': <code>RewriteRule ([^/]+\.xml)$ $1 [L]</code>' ); ?>
+                                    class="bws_info"><?php printf( esc_html__( 'Enable to allow XML files access using %s plugin.', 'google-sitemap-plugin' ), 'Htaccess' ); ?><?php echo $htaccess_plugin_notice; ?></span>
+							<?php echo bws_add_help_box( esc_html__( 'The following string will be added to your .htaccess file', 'google-sitemap-plugin' ) . ': <code>RewriteRule ([^/]+\.xml)$ $1 [L]</code>' ); ?>
                         </td>
                     </tr>
-				<?php } ?>
-            </table>
+				<?php } 
+				do_action( 'gglstmp_display_settings_frequency', $this->options ); ?>
+			<!-- pls -->
+            </table>          
 			<?php if ( ! $this->hide_pro_tabs ) { ?>
                 <div class="bws_pro_version_bloc">
                     <div class="bws_pro_version_table_bloc">
                         <button type="submit" name="bws_hide_premium_options"
                                 class="notice-dismiss bws_hide_premium_options"
-                                title="<?php _e( 'Close', 'google-sitemap-plugin' ); ?>"></button>
+                                title="<?php esc_html_e( 'Close', 'google-sitemap-plugin' ); ?>"></button>
                         <div class="bws_table_bg"></div>
                         <table class="form-table bws_pro_version">
                             <?php gglstmp_frequency_block(); ?>
@@ -269,90 +284,90 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                 </div>
 			<?php } ?>
             <table class="form-table gglstmp_settings_form">
+            <!-- end pls -->
                 <tr>
-                    <th><?php _e( 'URLs Limit', 'google-sitemap-plugin' ); ?></th>
+                    <th><?php esc_html_e( 'URLs Limit', 'google-sitemap-plugin' ); ?></th>
                     <td>
                         <input type="number" name="gglstmp_limit" min="1000" max="50000"
                                value="<?php echo absint( $this->options['limit'] ); ?>"/>
                         <div class="bws_info">
-							<?php _e( "A sitemap file can't contain more than 50,000 URLs and must be no larger than 50 MB uncompressed.", 'google-sitemap-plugin' ); ?>
+							<?php esc_html_e( "A sitemap file can't contain more than 50,000 URLs and must be no larger than 50 MB uncompressed.", 'google-sitemap-plugin' ); ?>
                             &nbsp;<a
                                     href="https://support.google.com/webmasters/answer/183668?ref_topic=4581190#general-guidelines"
-                                    target="_blank"><?php _e( 'Learn More', 'google-sitemap-plugin' ); ?></a><br/>
-							<?php _e( 'Decrease the limit if your sitemap exceeds file size limit.', 'google-sitemap-plugin' ); ?>
-							<?php _e( 'When the limit is reached, the sitemap will be splitted into multiple files.', 'google-sitemap-plugin' ); ?>
+                                    target="_blank"><?php esc_html_e( 'Learn More', 'google-sitemap-plugin' ); ?></a><br/>
+							<?php esc_html_e( 'Decrease the limit if your sitemap exceeds file size limit.', 'google-sitemap-plugin' ); ?>
+							<?php esc_html_e( 'When the limit is reached, the sitemap will be splitted into multiple files.', 'google-sitemap-plugin' ); ?>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <th><?php _e( 'Google Search Console', 'google-sitemap-plugin' ); ?></th>
+                    <th><?php esc_html_e( 'Google Search Console', 'google-sitemap-plugin' ); ?></th>
                     <td>
-						<?php if ( ! $this->client ) { ?>
-							<?php _e( "This hosting does not support сURL, so you cannot add a sitemap file automatically.", 'google-sitemap-plugin' ); ?>
+						<?php if ( ! $this->client ) { 
+							esc_html_e( "This hosting does not support сURL, so you cannot add a sitemap file automatically.", 'google-sitemap-plugin' ); ?>
 						<?php } else { ?>
 						<?php if ( ! isset( $_POST['gglstmp_logout'] ) && $this->client->getAccessToken() ) { ?>
                         <input class="button-secondary bws_no_bind_notice" name="gglstmp_logout" type="submit"
-                               value="<?php _e( 'Logout', 'google-sitemap-plugin' ); ?>"/>
+                               value="<?php esc_html_e( 'Logout', 'google-sitemap-plugin' ); ?>"/>
                     </td>
                 </tr>
                 <tr>
-                    <th><?php _e( 'Manage Website with Google Search Console', 'google-sitemap-plugin' ); ?></th>
+                    <th><?php esc_html_e( 'Manage Website with Google Search Console', 'google-sitemap-plugin' ); ?></th>
                     <td>
                         <input class="button-secondary bws_no_bind_notice" type='submit' name='gglstmp_menu_add'
-                               value="<?php _e( 'Add', 'google-sitemap-plugin' ); ?>"/>
+                               value="<?php esc_html_e( 'Add', 'google-sitemap-plugin' ); ?>"/>
                         <input class="button-secondary bws_no_bind_notice" type='submit' name='gglstmp_menu_delete'
-                               value="<?php _e( 'Delete', 'google-sitemap-plugin' ); ?>"/>
+                               value="<?php esc_html_e( 'Delete', 'google-sitemap-plugin' ); ?>"/>
                         <input class="button-secondary bws_no_bind_notice" type='submit' name='gglstmp_menu_info'
-                               value="<?php _e( 'Get Info', 'google-sitemap-plugin' ); ?>"/>
+                               value="<?php esc_html_e( 'Get Info', 'google-sitemap-plugin' ); ?>"/>
                         <div class="bws_info">
-							<?php _e( "Add, delete or get info about this website using your Google Search Console account.", 'google-sitemap-plugin' ); ?>
+							<?php esc_html_e( "Add, delete or get info about this website using your Google Search Console account.", 'google-sitemap-plugin' ); ?>
                         </div>
 						<?php echo $this->manage_info;
 						} else {
 							$gglstmp_state = mt_rand();
 							$this->client->setState( $gglstmp_state );
 							$_SESSION[ 'gglstmp_state' . $this->blog_prefix ] = $this->client;
-							$gglstmp_auth_url                                 = $this->client->createAuthUrl();
-                        ?>
+							$gglstmp_auth_url                                 = $this->client->createAuthUrl(); ?>
                             <a id="gglstmp_authorization_button" class="button-secondary button"
                                href="<?php echo $gglstmp_auth_url; ?>" target="_blank"
-                               onclick="window.open(this.href,'','top='+(screen.height/2-560/2)+',left='+(screen.width/2-240/2)+',width=640,height=560,resizable=0,scrollbars=0,menubar=0,toolbar=0,status=1,location=0').focus(); return false;"><?php _e( 'Open the Google Search Console', 'google-sitemap-plugin' ); ?></a>
+                               onclick="window.open(this.href,'','top='+(screen.height/2-560/2)+',left='+(screen.width/2-240/2)+',width=640,height=560,resizable=0,scrollbars=0,menubar=0,toolbar=0,status=1,location=0').focus(); return false;"><?php esc_html_e( 'Open the Google Search Console', 'google-sitemap-plugin' ); ?></a>
                             <div id="gglstmp_authorization_form">
                                 <input id="gglstmp_authorization_code" class="bws_no_bind_notice"
                                        name="gglstmp_authorization_code" type="text" maxlength="100"
                                        autocomplete="off"/>
                                 <input id="gglstmp_authorize" class="button-secondary button bws_no_bind_notice"
                                        name="gglstmp_authorize" type="submit"
-                                       value="<?php _e( 'Authorize', 'google-sitemap-plugin' ); ?>"/>
+                                       value="<?php esc_html_e( 'Authorize', 'google-sitemap-plugin' ); ?>"/>
                             </div>
 							<?php if ( isset( $_POST['gglstmp_authorization_code'] ) && isset( $_POST['gglstmp_authorize'] ) ) { ?>
-                                <div id="gglstmp_authorize_error"><?php _e( 'Invalid authorization code. Please try again.', 'google-sitemap-plugin' ); ?></div>
+                                <div id="gglstmp_authorize_error"><?php esc_html_e( 'Invalid authorization code. Please try again.', 'google-sitemap-plugin' ); ?></div>
 							<?php }
 						}
 						} ?>
                         <div class="bws_info">
-							<?php _e( 'You can also add your sitemap to Google Search Console manually.', 'google-sitemap-plugin' ); ?>
+							<?php esc_html_e( 'You can also add your sitemap to Google Search Console manually.', 'google-sitemap-plugin' ); ?>
                             &nbsp;<a target="_blank"
-                                     href="https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4"><?php _e( 'Read the instruction', 'google-sitemap-plugin' ); ?></a>
+                                     href="https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4"><?php esc_html_e( 'Read the instruction', 'google-sitemap-plugin' ); ?></a>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <th><?php _e( 'Alternate Language Pages', 'google-sitemap-plugin' ); ?></th>
+                    <th><?php esc_html_e( 'Alternate Language Pages', 'google-sitemap-plugin' ); ?></th>
                     <td>
 						<?php $disabled = $link = '';
 						if ( array_key_exists( 'multilanguage/multilanguage.php', $this->all_plugins ) || array_key_exists( 'multilanguage-pro/multilanguage-pro.php', $this->all_plugins ) ) {
 							if ( ! is_plugin_active( 'multilanguage/multilanguage.php' ) && ! is_plugin_active( 'multilanguage-pro/multilanguage-pro.php' ) ) {
 								$disabled = ' disabled="disabled"';
-								$link     = '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate', 'google-sitemap-plugin' ) . '</a>';
+								$link     = '<a href="' . admin_url( 'plugins.php' ) . '">' . esc_html__( 'Activate', 'google-sitemap-plugin' ) . '</a>';
 							}
 						} else {
 							$disabled = ' disabled="disabled"';
-							$link     = '<a href="https://bestwebsoft.com/products/wordpress/plugins/multilanguage/?k=84702fda886c65861801c52644d1ee11&amp;pn=83&amp;v=' . $this->plugins_info["Version"] . '&amp;wp_v=' . $wp_version . '" target="_blank">' . __( 'Install Now', 'google-sitemap-plugin' ) . '</a>';
+							$link     = '<a href="https://bestwebsoft.com/products/wordpress/plugins/multilanguage/?k=84702fda886c65861801c52644d1ee11&amp;pn=83&amp;v=' . $this->plugins_info["Version"] . '&amp;wp_v=' . $wp_version . '" target="_blank">' . esc_html__( 'Install Now', 'google-sitemap-plugin' ) . '</a>';
 						} ?>
                         <input type="checkbox" name="gglstmp_alternate_language" value="1" <?php echo $disabled;
 						checked( $this->options['alternate_language'] ) ?> />
-                        <span class="bws_info"> <?php _e( "Enable to add alternate language pages using Multilanguage plugin.", 'google-sitemap-plugin' ); ?> <?php echo $link; ?></span>
+                        <span class="bws_info"> <?php esc_html_e( "Enable to add alternate language pages using Multilanguage plugin.", 'google-sitemap-plugin' ); ?> <?php echo $link; ?></span>
                     </td>
                 </tr>
             </table>
@@ -362,12 +377,12 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		 *
 		 */
 		public function tab_display() { ?>
-            <h3 class="bws_tab_label"><?php _e( 'Sitemap Structure', 'google-sitemap-plugin' ); ?></h3>
+            <h3 class="bws_tab_label"><?php esc_html_e( 'Sitemap Structure', 'google-sitemap-plugin' ); ?></h3>
 			<?php $this->help_phrase(); ?>
             <hr>
             <table class="form-table gglstmp_settings_form">
                 <tr>
-                    <th><?php _e( 'Post Types', 'google-sitemap-plugin' ); ?></th>
+                    <th><?php esc_html_e( 'Post Types', 'google-sitemap-plugin' ); ?></th>
                     <td>
                         <fieldset>
 							<?php foreach ( $this->all_post_types as $post_type => $post_type_object ) { ?>
@@ -378,11 +393,11 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                                 <br/>
 							<?php } ?>
                         </fieldset>
-                        <span class="bws_info"><?php _e( 'Enable to add post type links to the sitemap.', 'google-sitemap-plugin' ); ?></span>
+                        <span class="bws_info"><?php esc_html_e( 'Enable to add post type links to the sitemap.', 'google-sitemap-plugin' ); ?></span>
                     </td>
                 </tr>
                 <tr>
-                    <th><?php _e( 'Taxonomies', 'google-sitemap-plugin' ); ?></th>
+                    <th><?php esc_html_e( 'Taxonomies', 'google-sitemap-plugin' ); ?></th>
                     <td>
                         <fieldset>
 							<?php foreach ( $this->all_taxonomies as $key => $value ) { ?>
@@ -393,22 +408,32 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                                             style="padding-left: 5px;"><?php echo $value; ?></span></label><br/>
 							<?php } ?>
                         </fieldset>
-                        <span class="bws_info"><?php _e( 'Enable to taxonomy links to the sitemap.', 'google-sitemap-plugin' ); ?></span>
+                        <span class="bws_info"><?php esc_html_e( 'Enable to taxonomy links to the sitemap.', 'google-sitemap-plugin' ); ?></span>
                     </td>
                 </tr>
             </table>
+            <!-- pls -->
 			<?php if ( ! $this->hide_pro_tabs ) { ?>
                 <div class="bws_pro_version_bloc">
                     <div class="bws_pro_version_table_bloc">
                         <button type="submit" name="bws_hide_premium_options"
                                 class="notice-dismiss bws_hide_premium_options"
-                                title="<?php _e( 'Close', 'google-sitemap-plugin' ); ?>"></button>
+                                title="<?php esc_html_e( 'Close', 'google-sitemap-plugin' ); ?>"></button>
                         <div class="bws_table_bg"></div>
 						<?php gglstmp_extra_block(); ?>
                     </div>
 					<?php $this->bws_pro_block_links(); ?>
                 </div>
-			<?php }
+			<?php } ?>
+			<!-- end pls -->
+		<?php }
+
+		/**
+		* Display custom options on the 'misc' tab
+		* @access public
+		*/
+		public function additional_misc_options() {
+			do_action( 'gglstmp_settings_page_misc_action', $this->options );
 		}
 
 		/**
@@ -454,7 +479,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                 printf(
                     '<div class="misc-pub-section"><strong>%s</strong></div>',
                     sprintf(
-                        __( "Sitemap File: %s", 'google-sitemap-pro' ),
+                        esc_html__( "Sitemap File: %s", 'google-sitemap-pro' ),
                         '<a href="' . $xml_url . '" target="_blank">' . $xml_file . '</a>'
                     )
                 );
@@ -480,8 +505,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					$replace = $home_dir . '$1'; ?>
                     <div class="error below-h2">
                         <p>
-                            <strong><?php _e( 'Error', 'google-sitemap-plugin' ); ?>:</strong> <?php
-							printf( __( "Can't access XML files. Try to add the following rule %s to your %s file which is located in the root of your website to resolve this error. Find the following line %s and paste the code just after it.", 'google-sitemap-plugin' ),
+                            <strong><?php esc_html_e( 'Error', 'google-sitemap-plugin' ); ?>:</strong> <?php
+							printf( esc_html__( "Can't access XML files. Try to add the following rule %s to your %s file which is located in the root of your website to resolve this error. Find the following line %s and paste the code just after it.", 'google-sitemap-plugin' ),
 								'<code>RewriteRule ([^/]+\.xml)$ ' . $replace . ' [L]</code>',
 								'<strong>.htaccess</strong>',
 								'<strong>"RewriteBase /"</strong>'
@@ -497,8 +522,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			if ( class_exists( 'Google_Client' ) && version_compare( Google_Client::LIBVER, '1.1.3', '!=' ) ) {
 				/* Google Client library of some other product is used! */ ?>
                 <div class="updated bws-notice inline">
-                    <p><strong><?php _e( 'Note', 'google-sitemap-plugin' ); ?>
-                            :&nbsp;</strong><?php _e( 'Another plugin is providing Google Client functionality and may interrupt proper plugin work.', 'google-sitemap-plugin' ); ?>
+                    <p><strong><?php esc_html_e( 'Note', 'google-sitemap-plugin' ); ?>
+                            :&nbsp;</strong><?php esc_html_e( 'Another plugin is providing Google Client functionality and may interrupt proper plugin work.', 'google-sitemap-plugin' ); ?>
                     </p>
                 </div>
 			<?php }
@@ -514,7 +539,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                 )
             );
             if (file_exists(ABSPATH . 'robots.txt')) {
-                $tooltip_text .= "<br />" . __('Also, please add the following code to the beginning of your ".htaccess" file:', 'google-sitemap-plugin') . "<br />" .
+                $tooltip_text .= "<br />" . esc_html__('Also, please add the following code to the beginning of your ".htaccess" file:', 'google-sitemap-plugin') . "<br />" .
                     "<pre><code>" .
                     "&lt;IfModule mod_rewrite.c&gt;<br />" .
                     "RewriteEngine On<br />" .
