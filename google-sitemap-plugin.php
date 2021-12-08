@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.2.4
+Version: 3.2.5
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */

@@ -1,10 +1,10 @@
-=== Sitemap by BestWebSoft ===
+=== Sitemap by BestWebSoft - WordPress XML Site Map Page Generator Plugin ===
 Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 4.5
-Tested up to: 5.7.1
-Stable tag: 3.2.4
+Tested up to: 5.8.2
+Stable tag: 3.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,10 +68,15 @@ If you have a feature suggestion or idea you'd like to see in the plugin, we'd l
 * [[Doc] Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
 * [[Doc] Purchase](https://docs.google.com/document/d/1EUdBVvnm7IHZ6y0DNyldZypUQKpB8UVPToSc_LdOYQI/)
 * [[Video] Installation Instruction](https://www.youtube.com/watch?v=NKlAnFTzNrQ)
+* [[Video] User Guide](https://www.youtube.com/watch?v=hzz0_Yj4gaQ)
 
 = Help & Support =
 
 Visit our Help Center if you have any questions, our friendly Support Team is happy to help — <https://support.bestwebsoft.com/>
+
+= Affiliate Program =
+
+Earn 20% commission by selling the premium WordPress plugins and themes by BestWebSoft — https://bestwebsoft.com/affiliate/
 
 = Translation =
 
@@ -147,6 +152,12 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.2.5 - 26.11.2021 =
+* Bugfix : The issue with installing new plugins has been fixed.
+* Update: Video User Guide has been added.
+* Update : We updated all functionality for wordpress 5.8.2.
+* Update : BWS Panel section was updated.
 
 = V3.2.4 - 05.05.2021 =
 * Update : We updated all functionality for wordpress 5.7.
@@ -380,6 +391,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.2.5 =
+* Bugs fixed.
+* Usability improved
+* The compatibility with new WordPress version updated.
 
 = V3.2.4 =
 * The compatibility with new WordPress version updated.

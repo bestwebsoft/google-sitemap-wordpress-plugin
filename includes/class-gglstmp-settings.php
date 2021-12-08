@@ -44,7 +44,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				'link_key'           => '28d4cf0b4ab6f56e703f46f60d34d039',
 				'link_pn'            => '83',
 				/* pls*/
-                'doc_link'           => 'https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4/'
+                'doc_link'           => 'https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4/',
+                'doc_video_link'     => 'https://www.youtube.com/watch?v=hzz0_Yj4gaQ'
 			) );
 			
 			add_action( get_parent_class( $this ) . '_additional_misc_options', array( $this, 'additional_misc_options' ) );
