@@ -47,6 +47,13 @@ if ( ! function_exists( 'gglstmp_pro_block' ) ) {
  */
 if ( ! function_exists( 'gglstmp_frequency_block' ) ) {
 	function gglstmp_frequency_block() { ?>
+		 <tr>
+            <th><?php _e( 'Title and Meta Description', 'google-sitemap-plugin' ); ?></th>
+            <td>
+                <input type='checkbox' disabled="disabled" />
+                <span class="bws_info"><?php _e( 'Enable to change title and meta description.', 'google-sitemap-plugin' ); ?></span>
+            </td>
+        </tr>
 		<tr valign="top">
 			<th><?php esc_html_e( 'Change Frequency', 'google-sitemap-plugin' ); ?></th>
 			<td>

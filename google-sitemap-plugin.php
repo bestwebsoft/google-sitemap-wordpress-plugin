@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.2.5
+Version: 3.2.6
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -478,8 +478,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 
                         if ( $gglstmp_options['media_sitemap'] ) {
 
-                            /* Prepear video_list and image_list data for sitemap */
-                            $video_list = get_attached_media( 'video', $post );
+                            /* Prepear image_list data for sitemap */
                             $image_list = get_attached_media( 'image', $post );
 
                             /* Add image to list */
@@ -511,26 +510,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
                                     'url'        => get_permalink( $post ),
                                     'image_list' => $image_item
                                 );
-                            }
-                            /* Add video to list */
-                            $video_item = array();
-                            if ( ! empty( $video_list ) ) {
-                                $video_count = 0;
-                                foreach ( $video_list as $video ) {
-                                    $video_count ++;
-                                    if ( $video_count > 1000 ) {
-                                        break;
-                                    }
-                                    $video_info[] = $video->guid;
-                                    $video_info[] = $video->post_title;
-                                    $video_item[] = $video_info;
-                                }
-                                /* Add array video_elements of one post */
-                                $video_elements[] = array(
-                                    'url'            => get_permalink( $post ),
-                                    'video_list_url' => $video_item
-                                );
-                            }
+                            }                        
                         }
 
                         /* Data for default sitemap */
@@ -539,9 +519,34 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
                             'date'      => date( 'Y-m-d\TH:i:sP', strtotime( $post->post_modified ) ),
                             'frequency' => $frequency,
                             'priority'  => $priority
-                        );
+                        );                        
                     }
                 }
+                 /* Prepear video_list data for sitemap */
+	            $attachments = get_posts( array( 'post_type' => 'attachment' ) );
+	            $video_item = array();
+	            if ( ! empty( $posts ) ) { 
+                    $video_count = 0;
+	                foreach ( $attachments as $video ) {
+	                	if ( str_contains( $video->post_mime_type, 'video' ) ) {
+							/* Add video to list */
+                            $video_count ++;
+                            if ( $video_count > 1000 ) {
+                                break;
+                            }
+                            $video_info[] = $video->guid;
+                            $video_info[] = $video->post_title;
+                            $video_item[] = $video_info;
+
+	                       if ( ! in_array( get_permalink( $video ), array_column( $video_elements, 'url' ) ) ) {
+		                        $video_elements[] = array(
+		                            'url'            => get_permalink( $video ),
+		                            'video_list_url' => $video_item
+		                        );
+		                    }
+	                	}
+	                }
+	            }
             }
 		}
 
@@ -940,7 +945,7 @@ if ( ! function_exists( 'gglstmp_if_file_exists' ) ) {
 		}
 
 		if ( $echo ) {
-			echo $format;
+			echo esc_attr( $format );
 		}
 
 		return $format;

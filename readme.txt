@@ -1,10 +1,10 @@
-=== Sitemap by BestWebSoft - WordPress XML Site Map Page Generator Plugin ===
+﻿=== Sitemap by BestWebSoft - WordPress XML Site Map Page Generator Plugin ===
 Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 4.5
-Tested up to: 5.8.2
-Stable tag: 3.2.5
+Tested up to: 6.0
+Stable tag: 3.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 > * Configure all subsites on the network
 > * Add custom URLs to the sitemap file
 > * Get answer to your support question within one business day ([Support Policy](https://bestwebsoft.com/support-policy/))
+> * Edit title and meta description [NEW]
 >
 > [Upgrade to Pro Now](https://bestwebsoft.com/products/wordpress/plugins/google-sitemap/?k=8b735c0f7ca51187b5062d5e4f40058b)
 
@@ -64,9 +65,9 @@ If you have a feature suggestion or idea you'd like to see in the plugin, we'd l
 
 = Documentation & Videos =
 
-* [[Doc] User Guide](https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4)
-* [[Doc] Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
-* [[Doc] Purchase](https://docs.google.com/document/d/1EUdBVvnm7IHZ6y0DNyldZypUQKpB8UVPToSc_LdOYQI/)
+* [[Doc] User Guide](https://bestwebsoft.com/documentation/sitemap/sitemap-user-guide/)
+* [[Doc] Installation](https://bestwebsoft.com/documentation/how-to-install-a-wordpress-product/how-to-install-a-wordpress-plugin/)
+* [[Doc] Purchase](https://bestwebsoft.com/documentation/how-to-purchase-a-wordpress-plugin/how-to-purchase-wordpress-plugin-from-bestwebsoft/)
 * [[Video] Installation Instruction](https://www.youtube.com/watch?v=NKlAnFTzNrQ)
 * [[Video] User Guide](https://www.youtube.com/watch?v=hzz0_Yj4gaQ)
 
@@ -98,7 +99,7 @@ Some of these translations are not complete. We are constantly adding new featur
 2. Activate the plugin via the 'Plugins' menu in WordPress.
 3. The site settings are available in "Sitemap".
 
-[View a Step-by-step Instruction on Sitemap Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
+[View a Step-by-step Instruction on Sitemap Installation](https://bestwebsoft.com/documentation/how-to-install-a-wordpress-product/how-to-install-a-wordpress-plugin/)
 
 https://www.youtube.com/watch?v=NKlAnFTzNrQ
 
@@ -152,6 +153,14 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.2.6 - 21.06.2022 =
+* NEW: Compatibility with Yoast - Ability enable the sitemap with Yoast plugin activated.
+* Update : We updated all functionality for wordpress 6.0.
+* Update : BWS Panel section was updated.
+* Bugfix : The issue with video sitemap has been fixed.
+* PRO: Ability to edit title and meta description has been added.
+* PRO : The issue with sitemap.xml on multisite has been fixed.
 
 = V3.2.5 - 26.11.2021 =
 * Bugfix : The issue with installing new plugins has been fixed.
@@ -391,6 +400,12 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.2.6 =
+* New features added
+* Plugin optimization completed.
+* The compatibility with new WordPress version updated.
+* Bugs fixed.
 
 = V3.2.5 =
 * Bugs fixed.

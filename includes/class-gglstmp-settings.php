@@ -158,13 +158,13 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 
 				if ( ! empty( $_POST['gglstmp_post_types'] ) ) {
 					foreach ( (array)$_POST['gglstmp_post_types'] as $type ) {
-						if ( array_key_exists( $type, $this->all_post_types ) )
+						if ( array_key_exists( sanitize_text_field( $type ), $this->all_post_types ) )
 							$post_types[] = $type;
 					}
 				}
 				if ( ! empty( $_POST['gglstmp_taxonomies'] ) ) {
 					foreach ( (array)$_POST['gglstmp_taxonomies'] as $tax ) {
-						if ( array_key_exists( $tax, $this->all_taxonomies ) )
+						if ( array_key_exists( sanitize_text_field( $tax ), $this->all_taxonomies ) )
 							$taxonomies[] = $tax;
 					}
 				}
@@ -189,6 +189,13 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				}
 				
 				$media_sitemap = isset( $_POST['gglstmp_media_sitemap'] ) ? 1 : 0;
+				if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) || is_plugin_active( 'wordpress-seo-pro/wp-seo-pro.php' ) ) {
+					if ( isset( $_POST['disable_yoast_xml_sitemap'] ) ) {
+						WPSEO_Options::set( 'enable_xml_sitemap', false );
+					} else {
+						WPSEO_Options::set( 'enable_xml_sitemap', true );
+					}
+				}
 				if ( $this->options['media_sitemap'] != $media_sitemap )
 					$sitemapcreate = true;
 				$this->options['media_sitemap'] = $media_sitemap;
@@ -200,7 +207,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				update_option( 'gglstmp_options', $this->options );
 
 				if ( $sitemapcreate ) {
-					gglstmp_schedule_sitemap();
+					gglstmp_schedule_sitemap( false, false, true);
 				}
 
 				$message = esc_html__( 'Settings saved.', 'google-sitemap-plugin' );
@@ -224,6 +231,15 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			} ?>
             <hr>
             <table class="form-table gglstmp_settings_form">
+            	<?php if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) || is_plugin_active( 'wordpress-seo-pro/wp-seo-pro.php' ) ) { ?>
+                	<tr>
+                        <th><?php _e( 'Yoast Sitemap', 'google-sitemap-plugin' ); ?></th>
+                        <td>
+                            <input type='checkbox' name="disable_yoast_xml_sitemap" value="1" <?php checked( WPSEO_Options::get( 'enable_xml_sitemap'), false ); ?>/>
+                            <span class="bws_info"><?php _e( 'Enable to activate the sitemap (Yoast sitemap will be deactivated).', 'google-sitemap-plugin' ); ?></span>
+                        </td>
+                    </tr>
+                <?php } ?>
                 <tr>
                     <th>Robots.txt</th>
                     <td>
@@ -235,7 +251,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 							); ?>
 						</span>
                     </td>
-                </tr>
+                </tr>        
                 <tr>
                     <th><?php esc_html_e( 'Media Sitemap', 'google-sitemap-plugin' ); ?></th>
                     <td>
@@ -331,7 +347,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 							$_SESSION[ 'gglstmp_state' . $this->blog_prefix ] = $this->client;
 							$gglstmp_auth_url                                 = $this->client->createAuthUrl(); ?>
                             <a id="gglstmp_authorization_button" class="button-secondary button"
-                               href="<?php echo $gglstmp_auth_url; ?>" target="_blank"
+                               href="<?php echo esc_url( $gglstmp_auth_url ); ?>" target="_blank"
                                onclick="window.open(this.href,'','top='+(screen.height/2-560/2)+',left='+(screen.width/2-240/2)+',width=640,height=560,resizable=0,scrollbars=0,menubar=0,toolbar=0,status=1,location=0').focus(); return false;"><?php esc_html_e( 'Open the Google Search Console', 'google-sitemap-plugin' ); ?></a>
                             <div id="gglstmp_authorization_form">
                                 <input id="gglstmp_authorization_code" class="bws_no_bind_notice"
@@ -366,7 +382,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 							$disabled = ' disabled="disabled"';
 							$link     = '<a href="https://bestwebsoft.com/products/wordpress/plugins/multilanguage/?k=84702fda886c65861801c52644d1ee11&amp;pn=83&amp;v=' . $this->plugins_info["Version"] . '&amp;wp_v=' . $wp_version . '" target="_blank">' . esc_html__( 'Install Now', 'google-sitemap-plugin' ) . '</a>';
 						} ?>
-                        <input type="checkbox" name="gglstmp_alternate_language" value="1" <?php echo $disabled;
+                        <input type="checkbox" name="gglstmp_alternate_language" value="1" <?php echo esc_attr( $disabled );
 						checked( $this->options['alternate_language'] ) ?> />
                         <span class="bws_info"> <?php esc_html_e( "Enable to add alternate language pages using Multilanguage plugin.", 'google-sitemap-plugin' ); ?> <?php echo $link; ?></span>
                     </td>
@@ -388,8 +404,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                         <fieldset>
 							<?php foreach ( $this->all_post_types as $post_type => $post_type_object ) { ?>
                                 <label>
-                                	<input type="checkbox" <?php if ( in_array( $post_type, $this->options['post_type'] ) ) echo 'checked="checked"'; ?> name="gglstmp_post_types[]" value="<?php echo $post_type; ?>"/>
-                                	<span style="text-transform: capitalize; padding-left: 5px;"><?php echo $post_type_object->labels->name; ?></span>
+                                	<input type="checkbox" <?php if ( in_array( $post_type, $this->options['post_type'] ) ) echo 'checked="checked"'; ?> name="gglstmp_post_types[]" value="<?php echo esc_attr( $post_type ); ?>"/>
+                                	<span style="text-transform: capitalize; padding-left: 5px;"><?php echo esc_attr( $post_type_object->labels->name ); ?></span>
                                 </label>
                                 <br/>
 							<?php } ?>
@@ -405,8 +421,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                                 <label><input
                                             type="checkbox" <?php if ( in_array( $key, $this->options['taxonomy'] ) ) {
 										echo 'checked="checked"';
-									} ?> name="gglstmp_taxonomies[]" value="<?php echo $key; ?>"/><span
-                                            style="padding-left: 5px;"><?php echo $value; ?></span></label><br/>
+									} ?> name="gglstmp_taxonomies[]" value="<?php echo esc_attr( $key ); ?>"/><span
+                                            style="padding-left: 5px;"><?php echo esc_attr( $value ); ?></span></label><br/>
 							<?php } ?>
                         </fieldset>
                         <span class="bws_info"><?php esc_html_e( 'Enable to taxonomy links to the sitemap.', 'google-sitemap-plugin' ); ?></span>
@@ -480,7 +496,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
                 printf(
                     '<div class="misc-pub-section"><strong>%s</strong></div>',
                     sprintf(
-                        esc_html__( "Sitemap File: %s", 'google-sitemap-pro' ),
+                        esc_html__( "Sitemap File: %s", 'google-sitemap-plugin' ),
                         '<a href="' . $xml_url . '" target="_blank">' . $xml_file . '</a>'
                     )
                 );
