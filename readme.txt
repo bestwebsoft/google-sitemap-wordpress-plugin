@@ -154,7 +154,7 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 
 == Changelog ==
 
-= V3.2.6 - 21.06.2022 =
+= V3.2.6 - 21.07.2022 =
 * NEW: Compatibility with Yoast - Ability enable the sitemap with Yoast plugin activated.
 * Update : We updated all functionality for wordpress 6.0.
 * Update : BWS Panel section was updated.
