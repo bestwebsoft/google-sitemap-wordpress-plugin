@@ -30,6 +30,8 @@
 <li>Get website info</li>
 </ul>
 </li>
+<li>Split Sitemap Items</li>
+<li>Disable automatic canonical tag</li>
 <li>Add alternate language pages using <a href="http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759" rel="nofollow ugc">Multilanguage</a> plugin</li>
 <li>Compatible with latest WordPress version</li>
 <li>Incredibly simple settings for fast setup without modifying code</li>
@@ -49,6 +51,7 @@
 </li>
 <li>Configure all subsites on the network</li>
 <li>Add custom URLs to the sitemap file</li>
+<li>Change Sitemap File name</li>
 <li>Get answer to your support question within one business day (<a href="https://bestwebsoft.com/support-policy/" rel="nofollow ugc">Support Policy</a>)</li>
 <li>Edit title and meta description [NEW]</li>
 </ul>

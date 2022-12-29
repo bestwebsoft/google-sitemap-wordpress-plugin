@@ -2,9 +2,9 @@
 Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
-Requires at least: 4.5
-Tested up to: 6.0
-Stable tag: 3.2.6
+Requires at least: 5.6
+Tested up to: 6.1.1
+Stable tag: 3.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,8 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 	* Add sitemap
 	* Delete website
 	* Get website info
+* Split Sitemap Items
+* Disable automatic canonical tag
 * Add alternate language pages using [Multilanguage](http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759) plugin
 * Compatible with latest WordPress version
 * Incredibly simple settings for fast setup without modifying code
@@ -56,6 +58,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 > 	* External sitemap file update
 > * Configure all subsites on the network
 > * Add custom URLs to the sitemap file
+> * Change Sitemap File name
 > * Get answer to your support question within one business day ([Support Policy](https://bestwebsoft.com/support-policy/))
 > * Edit title and meta description [NEW]
 >
@@ -153,6 +156,14 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.2.7 - 29.12.2022 =
+* NEW: Added Split Sitemap functionality.
+* Update : We updated functionality for the new version of Google OAuth.
+* Update : We updated all functionality for wordpress 6.1.
+* Update : BWS Panel section was updated.
+* Bugfix : The issue with sitemap.xml on multisite has been fixed.
+* Bugfix : The issue with custom post type in sitemap has been fixed.
 
 = V3.2.6 - 21.07.2022 =
 * NEW: Compatibility with Yoast - Ability enable the sitemap with Yoast plugin activated.
@@ -400,6 +411,12 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.2.7 =
+* New feature added.
+* Plugin optimization completed.
+* The compatibility with new WordPress version updated.
+* Bugs fixed.
 
 = V3.2.6 =
 * New features added
