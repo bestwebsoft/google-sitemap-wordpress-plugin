@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.2.7
+Version: 3.2.8
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
  */
@@ -426,7 +426,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 		);
 
 		foreach ( $taxonomies as $key => $taxonomy_name ) {
-			if ( ! in_array( $key, $gglstmp_options['taxonomy'], true ) ) {
+			if ( is_array( $gglstmp_options['taxonomy'] ) && ! in_array( $key, $gglstmp_options['taxonomy'], true ) ) {
 				unset( $taxonomies[ $key ] );
 			}
 		}
@@ -536,7 +536,7 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 
 									$check_img_exists = gglstmp_if_file_exists( $image_guid, $image_upload_date );
 									if ( $check_img_exists ) {
-										$image_url      = wp_get_attachment_image_url( $image->ID );
+										$image_url      = wp_get_attachment_image_url( $image->ID, 'full' );
 										$pos_extensions = strrpos( $image->post_title, '.' );
 										$image_title    = ( ( false === $pos_extensions ) ? ( $image->post_title ) : substr( $image->post_title, 0, $pos_extensions ) );
 										$image_item[]   = array(
@@ -659,11 +659,14 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 			if ( count( $elements ) <= $gglstmp_options['limit'] ) {
 				$part_num = 0;
 				gglstmp_create_sitemap( $elements, $part_num, $sitemap_type );
-			} else {
+			} else if( 0 < $gglstmp_options['limit'] ) {
 				$parts = array_chunk( $elements, $gglstmp_options['limit'] );
 				foreach ( $parts as $part_num => $part_elements ) {
 					gglstmp_create_sitemap( $part_elements, $part_num + 1, $sitemap_type );
 				}
+			} else {
+				$part_num = 0;
+				gglstmp_create_sitemap( $elements, $part_num, $sitemap_type );
 			}
 
 			/* create media sitemap */
@@ -1872,7 +1875,10 @@ if ( ! function_exists( 'gglstmp_update_sitemap' ) ) {
 if ( ! function_exists( 'gglstmp_canonical_tag' ) ) {
 	function gglstmp_canonical_tag() {
 		global $post, $gglstmp_options;
-		$gglstmp_meta_canonical = get_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', true );
+		$gglstmp_meta_canonical = '';
+		if ( isset( $post->ID ) ) {
+			$gglstmp_meta_canonical = get_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', true );
+		}
 		if ( '' === $gglstmp_meta_canonical && 1 === $gglstmp_options['remove_automatic_canonical'] ) {
 			return;
 		}

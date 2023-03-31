@@ -125,9 +125,6 @@
                         <xsl:for-each select="sitemap:urlset/sitemap:url">
                                 <xsl:for-each select="video:video">
                                     <tr>
-                                        <!--<xsl:if test="position() mod 2 != 1">
-                                            <xsl:attribute  name="class">high</xsl:attribute>
-                                        </xsl:if>-->
                                         <td>
                                             <xsl:variable name="itemURL">
                                                 <xsl:value-of select="../sitemap:loc"/>
@@ -138,10 +135,10 @@
                                         </td>
                                         <td>
                                             <xsl:variable name="itemURL">
-                                                <xsl:value-of select="video:url"/>
+                                                <xsl:value-of select="video:content_loc"/>
                                             </xsl:variable>
                                             <a href="{$itemURL}">
-                                                <xsl:value-of select="substring(video:url, 0, 70)"/>
+                                                <xsl:value-of select="substring(video:content_loc, 0, 70)"/>
                                             </a>
                                         </td>
                                         <td>
