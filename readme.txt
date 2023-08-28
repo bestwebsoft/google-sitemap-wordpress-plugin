@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 5.6
-Tested up to: 6.2
-Stable tag: 3.2.8
+Tested up to: 6.3
+Stable tag: 3.2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,6 +156,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.2.9 - 28.08.2023 =
+* Update : We updated all functionality for wordpress 6.3.
+* Update : BWS Panel section was updated.
+* NEW: The ability to change quality of images in the sitemap.
 
 = V3.2.8 - 29.03.2023 =
 * Update : We updated all functionality for wordpress 6.2.
@@ -420,6 +425,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.2.9 =
+* Plugin optimization completed.
+* The compatibility with new WordPress version updated.
+* New feature added
 
 = V3.2.8 =
 * Plugin optimization completed.

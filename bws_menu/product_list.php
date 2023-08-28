@@ -210,6 +210,14 @@ $bws_plugins = array(
 		'link'        => 'https://bestwebsoft.com/products/wordpress/plugins/google-shortlink/?k=afcf3eaed021bbbbeea1090e16bc22db&pn=' . $bws_plugin_info['id'] . '&v=' . $bws_plugin_info['version'] . '&wp_v=' . $wp_version,
 		'settings'    => 'admin.php?page=gglshrtlnk_options',
 	),
+	'gpt-ai-content-creator/gpt-ai-content-creator.php' => array(
+		'category'    => array( 'content', 'recommended' ),
+		'name'        => 'GPT AI Content Creator',
+		'description' => __( 'Create Content with GPT.', 'bestwebsoft' ),
+		'link'        => 'https://bestwebsoft.com/products/wordpress/plugins/gpt-ai-content-creator/?k=afcf3eaed021bbbbeea1090e16bc22db&pn=' . $bws_plugin_info['id'] . '&v=' . $bws_plugin_info['version'] . '&wp_v=' . $wp_version,
+		'settings'    => 'admin.php?page=gpt-ai-content-creator.php',
+		'icon'        => bws_menu_url( 'icons/plugins/' ) . 'gpt-ai-content-creator.png',
+	),
 	'htaccess/htaccess.php'                             => array(
 		'category'     => array( 'security' ),
 		'name'         => 'Htaccess',

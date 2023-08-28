@@ -45,7 +45,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					'link_key'        => '28d4cf0b4ab6f56e703f46f60d34d039',
 					'link_pn'         => '83',
 					/* pls*/
-					'doc_link'        => 'https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4/',
+					'doc_link'        => 'https://bestwebsoft.com/documentation/sitemap/sitemap-user-guide/',
 					'doc_video_link'  => 'https://www.youtube.com/watch?v=hzz0_Yj4gaQ',
 				)
 			);
@@ -243,7 +243,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					if ( absint( $this->options['media_sitemap'] ) !== $media_sitemap ) {
 						$sitemapcreate = true;
 					}
-					$this->options['media_sitemap'] = $media_sitemap;
+					$this->options['media_sitemap']  = $media_sitemap;
+					$this->options['images_quality'] = isset( $_POST['gglstmp_images_quality'] ) && in_array( sanitize_text_field( wp_unslash( $_POST['gglstmp_images_quality'] ) ), array( 'thumbnail', 'medium', 'large', 'full' ) ) ? sanitize_text_field( wp_unslash( $_POST['gglstmp_images_quality'] ) ) : 'full';
 
 					$this->robots                        = isset( $_POST['gglstmp_checkbox'] ) ? 1 : 0;
 					$this->options['alternate_language'] = isset( $_POST['gglstmp_alternate_language'] ) ? 1 : 0;
@@ -361,6 +362,18 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					<td>
 						<input type='checkbox' name="gglstmp_media_sitemap" value="1" <?php checked( $this->options['media_sitemap'], 1 ); ?> />
 						<span class="bws_info"><?php esc_html_e( 'Enable to create separate sitemap files for images and videos.', 'google-sitemap-plugin' ); ?></span>
+					</td>
+				</tr>
+				<tr>
+					<th><?php esc_html_e( 'Images quality', 'google-sitemap-plugin' ); ?></th>
+					<td>
+						<select name="gglstmp_images_quality">
+							<option value="thumbnail" <?php selected( $this->options['images_quality'], 'thumbnail' ); ?>><?php esc_html_e( 'Thumbnail', 'google-sitemap-plugin' ); ?></option>
+							<option value="medium" <?php selected( $this->options['images_quality'], 'medium' ); ?>><?php esc_html_e( 'Medium', 'google-sitemap-plugin' ); ?></option>
+							<option value="large" <?php selected( $this->options['images_quality'], 'large' ); ?>><?php esc_html_e( 'Large', 'google-sitemap-plugin' ); ?></option>
+							<option value="full" <?php selected( $this->options['images_quality'], 'full' ); ?>><?php esc_html_e( 'Full', 'google-sitemap-plugin' ); ?></option>
+						</select>
+						<div class="bws_info"><?php esc_html_e( 'Choosing the quality of images in the sitemap. If there is no image of the required size, a full-size image will be used.', 'google-sitemap-plugin' ); ?></span>
 					</td>
 				</tr>
 				<?php

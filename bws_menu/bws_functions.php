@@ -735,7 +735,8 @@ if ( ! function_exists( 'bws_plugins_admin_init' ) ) {
  */
 if ( ! function_exists( 'bws_admin_enqueue_scripts' ) ) {
 	function bws_admin_enqueue_scripts() {
-		global $wp_scripts, $hook_suffix,
+		global $wp_scripts,
+			$hook_suffix,
 			$post_type,
 			$bws_plugin_banner_go_pro, $bws_plugin_banner_timeout, $bstwbsftwppdtplgns_banner_array,
 			$bws_shortcode_list,
@@ -744,11 +745,15 @@ if ( ! function_exists( 'bws_admin_enqueue_scripts' ) ) {
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		$jquery_ui_version = isset( $wp_scripts->registered['jquery-ui-core']->ver ) ? $wp_scripts->registered['jquery-ui-core']->ver : '1.12.1';
-		WP_Filesystem();
-		if ( ! $wp_filesystem->exists( dirname( __FILE__ ) . '/css/jquery-ui-styles/' . $jquery_ui_version . '/' ) ) {
+		$connect           = WP_Filesystem();
+		if ( false !== $connect ) {
+			if ( ! $wp_filesystem->exists( dirname( __FILE__ ) . '/css/jquery-ui-styles/' . $jquery_ui_version . '/' ) ) {
+				$jquery_ui_version = '1.12.1';
+			}
+		} else {
 			$jquery_ui_version = '1.12.1';
 		}
-		if ( 'et_divi_options' !== $page ) {
+		if ( ! in_array( $page, array( 'et_divi_options', 'gf_edit_forms' ) ) ) {
 			wp_enqueue_style( 'jquery-ui-style', bws_menu_url( 'css/jquery-ui-styles/' . $jquery_ui_version . '/jquery-ui.css', array(), $jquery_ui_version ) );
 		}
 		wp_enqueue_style( 'bws-admin-css', bws_menu_url( 'css/general_style.css' ), array(), '2.4.2' );
@@ -892,7 +897,7 @@ if ( ! function_exists( 'bws_plugins_admin_head' ) ) {
 	function bws_plugins_admin_head() {
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
-		if ( $page === 'bws_panel' ) {
+		if ( 'bws_panel' === $page ) {
 			?>
 			<noscript>
 				<style type="text/css">
@@ -914,7 +919,7 @@ if ( ! function_exists( 'bws_plugins_admin_head' ) ) {
 if ( ! function_exists( 'bws_plugins_admin_footer' ) ) {
 	function bws_plugins_admin_footer() {
 		$screen = get_current_screen();
-		if ( $screen->parent_base == 'edit' ) {
+		if ( 'edit' === $screen->parent_base ) {
 			bws_shortcode_media_button_popup();
 		}
 	}

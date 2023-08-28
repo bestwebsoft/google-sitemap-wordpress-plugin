@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.2.8
+Version: 3.2.9
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
  */
@@ -278,6 +278,7 @@ if ( ! function_exists( 'gglstmp_get_options_default' ) ) {
 			'sitemaps'                => array(),
 			'alternate_language'      => 0,
 			'media_sitemap'           => 0,
+			'images_quality'          => 'full',
 			'remove_automatic_canonical'=> 0,
 			'remove_all_canonical'    => 0,
 			'split_sitemap'           => 0,
@@ -536,7 +537,11 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 
 									$check_img_exists = gglstmp_if_file_exists( $image_guid, $image_upload_date );
 									if ( $check_img_exists ) {
-										$image_url      = wp_get_attachment_image_url( $image->ID, 'full' );
+										if ( isset( $gglstmp_options['images_quality'] ) && in_array( $gglstmp_options['images_quality'], array( 'thumbnail', 'medium', 'large', 'full' ) ) ) {
+											$image_url      = wp_get_attachment_image_url( $image->ID, $gglstmp_options['images_quality'] );
+										} else {
+											$image_url      = wp_get_attachment_image_url( $image->ID, 'full' );
+										}
 										$pos_extensions = strrpos( $image->post_title, '.' );
 										$image_title    = ( ( false === $pos_extensions ) ? ( $image->post_title ) : substr( $image->post_title, 0, $pos_extensions ) );
 										$image_item[]   = array(
