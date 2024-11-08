@@ -3,13 +3,69 @@
  * Displays the content on the plugin settings page
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
+	/**
+	 * Class Gglstmp_Settings_Tabs for display Settings tab
+	 */
 	class Gglstmp_Settings_Tabs extends Bws_Settings_Tabs {
-		public $htaccess_options = false,
-			$htaccess_active     = false,
-			$robots, $htaccess, $client, $blog_prefix,
-			$manage_info         = '',
-			$all_post_types, $all_taxonomies;
+		/**
+		 * Htaccess options
+		 *
+		 * @var bool
+		 */
+		public $htaccess_options = false;
+		/**
+		 * Htaccess active flag
+		 *
+		 * @var bool
+		 */
+		public $htaccess_active = false;
+		/**
+		 * Robots option
+		 *
+		 * @var array
+		 */
+		public $robots;
+		/**
+		 * Htaccess pth array
+		 *
+		 * @var array
+		 */
+		public $htaccess = '';
+		/**
+		 * Google Client
+		 *
+		 * @var object
+		 */
+		public $client = '';
+		/**
+		 * Blog prefix for multisite
+		 *
+		 * @var string
+		 */
+		public $blog_prefix = '';
+		/**
+		 * Info for sitemap (create/delete/add)
+		 *
+		 * @var string
+		 */
+		public $manage_info = '';
+		/**
+		 * All post type array
+		 *
+		 * @var array
+		 */
+		public $all_post_types;
+		/**
+		 * All taxonomies array
+		 *
+		 * @var array
+		 */
+		public $all_taxonomies;
 
 		/**
 		 * Constructor.
@@ -18,7 +74,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		 *
 		 * @see Bws_Settings_Tabs::__construct() for more information on default arguments.
 		 *
-		 * @param string $plugin_basename
+		 * @param string $plugin_basename Plugin slug.
 		 */
 		public function __construct( $plugin_basename ) {
 			global $gglstmp_options, $gglstmp_plugin_info;
@@ -40,11 +96,9 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					'default_options' => gglstmp_get_options_default(),
 					'options'         => $gglstmp_options,
 					'tabs'            => $tabs,
-					/*pls */
 					'wp_slug'         => 'google-sitemap-plugin',
 					'link_key'        => '28d4cf0b4ab6f56e703f46f60d34d039',
 					'link_pn'         => '83',
-					/* pls*/
 					'doc_link'        => 'https://bestwebsoft.com/documentation/sitemap/sitemap-user-guide/',
 					'doc_video_link'  => 'https://www.youtube.com/watch?v=hzz0_Yj4gaQ',
 				)
@@ -73,7 +127,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					$this->htaccess_active  = true;
 					if ( function_exists( 'htccss_check_xml_access' ) ) {
 						$htaccess_check = htccss_check_xml_access();
-						if ( $htaccess_check !== absint( $this->htaccess_options['allow_xml'] ) ) {
+						if ( absint( $this->htaccess_options['allow_xml'] ) !== $htaccess_check ) {
 							$this->htaccess_options['allow_xml'] = $htaccess_check;
 							update_site_option( 'htccss_options', $this->htaccess_options );
 						}
@@ -116,16 +170,17 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @param  void
-		 *
 		 * @return array    The action results
 		 */
 		public function save_options() {
 			global $wpdb;
 
-			$message       = $notice = $error = '';
-			$sitemapcreate = $reschedule = false;
-						
+			$message       = '';
+			$notice        = '';
+			$error         = '';
+			$sitemapcreate = false;
+			$reschedule    = false;
+
 			if ( isset( $_POST['gglstmp_save_info'] )
 				&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gglstmp_save_info'] ) ), 'gglstmp_save_info_action' ) ) {
 				if ( isset( $_POST['gglstmp_logout'] ) ) {
@@ -134,9 +189,12 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				} elseif ( isset( $_POST['gglstmp_authorize'] ) && ! empty( $_POST['gglstmp_authorization_code'] ) ) {
 					try {
 						$this->client->authenticate( sanitize_text_field( wp_unslash( $_POST['gglstmp_authorization_code'] ) ) );
-						$this->options['authorization_code'] = $_SESSION[ 'gglstmp_authorization_code' . $this->blog_prefix ] = $this->client->getAccessToken();
+						$this->options['authorization_code'] = $this->client->getAccessToken();
+
+						$_SESSION[ 'gglstmp_authorization_code' . $this->blog_prefix ] = $this->options['authorization_code'];
 						update_option( 'gglstmp_options', $this->options );
 					} catch ( Exception $e ) {
+						/* Skip */
 					}
 				} elseif ( isset( $_POST['gglstmp_menu_add'] ) || isset( $_POST['gglstmp_menu_delete'] ) || isset( $_POST['gglstmp_menu_info'] ) ) {
 					if ( $this->client->getAccessToken() && false === $this->client->isAccessTokenExpired() ) {
@@ -166,13 +224,14 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						$sitemapcreate = $filter_param['sitemapcreate'];
 					}
 
-					$post_types = $taxonomies = array();
+					$post_types = array();
+					$taxonomies = array();
 					if ( isset( $_POST['gglstmp_save_taxonomy_info'] )
 						&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gglstmp_save_taxonomy_info'] ) ), 'gglstmp_save_taxonomy_action' )
 						&& ! empty( $_POST['gglstmp_post_types'] ) ) {
 						foreach ( (array) $_POST['gglstmp_post_types'] as $type ) {
 							if ( array_key_exists( sanitize_text_field( wp_unslash( $type ) ), $this->all_post_types ) ) {
-								$post_types[] = $type;
+								$post_types[] = sanitize_text_field( wp_unslash( $type ) );
 							}
 						}
 					}
@@ -181,7 +240,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						&& ! empty( $_POST['gglstmp_taxonomies'] ) ) {
 						foreach ( (array) $_POST['gglstmp_taxonomies'] as $tax ) {
 							if ( array_key_exists( sanitize_text_field( wp_unslash( $tax ) ), $this->all_taxonomies ) ) {
-								$taxonomies[] = $tax;
+								$taxonomies[] = sanitize_text_field( wp_unslash( $tax ) );
 							}
 						}
 					}
@@ -201,15 +260,17 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						$this->options['limit'] = ( absint( $_POST['gglstmp_limit'] ) >= 1000 && absint( $_POST['gglstmp_limit'] ) <= 50000 ) ? absint( $_POST['gglstmp_limit'] ) : 50000;
 					}
 
+					$this->options['post_limit'] = isset( $_POST['gglstmp_post_limit'] ) ? absint( $_POST['gglstmp_post_limit'] ) : 5000;
+
 					if ( ( empty( $this->options['alternate_language'] ) && isset( $_POST['gglstmp_alternate_language'] ) ) || ( ! empty( $this->options['alternate_language'] ) && ! isset( $_POST['gglstmp_alternate_language'] ) ) ) {
 						$sitemapcreate = true;
 					}
 
 					$split_sitemap = isset( $_POST['gglstmp_split_sitemap'] ) ? 1 : 0;
-					
+
 					if ( $this->options['split_sitemap'] != $split_sitemap ) {
 						$sitemapcreate = true;
-						$reschedule = true;
+						$reschedule    = true;
 					}
 
 					$this->options['split_sitemap'] = $split_sitemap;
@@ -219,7 +280,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					if ( ! empty( $_POST['gglstmp_split_sitemap_item'] ) ) {
 						foreach ( (array) $_POST['gglstmp_split_sitemap_item'] as $item ) {
 							if ( array_key_exists( sanitize_text_field( wp_unslash( $item ) ), $this->all_post_types ) || array_key_exists( sanitize_text_field( wp_unslash( $item ) ), $this->all_taxonomies ) ) {
-								$split_items[] = $item;
+								$split_items[] = sanitize_text_field( wp_unslash( $item ) );
 							}
 						}
 					}
@@ -250,10 +311,10 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					$this->options['alternate_language'] = isset( $_POST['gglstmp_alternate_language'] ) ? 1 : 0;
 
 					if ( isset( $_POST['gglstmp_client_id'] ) && ! empty( $_POST['gglstmp_client_id'] ) ) {
-						$this->options['client_id'] = trim( $_POST['gglstmp_client_id'] );
+						$this->options['client_id'] = trim( sanitize_text_field( wp_unslash( $_POST['gglstmp_client_id'] ) ) );
 					}
 					if ( isset( $_POST['gglstmp_client_secret'] ) && ! empty( $_POST['gglstmp_client_secret'] ) ) {
-						$this->options['client_secret'] = trim( $_POST['gglstmp_client_secret'] );
+						$this->options['client_secret'] = trim( sanitize_text_field( wp_unslash( $_POST['gglstmp_client_secret'] ) ) );
 					}
 
 					if ( isset( $_POST['gglstmp_remove_access'] ) ) {
@@ -276,7 +337,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		}
 
 		/**
-		 *
+		 * Display tab settings
 		 */
 		public function tab_settings() { ?>
 			<h3 class="bws_tab_label"><?php esc_html_e( 'Sitemap Settings', 'google-sitemap-plugin' ); ?></h3>
@@ -338,23 +399,17 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			<?php } ?>
 			<table class="form-table gglstmp_settings_form">
 				<tr>
-					<th><?php _e( 'Disable automatic canonical tag', 'google-sitemap-plugin' ); ?></th>
+					<th><?php esc_html_e( 'Disable automatic canonical tag', 'google-sitemap-plugin' ); ?></th>
 					<td>
-						<input type='checkbox' <?php echo $this->change_permission_attr; ?> name="gglstmp_automatic_canonical" value="1"
-						<?php
-							checked( $this->options['remove_automatic_canonical'], 1 );
-						?> />
-						<span class="bws_info"><?php _e( 'Enable to remove automatic canonical tag with standart WP url', 'google-sitemap-plugin' ); ?></span>
+						<input type='checkbox' <?php echo esc_html( $this->change_permission_attr ); ?> name="gglstmp_automatic_canonical" value="1" <?php checked( $this->options['remove_automatic_canonical'], 1 ); ?> />
+						<span class="bws_info"><?php esc_html_e( 'Enable to remove automatic canonical tag with standart WP url', 'google-sitemap-plugin' ); ?></span>
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( 'Disable all canonical tag', 'google-sitemap-plugin' ); ?></th>
+					<th><?php esc_html_e( 'Disable all canonical tag', 'google-sitemap-plugin' ); ?></th>
 					<td>
-						<input type='checkbox' <?php echo $this->change_permission_attr; ?> name="gglstmp_all_canonical" value="1" 
-						<?php
-							checked( $this->options['remove_all_canonical'], 1 );
-						?> />
-						<span class="bws_info"><?php _e( 'Enable to remove all canonical tag from plugin', 'google-sitemap-plugin' ); ?></span>
+						<input type='checkbox' <?php echo esc_html( $this->change_permission_attr ); ?> name="gglstmp_all_canonical" value="1" <?php checked( $this->options['remove_all_canonical'], 1 ); ?> />
+						<span class="bws_info"><?php esc_html_e( 'Enable to remove all canonical tag from plugin', 'google-sitemap-plugin' ); ?></span>
 					</td>
 				</tr>
 				<tr>
@@ -378,7 +433,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				</tr>
 				<?php
 				if ( $this->is_multisite && ! is_subdomain_install() ) {
-					$attr_checked           = $attr_disabled = '';
+					$attr_checked           = '';
+					$attr_disabled          = '';
 					$htaccess_plugin_notice = __( 'This option will be applied to all websites in the network.', 'google-sitemap-plugin' );
 					if ( 'deactivated' === $this->htaccess['status'] ) {
 						$attr_disabled          = 'disabled="disabled"';
@@ -394,9 +450,9 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					<tr id="gglstmp_allow_xml_block">
 						<th><?php printf( esc_html__( '%s Plugin', 'google-sitemap-plugin' ), 'Htaccess' ); ?></th>
 						<td>
-							<input <?php printf( '%s %s', $attr_checked, $attr_disabled ); ?> type="checkbox" name="gglstmp_allow_xml" value="1" />
+							<input <?php printf( '%s %s', esc_html( $attr_checked ), esc_html( $attr_disabled ) ); ?> type="checkbox" name="gglstmp_allow_xml" value="1" />
 							<span class="bws_info"><?php printf( esc_html__( 'Enable to allow XML files access using %s plugin.', 'google-sitemap-plugin' ), 'Htaccess' ); ?><?php echo esc_html( $htaccess_plugin_notice ); ?></span>
-							<?php echo bws_add_help_box( esc_html__( 'The following string will be added to your .htaccess file', 'google-sitemap-plugin' ) . ': <code>RewriteRule ([^/]+\.xml)$ $1 [L]</code>' ); ?>
+							<?php echo wp_kses_post( bws_add_help_box( esc_html__( 'The following string will be added to your .htaccess file', 'google-sitemap-plugin' ) . ': <code>RewriteRule ([^/]+\.xml)$ $1 [L]</code>' ) ); ?>
 						</td>
 					</tr>
 					<?php
@@ -443,6 +499,13 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					</td>
 				</tr>
 				<tr>
+					<th><?php esc_html_e( 'Items Limit', 'google-sitemap-plugin' ); ?></th>
+					<td>
+						<input type="number" name="gglstmp_post_limit" min="500" max="5000" value="<?php echo isset( $this->options['post_limit'] ) ? absint( $this->options['post_limit'] ) : 5000; ?>" step="100" /><br />
+						<span class="bws_info"><?php esc_html_e( 'The number of rows from the database when executing a request to build a sitemap', 'google-sitemap-plugin' ); ?></span>
+					</td>
+				</tr>
+				<tr>
 					<th><?php esc_html_e( 'URLs Limit', 'google-sitemap-plugin' ); ?></th>
 					<td>
 						<input type="number" name="gglstmp_limit" min="1000" max="50000"
@@ -480,13 +543,13 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						</div>
 								<?php
 								echo wp_kses_post( $this->manage_info );
-							} else { 
+							} else {
 								if ( ! isset( $this->options['client_id'] ) && ! isset( $this->options['client_secret'] ) ) {
-								?>
+									?>
 									<table class="form-table">
 										<tr>
 											<th>
-												<?php _e( 'Client ID', 'adsense-pro' ); ?> <br />
+												<?php esc_html_e( 'Client ID', 'adsense-pro' ); ?> <br />
 											</th>
 											<td>
 												<label>
@@ -496,7 +559,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 										</tr>
 										<tr>
 											<th>
-												<?php _e( 'Client Secret', 'adsense-pro' ); ?> <br />
+												<?php esc_html_e( 'Client Secret', 'adsense-pro' ); ?> <br />
 											</th>
 											<td>
 												<label>
@@ -505,7 +568,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 											</td>
 										</tr>
 									</table>
-								<?php
+									<?php
 								}
 								if ( isset( $this->options['client_id'] ) && isset( $this->options['client_secret'] ) ) {
 									$this->client = gglstmp_client();
@@ -520,7 +583,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 									<input class="button-secondary bws_no_bind_notice" name="gglstmp_remove_access" type="submit" value="<?php esc_html_e( 'Remove Console Access', 'google-sitemap-plugin' ); ?>"/>
 									<?php if ( isset( $_POST['gglstmp_authorization_code'] ) && isset( $_POST['gglstmp_authorize'] ) ) { ?>
 										<div id="gglstmp_authorize_error"><?php esc_html_e( 'Invalid authorization code. Please try again.', 'google-sitemap-plugin' ); ?></div>
-									<?php
+										<?php
 									}
 								}
 							}
@@ -528,7 +591,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						?>
 						<div class="bws_info">
 							<?php esc_html_e( 'You can also add your sitemap to Google Search Console manually.', 'google-sitemap-plugin' ); ?>
-							&nbsp;<a target="_blank" href="https://docs.google.com/document/d/1ffd0jasAtIEWXiW6Dg81QqmqHODj8j6vqzu2CQFyaT4"><?php esc_html_e( 'Read the instruction', 'google-sitemap-plugin' ); ?></a>
+							&nbsp;<a target="_blank" href="https://bestwebsoft.com/documentation/sitemap/sitemap-user-guide/#h.2phv39y4trv1"><?php esc_html_e( 'Read the instruction', 'google-sitemap-plugin' ); ?></a>
 						</div>
 					</td>
 				</tr>
@@ -536,7 +599,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					<th><?php esc_html_e( 'Alternate Language Pages', 'google-sitemap-plugin' ); ?></th>
 					<td>
 						<?php
-						$disabled = $link = '';
+						$disabled = '';
+						$link     = '';
 						if ( array_key_exists( 'multilanguage/multilanguage.php', $this->all_plugins ) || array_key_exists( 'multilanguage-pro/multilanguage-pro.php', $this->all_plugins ) ) {
 							if ( ! is_plugin_active( 'multilanguage/multilanguage.php' ) && ! is_plugin_active( 'multilanguage-pro/multilanguage-pro.php' ) ) {
 								$disabled = ' disabled="disabled"';
@@ -562,7 +626,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		}
 
 		/**
-		 *
+		 * Display tab display
 		 */
 		public function tab_display() {
 			?>
@@ -641,6 +705,8 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		 * Custom functions for "Restore plugin options to defaults"
 		 *
 		 * @access public
+		 *
+		 * @param array $default_options Default potions for restore.
 		 */
 		public function additional_restore_options( $default_options ) {
 			$default_name = 'sitemap';
@@ -742,6 +808,13 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 			}
 		}
 
+		/**
+		 * Display custom message
+		 *
+		 * @access public
+		 *
+		 * @return bool false
+		 */
 		public function display_custom_messages() {
 			$tooltip_text = sprintf(
 				_x( 'The “Robots.txt” option is enabled. You should disable the “Search Engine Visibility" option on the %s.', '%reading settings page link%', 'google-sitemap-plugin' ),
@@ -762,7 +835,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 					'</code></pre>';
 			}
 			if ( 1 === absint( $this->robots ) && '1' !== get_option( 'blog_public' ) ) {
-				printf( '<div class="updated bws-notice inline"><p><strong>%s</strong></p></div>', $tooltip_text );
+				printf( '<div class="updated bws-notice inline"><p><strong>%s</strong></p></div>', wp_kses_post( $tooltip_text ) );
 			}
 			return false;
 		}

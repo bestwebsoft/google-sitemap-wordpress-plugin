@@ -5,7 +5,7 @@
 <p>The plugin supports default WordPress pages as well as custom URLs. It can be also added to your Google Webmaster Tools account.</p>
 <p>Improve your website SEO today!</p>
 <p><a href="https://bestwebsoft.com/demo-for-google-sitemap/?ref=readme" rel="nofollow ugc">View Demo</a></p>
-<p><span class="embed-youtube" style="text-align:center; display: block;"></span></p>
+<p></p>
 <h4>Free Features</h4>
 <ul>
 <li>Add the following URLs to the sitemap:
@@ -52,6 +52,7 @@
 <li>Configure all subsites on the network</li>
 <li>Add custom URLs to the sitemap file</li>
 <li>Change Sitemap File name</li>
+<li>Exclude taxonomies from the sitemap by word.</li>
 <li>Get answer to your support question within one business day (<a href="https://bestwebsoft.com/support-policy/" rel="nofollow ugc">Support Policy</a>)</li>
 <li>Edit title and meta description [NEW]</li>
 </ul>
@@ -72,6 +73,15 @@
 <p>Earn 20% commission by selling the premium WordPress plugins and themes by BestWebSoft — https://bestwebsoft.com/affiliate/</p>
 <h4>Translation</h4>
 <ul>
+<li>German (de_DE)</li>
+<li>French (fr_FR)</li>
+<li>Japan (ja)</li>
+<li>Portugese (pt_BR)</li>
+<li>Spanish (es_ES)</li>
+<li>Italian (it_IT)</li>
+<li>Swedish (sv_SE)</li>
+<li>Norwegian (no)</li>
+<li>Danish (da)</li>
 <li>Czech (cs_CZ) (thanks to <a href="mailto:&#107;&#117;&#x63;&#x65;&#114;&#x61;&#x6d;&#105;&#064;&#x67;&#109;&#097;&#x69;&#108;&#046;&#x63;&#x6f;&#109;" rel="nofollow ugc">Michal Kučera</a>, www.n0lim.it)</li>
 <li>Russian (ru_RU)</li>
 <li>Ukrainian (uk)</li>
@@ -82,4 +92,9 @@
 <li><a href="https://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2" rel="nofollow ugc">Updater</a> &#8211; Automatically check and update WordPress website core with all installed plugins and themes to the latest versions.</li>
 <li><a href="https://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=6f8794059b2a6618808fa7ac6401ba6e" rel="nofollow ugc">Htaccess</a> &#8211; Protect WordPress website &#8211; allow and deny access for certain IP addresses, hostnames, etc.</li>
 <li><a href="http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759" rel="nofollow ugc">Multilanguage</a> &#8211; Translate WordPress website content to other languages manually. Create multilingual pages, posts, widgets, menus, etc.</li>
+</ul>
+<h4>Credits</h4>
+<ul>
+<li>The plugin uses Google Search Console (Google LLC) services submit your website sitemap file to search console for it to be visible for search engines. <a href="https://search.google.com/search-console/" rel="nofollow ugc">https://search.google.com/search-console/</a> Terms of service <a href="https://policies.google.com/terms" rel="nofollow ugc">https://policies.google.com/terms</a>. Privacy Policy <a href="https://policies.google.com/privacy" rel="nofollow ugc">https://policies.google.com/privacy</a>.</li>
+<li>This plugin incorporates a license verification mechanism to ensure the authenticity of your license key and provide access to premium features and updates. The verification process involves connecting securely to our external service hosted at BestWebSoft website <a href="https://bestwebsoft.com" rel="nofollow ugc">https://bestwebsoft.com</a>. Privacy Policy <a href="https://bestwebsoft.com/privacy-policy/" rel="nofollow ugc">https://bestwebsoft.com/privacy-policy/</a>. End user license agreement <a href="https://bestwebsoft.com/end-user-license-agreement/" rel="nofollow ugc">https://bestwebsoft.com/end-user-license-agreement/</a>.</li>
 </ul>

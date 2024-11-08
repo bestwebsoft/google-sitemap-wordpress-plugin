@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
 Requires at least: 5.6
-Tested up to: 6.3
-Stable tag: 3.2.9
+Tested up to: 6.6
+Stable tag: 3.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 > * Configure all subsites on the network
 > * Add custom URLs to the sitemap file
 > * Change Sitemap File name
+> * Exclude taxonomies from the sitemap by word.
 > * Get answer to your support question within one business day ([Support Policy](https://bestwebsoft.com/support-policy/))
 > * Edit title and meta description [NEW]
 >
@@ -84,6 +85,15 @@ Earn 20% commission by selling the premium WordPress plugins and themes by BestW
 
 = Translation =
 
+* German (de_DE)
+* French (fr_FR)
+* Japan (ja)
+* Portugese (pt_BR)
+* Spanish (es_ES)
+* Italian (it_IT)
+* Swedish (sv_SE)
+* Norwegian (no)
+* Danish (da)
 * Czech (cs_CZ) (thanks to [Michal Kučera](mailto:kucerami@gmail.com), www.n0lim.it)
 * Russian (ru_RU)
 * Ukrainian (uk)
@@ -95,6 +105,11 @@ Some of these translations are not complete. We are constantly adding new featur
 * [Updater](https://bestwebsoft.com/products/wordpress/plugins/updater/?k=4b7b8eac2b35e12eaa2d51359f49cfb2) - Automatically check and update WordPress website core with all installed plugins and themes to the latest versions.
 * [Htaccess](https://bestwebsoft.com/products/wordpress/plugins/htaccess/?k=6f8794059b2a6618808fa7ac6401ba6e) - Protect WordPress website - allow and deny access for certain IP addresses, hostnames, etc.
 * [Multilanguage](http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759) - Translate WordPress website content to other languages manually. Create multilingual pages, posts, widgets, menus, etc.
+
+= Credits =
+
+* The plugin uses Google Search Console (Google LLC) services submit your website sitemap file to search console for it to be visible for search engines. <https://search.google.com/search-console/> Terms of service <https://policies.google.com/terms>. Privacy Policy <https://policies.google.com/privacy>.
+* This plugin incorporates a license verification mechanism to ensure the authenticity of your license key and provide access to premium features and updates. The verification process involves connecting securely to our external service hosted at BestWebSoft website <https://bestwebsoft.com>. Privacy Policy <https://bestwebsoft.com/privacy-policy/>. End user license agreement <https://bestwebsoft.com/end-user-license-agreement/>.
 
 == Installation ==
 
@@ -156,6 +171,18 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.3.1 - 08.11.2024 =
+* NEW : Added Item count option.
+* PRO : Exclude taxonomies from the sitemap by word.
+* Update : We updated all functionality for wordpress 6.6.2.
+* Update : BWS Panel section was updated.
+* Bugfix : Fixed small bugs.
+
+= V3.3.0 - 28.12.2023 =
+* Update : We updated all functionality for WordPress 6.4.
+* Update : Code updated to WordPress coding standarts.
+* Bugfix : Syntax errors and bugs fixed.
 
 = V3.2.9 - 28.08.2023 =
 * Update : We updated all functionality for wordpress 6.3.
@@ -425,6 +452,16 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.3.1  =
+* New feature added
+* The compatibility with new WordPress version updated.
+* Bugs fixed.
+
+= V3.3.0  =
+* New feature added
+* The compatibility with new WordPress version updated.
+* Bugs fixed.
 
 = V3.2.9 =
 * Plugin optimization completed.

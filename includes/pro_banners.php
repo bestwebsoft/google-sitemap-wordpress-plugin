@@ -6,18 +6,21 @@
  * @since 3.0.3
  */
 
-/**
- * Wrapper. Show ads for PRO on plugin settings page
- *
- * @param     string     $func        function to call
- * @param     boolean    $show_cross  when it is 'false' ad will be displayed regardless of if other blocks are closed
- * @return    void
- */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'gglstmp_pro_block' ) ) {
+	/**
+	 * Wrapper. Show ads for PRO on plugin settings page
+	 *
+	 * @param string  $func       Function to call.
+	 * @param boolean $show_cross When it is 'false' ad will be displayed regardless of if other blocks are closed.
+	 */
 	function gglstmp_pro_block( $func, $show_cross = true ) {
 		global $gglstmp_plugin_info, $wp_version, $gglstmp_options;
 		if ( ! bws_hide_premium_options_check( $gglstmp_options ) ) : ?>
-			<div class="bws_pro_version_bloc gglstmp_pro_block <?php echo $func; ?>" title="<?php esc_html_e( 'This option is available in Pro version of plugin', 'google-sitemap-plugin' ); ?>">
+			<div class="bws_pro_version_bloc gglstmp_pro_block <?php echo esc_attr( $func ); ?>" title="<?php esc_html_e( 'This option is available in Pro version of plugin', 'google-sitemap-plugin' ); ?>">
 				<div class="bws_pro_version_table_bloc">
 					<?php if ( $show_cross ) { ?>
 						<button type="submit" name="bws_hide_premium_options" class="notice-dismiss bws_hide_premium_options" title="<?php esc_html_e( 'Close', 'google-sitemap-plugin' ); ?>"></button>
@@ -45,13 +48,11 @@ if ( ! function_exists( 'gglstmp_pro_block' ) ) {
 	}
 }
 
-/**
- * The content of ad block on the "Settings" tab
- *
- * @param     void
- * @return    void
- */
+
 if ( ! function_exists( 'gglstmp_frequency_block' ) ) {
+	/**
+	 * The content of ad block on the "Settings" tab
+	 */
 	function gglstmp_frequency_block() {
 		?>
 		<tr>
@@ -83,13 +84,10 @@ if ( ! function_exists( 'gglstmp_frequency_block' ) ) {
 	}
 }
 
-/**
- * The content of ad block on the "Extra settings" tab
- *
- * @param     void
- * @return    void
- */
 if ( ! function_exists( 'gglstmp_extra_block' ) ) {
+	/**
+	 * The content of ad block on the "Extra settings" tab
+	 */
 	function gglstmp_extra_block() {
 		?>
 		<img style="max-width: 100%;" src="<?php echo esc_url( plugins_url( 'images/pro_screen_1.png', dirname( __FILE__ ) ) ); ?>" alt="<?php esc_html_e( "Example of site pages' tree", 'google-sitemap-plugin' ); ?>" title="<?php esc_html_e( "Example of site pages' tree", 'google-sitemap-plugin' ); ?>" />
@@ -97,13 +95,10 @@ if ( ! function_exists( 'gglstmp_extra_block' ) ) {
 	}
 }
 
-/**
- * The content of ad block on the "Custom links" tab
- *
- * @param     void
- * @return    void
- */
 if ( ! function_exists( 'gglstmp_custom_links_block' ) ) {
+	/**
+	 * The content of ad block on the "Custom links" tab
+	 */
 	function gglstmp_custom_links_block() {
 		$date = date_i18n( get_option( 'date_format' ), 1458086400 );
 		?>
@@ -143,7 +138,7 @@ if ( ! function_exists( 'gglstmp_custom_links_block' ) ) {
 						<input type="url" style="width: 100%; box-sizing: border-box;" disabled="disabled" />
 						<div class="bws_info">
 							<strong><?php esc_html_e( 'Please note', 'google-sitemap-plugin' ); ?>:</strong>
-							<?php esc_html_e( 'All URLs listed in the sitemap.xml must use the same protocol (HTTP or HTTPS) and must be located on the same host as the sitemap.xml.', 'google-sitemap-plugin' ); ?>&nbsp;<a href="http://www.sitemaps.org/protocol.html#location" target="_blank"><?php esc_html_e( 'Learn More', 'google-sitemap-plugin' ); ?></a><br/><strong><?php esc_html_e( 'You can also add multiple URLs at once.', 'google-sitemap-plugin' ); ?></strong><?php echo bws_add_help_box( '' ); ?></div>
+							<?php esc_html_e( 'All URLs listed in the sitemap.xml must use the same protocol (HTTP or HTTPS) and must be located on the same host as the sitemap.xml.', 'google-sitemap-plugin' ); ?>&nbsp;<a href="http://www.sitemaps.org/protocol.html#location" target="_blank"><?php esc_html_e( 'Learn More', 'google-sitemap-plugin' ); ?></a><br/><strong><?php esc_html_e( 'You can also add multiple URLs at once.', 'google-sitemap-plugin' ); ?></strong><?php echo wp_kses_post( bws_add_help_box( '' ) ); ?></div>
 						</div>
 					</td>
 					<td class="is_sitemap column-is_sitemap" data-colname="Sitemap"><input type="checkbox" disabled="disabled" value="1"></td>
