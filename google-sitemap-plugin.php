@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.3.2
+Version: 3.3.3
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
  */
@@ -126,18 +126,18 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 		}
 
 		if ( isset( $_GET['gglstmp_robots'] ) ) {
-			$robots_txt_url = ABSPATH . 'robots.txt';
+			$robots_txt_path = ABSPATH . 'robots.txt';
 			/* Get content from real robots.txt file and output its content + custom content */
-			if ( file_exists( $robots_txt_url ) ) {
-				$response = wp_remote_get(
-					get_site_url() . '/robots.txt',
-					array(
-						'timeout'     => 120,
-						'httpversion' => '1.1',
-					)
-				);
-				if ( is_array( $response ) && ! is_wp_error( $response ) ) {
-					$robots_content  = $response['body'];
+			if ( file_exists( $robots_txt_path ) ) {
+				require_once ( ABSPATH . '/wp-admin/includes/file.php' );
+
+				WP_Filesystem();
+
+				$wpfsd = new WP_Filesystem_Direct( false );
+				$response = $wpfsd->get_contents ( $robots_txt_path );
+				
+				if ( false !== $response ) {
+					$robots_content  = $response;
 					$robots_content .= "\n";
 					$public          = get_option( 'blog_public' );
 					header( 'Content-Type: text/plain; charset=utf-8' );
@@ -1598,7 +1598,7 @@ if ( ! function_exists( 'gglstmp_robots_add_sitemap' ) ) {
 	 * @return string $output
 	 */
 	function gglstmp_robots_add_sitemap( $output, $public ) {
-		global $gglstmp_options;
+		global $gglstmp_options, $wpdb;
 		if ( empty( $gglstmp_options ) ) {
 			if ( is_multisite() ) {
 				$gglstmp_options = get_blog_option( absint( get_current_blog_id() ), 'gglstmp_options' );
@@ -1614,7 +1614,14 @@ if ( ! function_exists( 'gglstmp_robots_add_sitemap' ) ) {
 			$filename = ( is_multisite() ) ? $default_name . get_current_blog_id() . '.xml' : $default_name . '.xml';
 			$line     = 'Sitemap: ' . $home_url . '/' . $filename;
 			if ( file_exists( ABSPATH . $filename ) && false === strpos( $output, $line ) ) {
-				$output .= "\n" . $line . "\n";
+				$output .= PHP_EOL . $line . PHP_EOL;
+			}
+		}
+		$post_array = $wpdb->get_col( $wpdb->prepare( "SELECT `post_id` FROM $wpdb->postmeta WHERE meta_key = %s", '_gglstmp_meta_noindex') );
+		if ( ! empty( $post_array ) ) {
+			$output .= PHP_EOL . 'User-agent: *' . PHP_EOL;
+			foreach( $post_array as $post_id ) {
+				$output .= "Disallow: " . str_replace( home_url(), '', get_permalink( $post_id ) ) . PHP_EOL;
 			}
 		}
 
@@ -2107,6 +2114,13 @@ if ( ! function_exists( 'gglstmp_save_custom_canonical_tag_box' ) ) {
 			$gglstmp_meta_canonical = esc_url_raw( wp_unslash( $_POST['gglstmp-meta-canonical-url'] ) );
 			/* Update post meta canonical url */
 			update_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', $gglstmp_meta_canonical );
+			if ( 1 === intval( get_option( 'gglstmp_robots' ) ) ) {
+				if ( isset( $_POST['gglstmp-meta-noindex'] ) ) {
+					update_post_meta( $post->ID, '_gglstmp_meta_noindex', 1 );
+				} else {
+					delete_post_meta( $post->ID, '_gglstmp_meta_noindex' );
+				}
+			}
 		}
 	}
 }
@@ -2122,8 +2136,14 @@ if ( ! function_exists( 'gglstmp_custom_meta_box_content_canonical_url' ) ) {
 		?>
 		<label><?php esc_html_e( 'Canonical Url', 'google-sitemap-plugin' ); ?>:</label>
 		<input style="width:99%;" class="meta-text" type="text" name="gglstmp-meta-canonical-url" value="<?php echo esc_attr( get_post_meta( $post->ID, '_gglstmp_meta_canonical_tag', true ) ); ?>" /></p>
-		<?php wp_nonce_field( 'gglstmp_canonical_url_action', 'gglstmp_canonical_url' ); ?>
 		<?php
+		if ( 1 === intval( get_option( 'gglstmp_robots' ) ) ) {
+			?>
+			<label><input class="meta-text" type="checkbox" name="gglstmp-meta-noindex" value="1" <?php checked( get_post_meta( $post->ID, '_gglstmp_meta_noindex', true ), 1 ); ?> /> <?php esc_html_e( 'Noindex (in robots.txt)', 'google-sitemap-plugin' ); ?><br />
+			<span class="bws_info"><?php esc_html_e( 'The robots.txt file is used to guide a search engine as to which directories and files it should crawl. It does not stop content from being indexed and listed in search results.', 'google-sitemap-plugin' ); ?></span></label><br />
+			<?php
+		}
+		wp_nonce_field( 'gglstmp_canonical_url_action', 'gglstmp_canonical_url' );
 	}
 }
 

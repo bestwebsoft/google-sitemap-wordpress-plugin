@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sitemap by BestWebSoft\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-08 15:39+0200\n"
-"PO-Revision-Date: 2024-11-08 15:39+0200\n"
+"POT-Creation-Date: 2025-05-09 11:48+0300\n"
+"PO-Revision-Date: 2025-05-09 11:49+0300\n"
 "Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
 "Language: ru_RU\n"
@@ -26,14 +26,14 @@ msgstr ""
 msgid "Sitemap Settings"
 msgstr "Настройки Sitemap"
 
-#: google-sitemap-plugin.php:55 google-sitemap-plugin.php:1575
-#: google-sitemap-plugin.php:2150 google-sitemap-plugin.php:2171
+#: google-sitemap-plugin.php:55 google-sitemap-plugin.php:1571
+#: google-sitemap-plugin.php:2166 google-sitemap-plugin.php:2187
 #: includes/class-gglstmp-settings.php:83
 msgid "Settings"
 msgstr "Настройки"
 
 #: google-sitemap-plugin.php:62 google-sitemap-plugin.php:63
-#: google-sitemap-plugin.php:1584
+#: google-sitemap-plugin.php:1580
 msgid "Custom Links"
 msgstr "Пользовательские ссылки"
 
@@ -41,150 +41,164 @@ msgstr "Пользовательские ссылки"
 msgid "Upgrade to Pro"
 msgstr "Обновить до Pro"
 
-#: google-sitemap-plugin.php:470
+#: google-sitemap-plugin.php:466
 msgid "Post categories"
 msgstr "Рубрики записей"
 
-#: google-sitemap-plugin.php:471
+#: google-sitemap-plugin.php:467
 msgid "Post tags"
 msgstr "Метки записей"
 
-#: google-sitemap-plugin.php:1577
+#: google-sitemap-plugin.php:1573
 msgid "Please enable JavaScript in your browser."
 msgstr "Пожалуйста, включите поддержку JavaScript в вашем браузере."
 
-#: google-sitemap-plugin.php:1585
+#: google-sitemap-plugin.php:1581
 msgid "Add New"
 msgstr "Добавить ссылку"
 
-#: google-sitemap-plugin.php:1660 google-sitemap-plugin.php:1755
-#: google-sitemap-plugin.php:1818
+#: google-sitemap-plugin.php:1663 google-sitemap-plugin.php:1758
+#: google-sitemap-plugin.php:1821
 msgid "Website"
 msgstr "Сайт"
 
-#: google-sitemap-plugin.php:1671 google-sitemap-plugin.php:1675
-#: google-sitemap-plugin.php:1776 google-sitemap-plugin.php:1792
-#: google-sitemap-plugin.php:1822 google-sitemap-plugin.php:1836
+#: google-sitemap-plugin.php:1674 google-sitemap-plugin.php:1678
+#: google-sitemap-plugin.php:1779 google-sitemap-plugin.php:1795
+#: google-sitemap-plugin.php:1825 google-sitemap-plugin.php:1839
 msgid "Status"
 msgstr "Статус"
 
-#: google-sitemap-plugin.php:1672 google-sitemap-plugin.php:1706
-#: google-sitemap-plugin.php:1793
+#: google-sitemap-plugin.php:1675 google-sitemap-plugin.php:1709
+#: google-sitemap-plugin.php:1796
 msgid "Not added"
 msgstr "Не добавлено"
 
-#: google-sitemap-plugin.php:1676 google-sitemap-plugin.php:1709
-#: google-sitemap-plugin.php:1823 google-sitemap-plugin.php:1937
+#: google-sitemap-plugin.php:1679 google-sitemap-plugin.php:1712
+#: google-sitemap-plugin.php:1826 google-sitemap-plugin.php:1940
 msgid "Added"
 msgstr "Добавлено"
 
-#: google-sitemap-plugin.php:1678 google-sitemap-plugin.php:1880
-#: google-sitemap-plugin.php:1892 google-sitemap-plugin.php:1906
+#: google-sitemap-plugin.php:1681 google-sitemap-plugin.php:1883
+#: google-sitemap-plugin.php:1895 google-sitemap-plugin.php:1909
 msgid "Verification Status"
 msgstr "Статус проверки"
 
-#: google-sitemap-plugin.php:1680 google-sitemap-plugin.php:1893
+#: google-sitemap-plugin.php:1683 google-sitemap-plugin.php:1896
 msgid "Verified"
 msgstr "Проверено"
 
-#: google-sitemap-plugin.php:1682
+#: google-sitemap-plugin.php:1685
 msgid "Not verified"
 msgstr "Не проверено"
 
-#: google-sitemap-plugin.php:1691 google-sitemap-plugin.php:1914
+#: google-sitemap-plugin.php:1694 google-sitemap-plugin.php:1917
 msgid "Sitemap Status"
 msgstr "Статус Sitemap"
 
-#: google-sitemap-plugin.php:1711
+#: google-sitemap-plugin.php:1714
 msgid "Added with errors."
 msgstr "Добавлено с ошибками."
 
-#: google-sitemap-plugin.php:1711
+#: google-sitemap-plugin.php:1714
 msgid "View errors in Google Webmaster Tools"
 msgstr "Просмотреть ошибки в Google Webmaster Tools"
 
-#: google-sitemap-plugin.php:1714
+#: google-sitemap-plugin.php:1717
 msgid "Sitemap URL"
 msgstr "URL Sitemap"
 
-#: google-sitemap-plugin.php:1717 google-sitemap-plugin.php:1733
-#: google-sitemap-plugin.php:1795 google-sitemap-plugin.php:1838
-#: google-sitemap-plugin.php:1877 google-sitemap-plugin.php:1908
-#: google-sitemap-plugin.php:1950 google-sitemap-plugin.php:1970
+#: google-sitemap-plugin.php:1720 google-sitemap-plugin.php:1736
+#: google-sitemap-plugin.php:1798 google-sitemap-plugin.php:1841
+#: google-sitemap-plugin.php:1880 google-sitemap-plugin.php:1911
+#: google-sitemap-plugin.php:1953 google-sitemap-plugin.php:1973
 #: includes/class-gglstmp-settings.php:782
 msgid "Error"
 msgstr "Ошибка"
 
-#: google-sitemap-plugin.php:1717
+#: google-sitemap-plugin.php:1720
 msgid "Please check the sitemap file manually."
 msgstr "Пожалуйста, проверьте файл Sitemap вручную."
 
-#: google-sitemap-plugin.php:1717 google-sitemap-plugin.php:1735
-#: google-sitemap-plugin.php:1841 google-sitemap-plugin.php:1881
-#: google-sitemap-plugin.php:1911 google-sitemap-plugin.php:1953
+#: google-sitemap-plugin.php:1720 google-sitemap-plugin.php:1738
+#: google-sitemap-plugin.php:1844 google-sitemap-plugin.php:1884
+#: google-sitemap-plugin.php:1914 google-sitemap-plugin.php:1956
 #: includes/class-gglstmp-settings.php:517 includes/pro_banners.php:71
 #: includes/pro_banners.php:141
 msgid "Learn More"
 msgstr "Подробнее"
 
-#: google-sitemap-plugin.php:1722 google-sitemap-plugin.php:1783
-#: google-sitemap-plugin.php:1826 google-sitemap-plugin.php:1865
-#: google-sitemap-plugin.php:1896 google-sitemap-plugin.php:1940
+#: google-sitemap-plugin.php:1725 google-sitemap-plugin.php:1786
+#: google-sitemap-plugin.php:1829 google-sitemap-plugin.php:1868
+#: google-sitemap-plugin.php:1899 google-sitemap-plugin.php:1943
 msgid "Unexpected error"
 msgstr "Неожиданная ошибка"
 
-#: google-sitemap-plugin.php:1735 google-sitemap-plugin.php:1841
-#: google-sitemap-plugin.php:1911
+#: google-sitemap-plugin.php:1738 google-sitemap-plugin.php:1844
+#: google-sitemap-plugin.php:1914
 msgid "Manual verification required."
 msgstr "Требуется ручная проверка."
 
-#: google-sitemap-plugin.php:1777
+#: google-sitemap-plugin.php:1780
 msgid "Deleted"
 msgstr "Удален"
 
-#: google-sitemap-plugin.php:1857 google-sitemap-plugin.php:1860
-#: google-sitemap-plugin.php:1876
+#: google-sitemap-plugin.php:1860 google-sitemap-plugin.php:1863
+#: google-sitemap-plugin.php:1879
 msgid "Verification Code"
 msgstr "Код подтверждения"
 
-#: google-sitemap-plugin.php:1858
+#: google-sitemap-plugin.php:1861
 msgid "Received and added to the site"
 msgstr "Получен и добавлен на сайт"
 
-#: google-sitemap-plugin.php:1861
+#: google-sitemap-plugin.php:1864
 msgid "Received, but has not been added to the site"
 msgstr "Получен, но не добавлен на сайт"
 
-#: google-sitemap-plugin.php:1953
+#: google-sitemap-plugin.php:1956
 msgid "Please add the sitemap file manually."
 msgstr "Пожалуйста, добавьте файл Sitemap вручную."
 
-#: google-sitemap-plugin.php:1958
+#: google-sitemap-plugin.php:1961
 msgid "Error 404"
 msgstr "Ошибка 404"
 
-#: google-sitemap-plugin.php:1960
+#: google-sitemap-plugin.php:1963
 #, php-format
 msgid "The sitemap file %s not found."
 msgstr "Файл sitemap %s не найден."
 
-#: google-sitemap-plugin.php:1970
+#: google-sitemap-plugin.php:1973
 msgid "The sitemap file not found."
 msgstr "Файл sitemap не найден."
 
-#: google-sitemap-plugin.php:2085 google-sitemap-plugin.php:2094
+#: google-sitemap-plugin.php:2088 google-sitemap-plugin.php:2097
 msgid "Sitemap plugin"
 msgstr "Sitemap плагин"
 
-#: google-sitemap-plugin.php:2127
+#: google-sitemap-plugin.php:2137
 msgid "Canonical Url"
 msgstr "Канонический Url"
 
-#: google-sitemap-plugin.php:2173
+#: google-sitemap-plugin.php:2142
+msgid "Noindex (in robots.txt)"
+msgstr "Noindex (в robots.txt)"
+
+#: google-sitemap-plugin.php:2143
+msgid ""
+"The robots.txt file is used to guide a search engine as to which directories "
+"and files it should crawl. It does not stop content from being indexed and "
+"listed in search results."
+msgstr ""
+"Файл robots.txt используется для указания поисковой системе, какие каталоги "
+"и файлы ей следует сканировать. Он не препятствует индексации контента и его "
+"включению в результаты поиска."
+
+#: google-sitemap-plugin.php:2189
 msgid "FAQ"
 msgstr "FAQ"
 
-#: google-sitemap-plugin.php:2174
+#: google-sitemap-plugin.php:2190
 msgid "Support"
 msgstr "Тех.поддержка"
 

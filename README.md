@@ -32,6 +32,7 @@
 </li>
 <li>Split Sitemap Items</li>
 <li>Disable automatic canonical tag</li>
+<li>Include/exclude noindex pages in sitemap (for main site)</li>
 <li>Add alternate language pages using <a href="http://bestwebsoft.com/products/multilanguage/?k=9f9a6f0b1b0b0a093b99ad9ddb4d8759" rel="nofollow ugc">Multilanguage</a> plugin</li>
 <li>Compatible with latest WordPress version</li>
 <li>Incredibly simple settings for fast setup without modifying code</li>
