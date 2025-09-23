@@ -6,7 +6,7 @@ Description: Generate and add XML sitemap to WordPress website. Help search engi
 Author: BestWebSoft
 Text Domain: google-sitemap-plugin
 Domain Path: /languages
-Version: 3.3.3
+Version: 3.3.5
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
  */
@@ -184,6 +184,10 @@ if ( ! function_exists( 'gglstmp_init' ) ) {
 			add_action( 'wp_head', 'gglstmp_canonical_tag' );
 			add_action( 'embed_head', 'gglstmp_canonical_tag' );
 		}
+
+		if ( ! empty( $gglstmp_options['google_news_sitemap'] ) && 1 === $gglstmp_options['google_news_sitemap'] && ! wp_next_scheduled ( 'gglstmp_schedule_news_sitemap' ) ) {
+    	wp_schedule_event( time(), 'daily', 'gglstmp_schedule_news_sitemap' );
+    }
 	}
 }
 
@@ -310,6 +314,8 @@ if ( ! function_exists( 'gglstmp_get_options_default' ) ) {
 			'remove_all_canonical'    => 0,
 			'split_sitemap'           => 0,
 			'split_sitemap_items'     => array(),
+			'google_news_sitemap'     => 0,
+			'google_news_post_type'   => 'post'
 		);
 
 		$frequency       = apply_filters( 'gglstmp_get_frequency_default', array() );
@@ -379,6 +385,61 @@ if ( ! function_exists( 'gglstmp_edited_term' ) ) {
 		}
 	}
 }
+
+if ( ! function_exists( 'gglstmp_prepare_news_sitemap' ) ) {
+	/**
+	 * Function prepares all the items that should be included into news sitemap.
+	 * After array of items is prepared, it is divided into multiple parts according to the limit value.
+	 * A single sitemap file will be created if the limit isn't reached,
+	 * otherwise sitemap file for each part of array of items will be created. Blog index file would be created also.
+	 * If multisite network is used, network index file will be created also.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param   mixed $blog_id (int)The blog id the sitemap is created for. Default is false - for current blog.
+	 */
+	function gglstmp_prepare_news_sitemap( $blog_id = false ) {
+		global $wpdb, $gglstmp_options;
+		if ( ! empty( $gglstmp_options['google_news_sitemap'] ) && 1 === $gglstmp_options['google_news_sitemap'] ) {
+			$default_name = 'news_sitemap';
+			$existing_files = glob( ABSPATH . $default_name . '*.xml' );
+			array_map( 'unlink', $existing_files );
+			$posts = new WP_Query(
+				array(
+					'post_type'           => $gglstmp_options['google_news_post_type'],
+					'post_status'         => 'publish',
+					'order'               => 'DESC',
+					'orderby'             => 'post_date',
+					'posts_per_page'      => -1,
+					'ignore_sticky_posts' => true,
+					'date_query'          => array(
+						array(
+							'after'     => '2 days ago',
+							'inclusive' => true,
+						),
+					)
+				)
+			);
+			if( $posts->have_posts() ) {
+				if ( $posts->found_posts <= $gglstmp_options['limit'] ) {
+					$part_num = 0;
+					gglstmp_create_news_sitemap( $posts->posts, $part_num );
+				} else if ( 0 < $gglstmp_options['limit'] ) {
+					$parts = array_chunk( $posts->posts, $gglstmp_options['limit'] );
+					foreach ( $parts as $part_num => $parts_elements ) {
+						gglstmp_create_news_sitemap( $parts_elements, $part_num + 1 );
+					}
+				} else {
+					$part_num = 0;
+					gglstmp_create_news_sitemap( $posts->posts, $part_num );
+				}
+			} else {
+				gglstmp_create_news_sitemap( array(), 0 );
+			}
+		}
+	}
+}
+
 
 if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 	/**
@@ -763,6 +824,9 @@ if ( ! function_exists( 'gglstmp_prepare_sitemap' ) ) {
 				}
 			}
 		}
+
+		gglstmp_prepare_news_sitemap( $blog_id );
+
 		if ( $is_multisite ) {
 			/* Removing main index file */
 			$existing_files = gglstmp_get_sitemap_files( 0 );
@@ -908,6 +972,382 @@ if ( ! function_exists( 'gglstmp_create_sitemap' ) ) {
 
 		gglstmp_save_sitemap_info( $filename );
 
+	}
+}
+
+if ( ! function_exists( 'gglstmp_create_news_sitemap' ) ) {
+	/**
+	 * Function creates xml sitemap file with the provided list of elements.
+	 * Global variables are used and function mltlngg_get_lang_link() is called from the plugin Multilanguage.
+	 * Filename is generated in the following way:
+	 * On a single site:
+	 * a) $part_num isn't set: "sitemap.xml"
+	 * b) $part_num is set and equals 2: "sitemap_2.xml".
+	 * On single subsite of multisite network, $blog_id == 1:
+	 * a) $part_num isn't set: "sitemap_1.xml"
+	 * b) $part_num is set and equals 2: "sitemap_1_2.xml".
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param array  $elements  An array of elements to include to the sitemap.
+	 * @param int    $part_num  (optional) Indicates the number of the part of elements. It is included to the sitemap filename.
+	 */
+	function gglstmp_create_news_sitemap( $elements, $part_num = 0 ) {
+		global $blog_id, $mltlngg_languages, $mltlngg_enabled_languages, $gglstmp_options;
+
+		$languages = array(
+			'af' => 'afg',
+			'ax' => 'ala',
+			'al' => 'alb',
+			'dz' => 'dza',
+			'as' => 'asm',
+			'ad' => 'and',
+			'ao' => 'ago',
+			'ai' => 'aia',
+			'aq' => 'ata',
+			'ag' => 'atg',
+			'ar' => 'arg',
+			'am' => 'arm',
+			'aw' => 'abw',
+			'au' => 'aus',
+			'at' => 'aut',
+			'az' => 'aze',
+			'bs' => 'bhs',
+			'bh' => 'bhr',
+			'bd' => 'bgd',
+			'bb' => 'brb',
+			'by' => 'blr',
+			'be' => 'bel',
+			'bz' => 'blz',
+			'bj' => 'ben',
+			'bm' => 'bmu',
+			'bt' => 'btn',
+			'bo' => 'bol',
+			'bq' => 'bes',
+			'ba' => 'bih',
+			'bw' => 'bwa',
+			'bv' => 'bvt',
+			'br' => 'bra',
+			'io' => 'iot',
+			'bn' => 'brn',
+			'bg' => 'bgr',
+			'bf' => 'bfa',
+			'bi' => 'bdi',
+			'cv' => 'cpv',
+			'kh' => 'khm',
+			'cm' => 'cmr',
+			'ca' => 'can',
+			'ky' => 'cym',
+			'cf' => 'caf',
+			'td' => 'tcd',
+			'cl' => 'chl',
+			'cn' => 'chn',
+			'cx' => 'cxr',
+			'cc' => 'cck',
+			'co' => 'col',
+			'km' => 'com',
+			'cg' => 'cog',
+			'cd' => 'cod',
+			'ck' => 'cok',
+			'cr' => 'cri',
+			'ci' => 'civ',
+			'hr' => 'hrv',
+			'cu' => 'cub',
+			'cw' => 'cuw',
+			'cy' => 'cyp',
+			'cz' => 'cze',
+			'dk' => 'dnk',
+			'dj' => 'dji',
+			'dm' => 'dma',
+			'do' => 'dom',
+			'ec' => 'ecu',
+			'eg' => 'egy',
+			'sv' => 'slv',
+			'gq' => 'gnq',
+			'er' => 'eri',
+			'ee' => 'est',
+			'sz' => 'swz',
+			'et' => 'eth',
+			'fk' => 'flk',
+			'fo' => 'fro',
+			'fj' => 'fji',
+			'fi' => 'fin',
+			'fr' => 'fra',
+			'gf' => 'guf',
+			'pf' => 'pyf',
+			'tf' => 'atf',
+			'ga' => 'gab',
+			'gm' => 'gmb',
+			'ge' => 'geo',
+			'de' => 'deu',
+			'gh' => 'gha',
+			'gi' => 'gib',
+			'gr' => 'grc',
+			'gl' => 'grl',
+			'gd' => 'grd',
+			'gp' => 'glp',
+			'gu' => 'gum',
+			'gt' => 'gtm',
+			'gg' => 'ggy',
+			'gn' => 'gin',
+			'gw' => 'gnb',
+			'gy' => 'guy',
+			'ht' => 'hti',
+			'hm' => 'hmd',
+			'va' => 'vat',
+			'hn' => 'hnd',
+			'hk' => 'hkg',
+			'hu' => 'hun',
+			'is' => 'isl',
+			'in' => 'ind',
+			'id' => 'idn',
+			'ir' => 'irn',
+			'iq' => 'irq',
+			'ie' => 'irl',
+			'im' => 'imn',
+			'il' => 'isr',
+			'it' => 'ita',
+			'jm' => 'jam',
+			'jp' => 'jpn',
+			'je' => 'jey',
+			'jo' => 'jor',
+			'kz' => 'kaz',
+			'ke' => 'ken',
+			'ki' => 'kir',
+			'kp' => 'prk',
+			'kr' => 'kor',
+			'kw' => 'kwt',
+			'kg' => 'kgz',
+			'la' => 'lao',
+			'lv' => 'lva',
+			'lb' => 'lbn',
+			'ls' => 'lso',
+			'lr' => 'lbr',
+			'ly' => 'lby',
+			'li' => 'lie',
+			'lt' => 'ltu',
+			'lu' => 'lux',
+			'mo' => 'mac',
+			'mk' => 'mkd',
+			'mg' => 'mdg',
+			'mw' => 'mwi',
+			'my' => 'mys',
+			'mv' => 'mdv',
+			'ml' => 'mli',
+			'mt' => 'mlt',
+			'mh' => 'mhl',
+			'mq' => 'mtq',
+			'mr' => 'mrt',
+			'mu' => 'mus',
+			'yt' => 'myt',
+			'mx' => 'mex',
+			'fm' => 'fsm',
+			'md' => 'mda',
+			'mc' => 'mco',
+			'mn' => 'mng',
+			'me' => 'mne',
+			'ms' => 'msr',
+			'ma' => 'mar',
+			'mz' => 'moz',
+			'mm' => 'mmr',
+			'na' => 'nam',
+			'nr' => 'nru',
+			'np' => 'npl',
+			'nl' => 'nld',
+			'nc' => 'ncl',
+			'nz' => 'nzl',
+			'ni' => 'nic',
+			'ne' => 'ner',
+			'ng' => 'nga',
+			'nu' => 'niu',
+			'nf' => 'nfk',
+			'mp' => 'mnp',
+			'no' => 'nor',
+			'om' => 'omn',
+			'pk' => 'pak',
+			'pw' => 'plw',
+			'ps' => 'pse',
+			'pa' => 'pan',
+			'pg' => 'png',
+			'py' => 'pry',
+			'pe' => 'per',
+			'ph' => 'phl',
+			'pn' => 'pcn',
+			'pl' => 'pol',
+			'pt' => 'prt',
+			'pr' => 'pri',
+			'qa' => 'qat',
+			're' => 'reu',
+			'ro' => 'rou',
+			'ru' => 'rus',
+			'rw' => 'rwa',
+			'bl' => 'blm',
+			'sh' => 'shn',
+			'kn' => 'kna',
+			'lc' => 'lca',
+			'mf' => 'maf',
+			'pm' => 'spm',
+			'vc' => 'vct',
+			'ws' => 'wsm',
+			'sm' => 'smr',
+			'st' => 'stp',
+			'sa' => 'sau',
+			'sn' => 'sen',
+			'rs' => 'srb',
+			'sc' => 'syc',
+			'sl' => 'sle',
+			'sg' => 'sgp',
+			'sx' => 'sxm',
+			'sk' => 'svk',
+			'si' => 'svn',
+			'sb' => 'slb',
+			'so' => 'som',
+			'za' => 'zaf',
+			'gs' => 'sgs',
+			'ss' => 'ssd',
+			'es' => 'esp',
+			'lk' => 'lka',
+			'sd' => 'sdn',
+			'sr' => 'sur',
+			'sj' => 'sjm',
+			'se' => 'swe',
+			'ch' => 'che',
+			'sy' => 'syr',
+			'tw' => 'twn',
+			'tj' => 'tjk',
+			'tz' => 'tza',
+			'th' => 'tha',
+			'tl' => 'tls',
+			'tg' => 'tgo',
+			'tk' => 'tkl',
+			'to' => 'ton',
+			'tt' => 'tto',
+			'tn' => 'tun',
+			'tr' => 'tur',
+			'tm' => 'tkm',
+			'tc' => 'tca',
+			'tv' => 'tuv',
+			'ug' => 'uga',
+			'ua' => 'ukr',
+			'ae' => 'are',
+			'gb' => 'gbr',
+			'us' => 'usa',
+			'um' => 'umi',
+			'uy' => 'ury',
+			'uz' => 'uzb',
+			'vu' => 'vut',
+			've' => 'ven',
+			'vn' => 'vnm',
+			'vg' => 'vgb',
+			'vi' => 'vir',
+			'wf' => 'wlf',
+			'eh' => 'esh',
+			'ye' => 'yem',
+			'zm' => 'zmb',
+			'zw' => 'zwe'
+		);
+
+		$xml                  = new DomDocument( '1.0', 'utf-8' );
+		$home_url             = site_url( '/' );
+		$xml_stylesheet_path  = ( defined( 'WP_CONTENT_DIR' ) ) ? $home_url . basename( WP_CONTENT_DIR ) : $home_url . 'wp-content';
+		$xml_stylesheet_path .= ( defined( 'WP_PLUGIN_DIR' ) ) ? '/' . basename( WP_PLUGIN_DIR ) . '/google-sitemap-plugin/sitemap.xsl' : '/plugins/google-sitemap-plugin/sitemap.xsl';
+		$xslt                 = $xml->createProcessingInstruction( 'xml-stylesheet', "type=\"text/xsl\" href=\"$xml_stylesheet_path\"" );
+		$xml->appendChild( $xslt );
+		$urlset = $xml->appendChild( $xml->createElementNS( 'http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset' ) );
+
+		/* Used to check compatibility and work with the plugin Multilanguage*/
+		$count_lang    = empty( $mltlngg_enabled_languages ) ? '' : count( $mltlngg_enabled_languages );
+		$compatibility = false;
+		if ( ! empty( $gglstmp_options['alternate_language'] ) && ( '' !== $count_lang ) ) {
+			$compatibility = true;
+		}
+
+		/* Create an array with active languages and add a value for hreflang */
+		$enabled_languages = array();
+		if ( $compatibility ) {
+			$urlset->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:xhtml', 'http://www.w3.org/1999/xhtml' );
+
+			foreach ( $mltlngg_enabled_languages as $language ) {
+				foreach ( $mltlngg_languages as $item ) {
+					if ( $language['name'] === $item[2] ) {
+						$language['lang']              = $item[0];
+						$enabled_languages[ $item[2] ] = $language;
+					}
+				}
+			}
+
+			if ( function_exists( 'mltlngg_get_lang_link' ) ) {
+				$lang_link = 'mltlngg_get_lang_link';
+			}
+			$args_links = array();
+		}
+
+		$site_name = get_bloginfo( 'name' );
+		$site_lang = get_bloginfo( 'language' );
+
+		foreach ( $elements as $element ) {
+			if ( $compatibility ) {
+				foreach ( $enabled_languages as $language ) {
+					$args_links['lang'] = $language['locale'];
+					$args_links['url']  = $element['url'];
+
+					$lang = explode( '_', $language['locale'] );
+
+					$url = $urlset->appendChild( $xml->createElement( 'url' ) );
+					$loc = $url->appendChild( $xml->createElement( 'loc' ) );
+					$loc->appendChild( $xml->createTextNode( $lang_link( $args_links ) ) );
+
+					$news = $url->appendChild( $xml->createElement( 'news:news' ) );
+					$publication = $news->appendChild( $xml->createElement( 'news:publication' ) );
+					$name = $publication->appendChild( $xml->createElement( 'news:name' ) );
+					$name->appendChild( $xml->createTextNode( $site_name ) );
+					$language = $publication->appendChild( $xml->createElement( 'news:language' ) );
+					$language->appendChild( $xml->createTextNode( isset( $languages[ $lang[0] ] ) ? $languages[ $lang[0] ] : $language['locale'] ) );
+					$publication_date = $news->appendChild( $xml->createElement( 'news:publication_date' ) );
+					$publication_date->appendChild( $xml->createTextNode( $element->post_date ) );
+					$title = $news->appendChild( $xml->createElement( 'news:title' ) );
+					$title->appendChild( $xml->createTextNode( $element->post_title ) );
+				}
+			} else {
+				$lang = explode( '_', $site_lang );
+
+				$url = $urlset->appendChild( $xml->createElement( 'url' ) );
+				$loc = $url->appendChild( $xml->createElement( 'loc' ) );
+				$loc->appendChild( $xml->createTextNode( get_permalink( $element->ID ) ) );
+
+				$news = $url->appendChild( $xml->createElement( 'news:news' ) );
+				$publication = $news->appendChild( $xml->createElement( 'news:publication' ) );
+				$name = $publication->appendChild( $xml->createElement( 'news:name' ) );
+				$name->appendChild( $xml->createTextNode( $site_name ) );
+				$language = $publication->appendChild( $xml->createElement( 'news:language' ) );
+				$language_text_node = apply_filters( 'gglstmp_news_language', isset( $languages[ $lang[0] ] ) ? $languages[ $lang[0] ] : 'en', $element );
+				$language->appendChild( $xml->createTextNode( $language_text_node ) );
+				$publication_date = $news->appendChild( $xml->createElement( 'news:publication_date' ) );
+				$publication_date->appendChild( $xml->createTextNode( $element->post_date ) );
+				$title = $news->appendChild( $xml->createElement( 'news:title' ) );
+				$title->appendChild( $xml->createTextNode( $element->post_title ) );
+			}
+		}
+
+		$xml->formatOutput = true;
+
+		if ( ! is_writable( ABSPATH ) ) {
+			@chmod( ABSPATH, 0755 );
+		}
+
+		$part_num = ( absint( $part_num ) > 0 ) ? '_' . absint( $part_num ) : '';
+
+		$default_name = 'news_sitemap';
+
+		if ( is_multisite() ) {
+			$filename = $default_name . '_' . absint( $blog_id ) . $part_num . '.xml';
+		} else {
+			$filename = $default_name . $part_num . '.xml';
+		}
+
+		$result = $xml->save( ABSPATH . $filename );
+
+		gglstmp_save_sitemap_info( $filename );
 	}
 }
 
@@ -2349,6 +2789,7 @@ add_action( 'save_post', 'gglstmp_update_sitemap', 10, 2 );
 add_action( 'trashed_post', 'gglstmp_update_sitemap' );
 
 add_action( 'gglstmp_sitemap_cron', 'gglstmp_prepare_sitemap' );
+add_action( 'gglstmp_schedule_news_sitemap', 'gglstmp_prepare_news_sitemap' );
 
 /* Rebuild sitemap on permalink structure change, on taxonomy term add/edit/delete */
 add_action( 'permalink_structure_changed', 'gglstmp_schedule_sitemap', 10, 0 );

@@ -30,6 +30,7 @@
 <li>Get website info</li>
 </ul>
 </li>
+<li>Add Sitemap to Google News Sitemap</li>
 <li>Split Sitemap Items</li>
 <li>Disable automatic canonical tag</li>
 <li>Include/exclude noindex pages in sitemap (for main site)</li>

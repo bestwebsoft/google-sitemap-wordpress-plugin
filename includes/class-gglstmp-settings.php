@@ -266,14 +266,17 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						$sitemapcreate = true;
 					}
 
+					$google_news_sitemap = isset( $_POST['gglstmp_google_news_sitemap'] ) ? 1 : 0;
+
 					$split_sitemap = isset( $_POST['gglstmp_split_sitemap'] ) ? 1 : 0;
 
-					if ( $this->options['split_sitemap'] != $split_sitemap ) {
+					if ( $this->options['split_sitemap'] != $split_sitemap || $google_news_sitemap != $this->options['google_news_sitemap'] ) {
 						$sitemapcreate = true;
 						$reschedule    = true;
 					}
 
-					$this->options['split_sitemap'] = $split_sitemap;
+					$this->options['split_sitemap']       = $split_sitemap;
+					$this->options['google_news_sitemap'] = $google_news_sitemap;
 
 					$split_items                    = array();
 
@@ -284,11 +287,16 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 							}
 						}
 					}
-					if ( $this->options['split_sitemap_items'] !== $split_items ) {
+
+					$google_news_post_type = isset( $_POST['gglstmp_google_news_post_type'] ) ? sanitize_text_field( wp_unslash( $_POST['gglstmp_google_news_post_type'] ) ) : 'post';
+
+					if ( $this->options['split_sitemap_items'] !== $split_items || $this->options['google_news_post_type'] !== $google_news_post_type ) {
 						$sitemapcreate = true;
 						$reschedule = true;
 					}
-					$this->options['split_sitemap_items'] = $split_items;
+
+					$this->options['split_sitemap_items']   = $split_items;
+					$this->options['google_news_post_type'] = $google_news_post_type;
 
 					$this->options['remove_automatic_canonical'] = isset( $_POST['gglstmp_automatic_canonical'] ) ? 1 : 0;
 					$this->options['remove_all_canonical'] = isset( $_POST['gglstmp_all_canonical'] ) ? 1 : 0;
@@ -475,6 +483,28 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				</div>
 			<?php } ?>
 			<table class="form-table gglstmp_settings_form">
+				<tr>
+					<th><?php esc_html_e( 'Google News Sitemap', 'google-sitemap-plugin' ); ?></th>
+					<td>
+						<input type='checkbox' id="gglstmp_google_news_sitemap" name="gglstmp_google_news_sitemap" value="1" <?php checked( $this->options['google_news_sitemap'], 1 ); ?> />
+						<span class="bws_info"><?php esc_html_e( 'Create a separate sitemap for news. Only include recent URLs for articles that were created in the last two days', 'google-sitemap-plugin' ); ?></span>
+						&nbsp;<a
+									href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap"
+									target="_blank"><?php esc_html_e( 'Learn More', 'google-sitemap-plugin' ); ?></a>
+					</td>
+				</tr>
+				<tr class="gglstmp_google_news_post_type <?php echo 1 !== $this->options['google_news_sitemap'] ? 'hidden' : ''; ?>">
+					<th><?php esc_html_e( 'Google News Sitemap Post Type', 'google-sitemap-plugin' ); ?></th>
+					<td>
+						<?php
+						foreach ( $this->all_post_types as $post_type ) {
+							?>
+							<label><input type='radio' name="gglstmp_google_news_post_type" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( $this->options['google_news_post_type'] == $post_type->name ); ?> /><?php echo esc_html( $post_type->label ); ?></label><br />
+							<?php
+						}
+						?>
+					</td>
+				</tr>
 				<tr>
 					<th><?php esc_html_e( 'Split Sitemap', 'google-sitemap-plugin' ); ?></th>
 					<td>
@@ -736,6 +766,7 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 		 * @access public
 		 */
 		public function information_postbox_top() {
+			global $gglstmp_options;
 			$default_name = 'sitemap';
 
 			if ( $this->is_multisite ) {
@@ -747,6 +778,11 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 				$xml_url = home_url( '/' . $xml_file );
 			}
 
+			if ( ! empty( $gglstmp_options['google_news_sitemap'] ) && 1 === $gglstmp_options['google_news_sitemap'] ) {
+				$default_news_name = 'news_sitemap';
+				$existing_files = glob( ABSPATH . $default_news_name . '*.xml' );
+			}
+
 			if ( isset( $xml_file ) && file_exists( ABSPATH . $xml_file ) ) {
 
 				printf(
@@ -756,6 +792,16 @@ if ( ! class_exists( 'Gglstmp_Settings_Tabs' ) ) {
 						'<a href="' . esc_url( $xml_url ) . '" target="_blank">' . esc_html( $xml_file ) . '</a>'
 					)
 				);
+				if ( ! empty( $existing_files ) ) {
+					$xml_news_url  = str_replace( ABSPATH, home_url( '/' ), $existing_files[0] );
+					printf(
+						'<div class="misc-pub-section"><strong>%s</strong></div>',
+						sprintf(
+							esc_html__( "News Sitemap File: %s", 'google-sitemap-plugin' ),
+							'<a href="' . esc_url( $xml_news_url ) . '" target="_blank">' . str_replace( ABSPATH, '', $existing_files[0] ) . '</a>'
+						)
+					);
+				}
 
 				if ( ! $this->is_multisite ) {
 					$status = gglstmp_check_sitemap( home_url( '/' . $default_name . '.xml' ) );

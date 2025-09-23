@@ -2,9 +2,9 @@
 Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: add pages to sitemap, add posts to sitemap, add sitemap, google, google sitemap, google sitemap plugin, sitemap file path, update sitemap, google webmaster tools, site map, sitemaps, webmaster tools
-Requires at least: 5.6
-Tested up to: 6.8
-Stable tag: 3.3.3
+Requires at least: 6.2
+Tested up to: 6.8.2
+Stable tag: 3.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,7 @@ https://www.youtube.com/watch?v=CgYXKRXpj_0
 	* Add sitemap
 	* Delete website
 	* Get website info
+* Add Sitemap to Google News Sitemap
 * Split Sitemap Items
 * Disable automatic canonical tag
 * Include/exclude noindex pages in sitemap (for main site)
@@ -172,6 +173,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 3. Sitemap Structure Settings.
 
 == Changelog ==
+
+= V3.3.5 - 27.05.2025
+* NEW : Added compatibility with Google News Sitemap.
+* Update : We updated all functionality for wordpress 6.8.2.
+* Update : BWS Panel section was updated.
 
 = V3.3.3 - 09.05.2025
 * Update : We updated all functionality for wordpress 6.8.
@@ -461,6 +467,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * New: Ability to add site in google webmaster tools, verify it and add sitemap file was added.
 
 == Upgrade Notice ==
+
+= V3.3.5  =
+* The compatibility with new WordPress version updated.
+* New feature added
 
 = V3.3.3  =
 * The compatibility with new WordPress version updated.
